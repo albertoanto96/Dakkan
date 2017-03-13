@@ -2,7 +2,7 @@ var app = angular.module('mainApp',['ngRoute','ngMaterial']);
 app.config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider.when('/',{
-        templateUrl:'tpls/login.html',
+        templateUrl:'tpls/main.html',
         controller:'mainCtrl'
     });
 
