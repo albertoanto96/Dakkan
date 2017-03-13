@@ -1,0 +1,32 @@
+<div ng-controller="mainCtrl"  ng-cloak class="md-inline-form" >
+
+<div layout="row" layout-align="center center">
+
+    <img class="img" id="test" src="../img/dakkan.png" width="180" height="200">
+
+</div>
+    <div layout="row" layout-align="center center">
+
+       <h1 class="md-display-4">DAKKAN</h1>
+
+    </div>
+
+        <div layout="row" layout-align="center center">
+            <md-input-container>
+                <label>Name</label>
+                <input ng-model="uName">
+            </md-input-container>
+        </div>
+    <div layout="row" layout-align="center center">
+            <md-input-container>
+                <label>Password</label>
+                <input ng-model="uPass" type="password">
+            </md-input-container>
+    </div>
+    <div layout="row" layout-align="center center">
+        <md-button class ="md-raised md-primary md-hue-1" ng-click="doLogin()">Login</md-button>
+        </div>
+    <div layout="row" layout-align="center center">
+        <md-button class ="md-raised md-primary md-hue-1" ng-click="doRegister()">Register</md-button>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<!doctype html>
+<head>
+</head>
+<body >
+<div ng-controller="userCtrl" ng-cloak>
+        <md-nav-bar
+                md-selected-nav-item="currentNavItem"
+                nav-bar-aria-label="navigation links">
+            <md-nav-item md-nav-click="redirectToProfile()" name="Profile">
+                Profile
+            </md-nav-item>
+            <md-nav-item md-nav-click="redirectToADVs()" name="ADVs">
+                ADVs
+            </md-nav-item>
+            <md-nav-item md-nav-click="goto('page3')" name="page3">
+                Page Three
+            </md-nav-item>
+        </md-nav-bar>
+    <ul class="unstyled">
+        <li ng-repeat="user in users | filter:search">
+            <label class="checkbox">
+                <input type="checkbox" ng-model="user.done">
+                <span class="done-{{user.done}}">Name: {{user.name}} Password: {{user.password}}</span>
+            </label>
+        </li>
+    </ul>
+    <ul class="unstyled">
+        <li ng-repeat="subject in subjects">
+            <label>
+                <span>Name: {{subject.name}} Number Of Students: {{subject.l}}</span>
+            </label>
+        </li>
+    </ul>
+    <br><br>
+    <table id="searchTextResults">
+        <tr>
+            <th>Name</th>
+            <th>Pass</th>
+        </tr>
+        <tr ng-repeat="user in users | filter:search">
+            <td>{{user.name}}</td>
+            <td>{{user.password}}</td>
+        </tr>
+    </table>
+        <input type="text" ng-model="userName" size="30"
+               placeholder="Add name">
+        <input type="text" ng-model="userPass" size="30"
+               placeholder="Add pass">
+        <input type="text" ng-model="newPass" size="30"
+               placeholder="New password">
+        <input type="text" ng-model="filterDB" size="30"
+               placeholder="Search in database">
+        <input type="text" ng-model="search.name" size="30"
+               placeholder="Search">
+        <input class ="button" type="submit" value="Add">
+    <button class ="button" ng-click="remove()">Remove</button>
+    <button class ="button" ng-click="showSubjects()">Show Subjects in Order</button>
+    <button class ="button" ng-click="showList()">Show Users List in Order</button>
+    <button class ="button" ng-click="update()">Update User</button>
+    <button class ="button" ng-click="filterdb()">Filter by letter</button>
+    <form ng-submit="addToSubj()">
+        <input type="text" ng-model="userToAdd" size="30"
+               placeholder="Name of the student to add">
+            <select ng-model="subjectToAdd">
+                <option ng-repeat="subjects in subjectsdb">{{subjects.name}}
+                </option>
+            </select>
+        <input class ="button" type="submit" value="Add User to Subject">
+    </form>
+    <form ng-submit="usersSubj()">
+        <select ng-model="usersF">
+            <<option ng-repeat="subjects in subjectsdb">{{subjects.name}}
+        </option>
+        </select>
+        <input class ="button" type="submit" value="See students">
+    </form>
+    <br><br><br>
+    <div class="img">
+        <a target="_blank" href="../img/giphy.gif">
+            <img src="../img/giphy.gif" alt="Gif" width="600" height="400">
+        </a>
+        <div class="desc">Click to enlarge</div>
+    </div>
+    <img class="img" id="test" src="../img/perfect.png" width="300" height="200">
+</div>
+</body>
