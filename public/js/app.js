@@ -1,18 +1,17 @@
-var app = angular.module('myApp',['ngRoute','ngMaterial']);
+var app = angular.module('mainApp',['ngRoute','ngMaterial']);
 app.config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider.when('/',{
-        templateUrl:'tpls/Login.html',
+        templateUrl:'tpls/login.html',
         controller:'mainCtrl'
     });
 
-    $routeProvider.when('/advs',{
-        templateUrl:'tpls/Main.html',
+    $routeProvider.when('/Anuncios',{
+        templateUrl:'tpls/main.html',
         controller:'userCtrl'
     });
-
-    $routeProvider.when('/profile',{
-        templateUrl:'tpls/Profile.html',
+    $routeProvider.when('/Perfil',{
+        templateUrl:'tpls/profile.html',
         controller:'profileCtrl'
     });
 
@@ -23,12 +22,12 @@ app.controller('mainCtrl',['$http','$rootScope','$scope','$location',function($h
        $scope.doLogin=function() {
            $rootScope.name=$scope.uName;
            var newUser = {
-           name: $scope.uName,
-           password: $scope.uPass
+           name: $scope.userName,
+           password: $scope.userPass
 
        };
-           $scope.uName="";
-           $scope.uPass="";
+           $scope.userName="";
+           $scope.userPass="";
 
            var req = {
                method: 'POST',
@@ -38,16 +37,16 @@ app.controller('mainCtrl',['$http','$rootScope','$scope','$location',function($h
            };
            $http(req).then(function (response) {
             if (angular.equals(response.data.password,newUser.password)) {
-                $location.path("/advs");
+                $location.path("/Anuncios");
             }
            });
 
        };
         $scope.doRegister = function(){
-            $rootScope.name=$scope.uName;
+            $rootScope.name=$scope.userName;
             var newUser = {
-                name: $scope.uName,
-                password: $scope.uPass
+                name: $scope.userName,
+                password: $scope.userPass
             };
             var req = {
                 method: 'POST',
@@ -58,7 +57,7 @@ app.controller('mainCtrl',['$http','$rootScope','$scope','$location',function($h
             $http(req).then(function (response) {
 
                 if(response.statusCode=200){
-                    $location.path("/advs");
+                    $location.path("/Anuncios");
                 }
 
             });

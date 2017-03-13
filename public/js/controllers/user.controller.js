@@ -1,21 +1,21 @@
 (function() {
     'use strict';
-    var app = angular.module('myApp');
+    var app = angular.module('mainApp');
     app.controller('userCtrl', ['userSRV','$scope','$location', function (userSRV,$scope,$location) {
 
         $scope.users = [];
         $scope.subjects=[];
         $scope.subjectsdb = [];
-        $scope.currentNavItem = 'ADVs';
+        $scope.currentNavItem = 'Anuncios';
 
         $scope.redirectToLogin = function(){
             $location.path("/");
         };
         $scope.redirectToProfile = function(){
-            $location.path("/profile");
+            $location.path("/Perfil");
         };
         $scope.redirectToADVs = function(){
-            $location.path("/advs");
+            $location.path("/Anuncios");
         };
         angular.element(document).ready(function () {
             userSRV.getSubjects(function (subjects) {

@@ -1,0 +1,15 @@
+<div ng-controller="userCtrl" ng-cloak>
+<md-nav-bar
+        md-selected-nav-item="currentNavItem"
+        nav-bar-aria-label="navigation links">
+    <md-nav-item md-nav-click="redirectToProfile()" name="Profile">
+        Perfil
+    </md-nav-item>
+    <md-nav-item md-nav-click="redirectToADVs()" name="Anuncios">
+        Anuncios
+    </md-nav-item>
+    <md-nav-item md-nav-click="goto('page3')" name="page3">
+        Page Three
+    </md-nav-item>
+</md-nav-bar>
+</div>

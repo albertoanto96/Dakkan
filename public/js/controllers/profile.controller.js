@@ -1,14 +1,14 @@
  (function() {
             'use strict';
-            var app = angular.module('myApp');
+            var app = angular.module('mainApp');
             app.controller('profileCtrl', ['$rootScope','userSRV','$scope','$location', function ($rootScope,userSRV,$scope,$location) {
 
-                $scope.currentNavItem = 'Profile';
+                $scope.currentNavItem = 'Perfil';
                 $scope.redirectToProfile = function(){
-                    $location.path("/profile");
+                    $location.path("/Perfil");
                 };
                 $scope.redirectToADVs = function(){
-                    $location.path("/advs");
+                    $location.path("/Anuncios");
                 };
                 $scope.update=function(){
                     var data = {

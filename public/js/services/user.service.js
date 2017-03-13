@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    var app = angular.module('myApp');
+    var app = angular.module('mainApp');
     app.service('userSRV', ['$http',function ($http) {
 
 

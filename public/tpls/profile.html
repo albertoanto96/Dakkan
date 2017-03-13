@@ -5,19 +5,6 @@
 </head>
 <body>
 <div ng-controller="profileCtrl" ng-cloak>
-<md-nav-bar
-        md-selected-nav-item="currentNavItem"
-        nav-bar-aria-label="navigation links">
-    <md-nav-item md-nav-click="redirectToProfile()" name="Profile">
-        Profile
-    </md-nav-item>
-    <md-nav-item md-nav-click="redirectToADVs()" name="ADVs">
-        ADVs
-    </md-nav-item>
-    <md-nav-item md-nav-click="goto('page3')" name="page3">
-        Page Three
-    </md-nav-item>
-</md-nav-bar>
     <md-input-container>
         <label>Old Password</label>
         <input ng-model="userPass">
