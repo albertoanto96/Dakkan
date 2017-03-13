@@ -20,7 +20,7 @@ app.config(['$routeProvider', function ($routeProvider) {
 app.controller('mainCtrl',['$http','$rootScope','$scope','$location',function($http, $rootScope, $scope, $location)
     {
        $scope.doLogin=function() {
-           $rootScope.name=$scope.uName;
+           $rootScope.name=$scope.userName;
            var newUser = {
            name: $scope.userName,
            password: $scope.userPass

@@ -69,20 +69,7 @@
                 $scope.users = users;
             });
         };
-        $scope.update=function(){
-            var data = {
-                name: $scope.userName,
-                password:$scope.userPass,
-                new:$scope.newPass
-            };
-            $scope.newPass="";
-            $scope.userName = "";
-            $scope.userPass = "";
-            userSRV.updateUser(data,function (list) {
-                $scope.users=list
-            });
 
-        };
         $scope.remove = function() {
             var data = {
                 name: $scope.userName,
