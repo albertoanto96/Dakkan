@@ -14,6 +14,11 @@ app.config(['$routeProvider', function ($routeProvider) {
         templateUrl:'tpls/profile.html',
         controller:'profileCtrl'
     });
+    $routeProvider.when('/Login',{
+        templateUrl:'tpls/login.html',
+        controller:'profileCtrl'
+    });
+
 
 }]);
 
