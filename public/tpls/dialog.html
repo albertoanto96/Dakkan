@@ -1,0 +1,25 @@
+<md-dialog aria-label="Mango (Fruit)">
+    <div ng-controller="mainCtrl"  ng-cloak class="md-inline-form" >
+
+        <div layout="row" layout-align="center center">
+            <md-input-container id="login">
+                <label style="color: #000000;">Name</label>
+                <input ng-model="userName">
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="center center">
+            <md-input-container id="login2">
+                <label style="color: #000000;">Password</label>
+                <input ng-model="userPass" type="password">
+            </md-input-container>
+        </div>
+        <div layout="row" layout-align="center center">
+            <md-button class ="md-raised md-primary md-hue-1" ng-click="doLogin()">Login</md-button>
+        </div>
+        <div layout="row" layout-align="center center">
+            <md-button class ="md-raised md-primary md-hue-1" ng-click="doRegister()">Register</md-button>
+
+        </div>
+
+    </div>
+</md-dialog>
