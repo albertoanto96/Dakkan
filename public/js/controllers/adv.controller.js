@@ -7,7 +7,6 @@
     app.controller('advCtrl', ['advSRV','$scope','$location','$rootScope','$mdDialog','$mdToast', function (advSRV,$scope,$location,$rootScope,$mdDialog,$mdToast) {
 
         $scope.advs=[];
-
         angular.element(document).ready(function () {
             advSRV.getAdvs(function (listadv) {
                 $scope.advs = listadv;

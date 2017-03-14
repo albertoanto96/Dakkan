@@ -1,13 +1,44 @@
 <!doctype HTML>
-<body >
 <div ng-controller="advCtrl" ng-cloak>
-    <ul class="unstyled">
-        <li ng-repeat="user in users | filter:search">
-            <label class="checkbox">
-                <input type="checkbox" ng-model="user.done">
-                <span>Title: {{advs.name}} </span>
-            </label>
-        </li>
-    </ul>
+
+    <div class="grid"  style="background-color: transparent">
+        <div class="row" >
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="txthover">
+                    <img src="../img/car1.jpg" alt="car1">
+                    <div class="txtcontent">
+                        <div class="simpletxt">
+                            <h3 class="name">Rolls Royce</h3>
+                            <p>"Lorem ipsum dolor sit amet, consectetur,<br>
+                                sed do eiusmod tempor incididunt" </p>
+                            <h4 class="price"> 1000&euro;</h4>
+                            <button>READ MORE</button><br>
+                            <div class="wishtxt">
+                                <p class="paragraph1"> Add to Wishlist <span class="glyphicon glyphicon-heart"></span> </p>
+                                <p class="paragraph2">Compare <span class="icon"><img src="../img/compicon.png" alt="compicon"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+                <div class="txthover">
+                    <img src="../img/car2.jpg" alt="car2">
+                    <div class="txtcontent">
+                        <div class="simpletxt">
+                            <h3 class="name">Renault</h3>
+                            <p>"Lorem ipsum dolor sit amet, consectetur,<br>
+                                sed do eiusmod tempor incididunt" </p>
+                            <h4 class="price">900 &euro;</h4>
+                            <button>READ MORE</button><br>
+                            <div class="wishtxt">
+                                <p class="paragraph1"> Add to Wishlist <span class="glyphicon glyphicon-heart"></span> </p>
+                                <p class="paragraph2">Compare <span class="icon"><img src="../img/compicon.png" alt="compicon"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</body>

@@ -8,11 +8,11 @@
         $scope.subjectsdb = [];
         $scope.currentNavItem = 'Anuncios';
 
-        angular.element(document).ready(function () {
+        /*angular.element(document).ready(function () {
             userSRV.getSubjects(function (subjects) {
                 $scope.subjectsdb = subjects;
             });
-        });
+        });*/
         $scope.showAdvanced = function(ev) {
             $mdDialog.show({
                 templateUrl: 'tpls/dialog.html',

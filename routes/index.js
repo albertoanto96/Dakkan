@@ -3,7 +3,7 @@ var express = require('express'),
 var app = express();
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var adv = mongoose.Schema({
+var advs = mongoose.Schema({
     title: String,
     description: String,
     exchange: String,
@@ -13,7 +13,7 @@ var adv = mongoose.Schema({
 var users = mongoose.Schema({
     name: String,
     password: String,
-    advs: [{type: Schema.ObjectId ,ref:'adv'}]
+    advs: [{type: Schema.ObjectId ,ref:'advs'}]
 });
 mongoose.connect("mongodb://localhost:27017/dakkan", function(err) {
     if(!err) {
@@ -21,7 +21,7 @@ mongoose.connect("mongodb://localhost:27017/dakkan", function(err) {
     }
 });
 var User = mongoose.model('users', users);
-var Adv = mongoose.model('adv', adv);
+var Adv = mongoose.model('advs', advs);
 var u;
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -123,7 +123,6 @@ app.get('/all', function (req,res) {
 app.get('/allAdvs', function (req,res) { //todos los anuncios
     var advs = [];
     Adv.find(function(err, adv){
-        console.log(adv);
         for (var i = 0; i < adv.length; i++) {
             advs.push({title:adv[i].title,description:adv[i].description,exchange:adv[i].exchange,category:adv[i].category});
         }

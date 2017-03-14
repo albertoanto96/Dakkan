@@ -14,3 +14,21 @@
      color: #000000;
      border-color: #000000;
  }
+ * { box-sizing: border-box; }
+
+ body { font-family: sans-serif; }
+
+ /* ---- grid ---- */
+
+ .grid {
+     background: #EEE;
+     max-width: 1200px;
+ }
+
+ /* clearfix */
+ .grid:after {
+     content: '';
+     display: block;
+     clear: both;
+ }
+
