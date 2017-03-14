@@ -1,0 +1,11 @@
+md-input-container .md-input:focus{
+     color: white;
+     border-color: white;
+ }
+md-input-container .md-input{
+    color: white;
+    border-color: white;
+}
+md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: white;
+}
