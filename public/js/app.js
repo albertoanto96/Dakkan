@@ -60,7 +60,6 @@ app.controller('mainCtrl',['$http','$rootScope','$scope','$location',function($h
                 data: newUser
             };
             $http(req).then(function (response) {
-
                 if(response.statusCode=200){
                     $location.path("/Anuncios");
                 }

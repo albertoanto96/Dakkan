@@ -71,31 +71,23 @@ app.post('/login', function (req, res) {
         });
 });
 app.put('/update', function (req, res) {
-    var userList=[];
-    User.findOneAndUpdate({name:req.body.name},{password:req.body.new}).then(function () {
-        User.find(function (err, usuarios) {
-            for (var i = 0; i < usuarios.length; i++) {
-                userList.push({name: usuarios[i].name, password: usuarios[i].password});
-            }
-            res.send(userList);
-
+    User.findOneAndUpdate({name:req.body.name},{password:req.body.new}).then(function (response) {
+            res.sendStatus(200);
         });
-    })
 });
 
 
 app.delete('/delete', function (req, res) {
+        User.findOneAndRemove({name:req.body.name,password:req.body.password}, function (err, response) {
+            if(response!=null){
+                res.sendStatus(200);
 
-        User.findOneAndRemove({name:req.body.name,password:req.body.password}, function (err, user) {
-             var userList = [];
-             User.find(function (err, usuarios) {
-                 for(var i = 0; i< usuarios.length;i++){
-                     userList.push({name: usuarios[i].name, password: usuarios[i].password});
-                 }
-                 res.send(userList);
+            }
+            else {
+                res.sendStatus(500);
 
+            }
              });
-    });
 });
 app.get('/all', function (req,res) {
     var users = [];

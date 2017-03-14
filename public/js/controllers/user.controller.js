@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.controller('userCtrl', ['userSRV','$scope','$location','$rootScope', function (userSRV,$scope,$location,$rootScope) {
+    app.controller('userCtrl', ['userSRV','$scope','$location','$rootScope','$mdDialog', function (userSRV,$scope,$location,$rootScope,$mdDialog) {
 
         $scope.users = [];
         $scope.subjects=[];
@@ -13,16 +13,56 @@
         };
         $scope.redirectToProfile = function(){
             $location.path("/Perfil");
+            $scope.currentNavItem = 'Profile';
         };
         $scope.redirectToADVs = function(){
             $location.path("/Anuncios");
+            $scope.currentNavItem = 'Anuncios';
         };
-        /*angular.element(document).ready(function () {
+        angular.element(document).ready(function () {
             userSRV.getSubjects(function (subjects) {
                 $scope.subjectsdb = subjects;
             });
-        });*/
+        });
 
+        $scope.showPrompt = function(ev) {
+            var confirm = $mdDialog.prompt()
+                .title('¿Estás seguro de que quieres borrar tu cuenta?')
+                .textContent('Te hecharemos de menos')
+                .placeholder('Confirmar contraseña')
+                
+                .targetEvent(ev)
+                .ok('Okay!')
+                .cancel('Quiero seguir!');
+
+            $mdDialog.show(confirm).then(function(result) {
+                var data = {
+                    name: $rootScope.name,
+                    password:result
+                };
+
+                    userSRV.removeUsers(data, function (response) {
+                        if(response.statusCode=200) {
+                            $location.path("/");
+                        }
+                        else{
+
+                        }
+                    });
+            });
+        };
+        $scope.update=function(){
+            var data = {
+                name: $rootScope.name,
+                password:$scope.userPass,
+                new:$scope.newPass
+            };
+            $scope.newPass="";
+            $scope.userPass = "";
+            userSRV.updateUser(data,function () {
+            });
+
+        };
 
         $scope.showSubjects=function(){ /////////////
             userSRV.getSubjects(function (sub) {
@@ -69,34 +109,9 @@
                 $scope.users = users;
             });
         };
-        $scope.update=function(){
-            var data = {
-                name: $rootScope.name,
-                password:$scope.userPass,
-                new:$scope.newPass
-            };
-            $scope.newPass="";
-            $scope.userPass = "";
-            userSRV.updateUser(data,function (list) {
-                $scope.users=list
-            });
-
-        };
-
-
 
         $scope.remove = function() {
-            var data = {
-                name: $scope.userName,
-                password:$scope.userPass
-            };
 
-            userSRV.removeUsers(data,function (list) {
-                $scope.userName = "";
-                $scope.userPass = "";
-                $scope.users = list;
-
-            });
 
 
             /*

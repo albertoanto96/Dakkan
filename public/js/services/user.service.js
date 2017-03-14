@@ -53,8 +53,7 @@
                 data: data
             };
             $http(req).then(function (response) {
-
-                callback(response.data)
+                callback(response)
 
             });
         };
