@@ -13,6 +13,10 @@ app.config(['$routeProvider', function ($routeProvider) {
         templateUrl:'tpls/profile.html',
         controller:'userCtrl'
     });
+    $routeProvider.when('/Advs',{
+        templateUrl:'tpls/advs.html',
+        controller:'advCtrl'
+    });
 
 
 
@@ -45,6 +49,7 @@ $scope.doLogin=function() {
                 $scope.currentNavItem = 'Anuncios';
                 $mdDialog.hide();
                 $location.path("/Anuncios");
+                $scope.currentNavItem = 'Anuncios';
             }
            });
 

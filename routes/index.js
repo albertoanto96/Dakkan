@@ -4,8 +4,11 @@ var app = express();
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var adv = mongoose.Schema({
-    name: String,
-    category: String
+    title: String,
+    description: String,
+    exchange: String,
+    category: String,
+    owner: [{type: Schema.ObjectId , ref:'users'}]
 });
 var users = mongoose.Schema({
     name: String,
@@ -22,6 +25,8 @@ var Adv = mongoose.model('adv', adv);
 var u;
 app.use(express.static('public'));
 app.use(bodyParser.json());
+
+
 /*app.put('/updsub', function (req, res) {
     User.find({name: req.body.name}, function (err, usuario) {
         u = usuario;
@@ -115,18 +120,16 @@ app.get('/all', function (req,res) {
         res.send(users);
     });
 });
-/*app.get('/subjects', function (req,res) { //todos los anuncios
-    var users = [];
-    Adv.find({},null,{sort:{name:1}},function(err, subj){
-        for (var i = 0; i < subj.length; i++) {
-            users.push({name:subj[i].name,l:subj[i].users.length});
+app.get('/allAdvs', function (req,res) { //todos los anuncios
+    var advs = [];
+    Adv.find(function(err, adv){
+        console.log(adv);
+        for (var i = 0; i < adv.length; i++) {
+            advs.push({title:adv[i].title,description:adv[i].description,exchange:adv[i].exchange,category:adv[i].category});
         }
-        users.sort(function(a, b){
-            return a.l-b.l
-        });
-        res.send(users);
+        res.send(advs);
     });
-});*/
+});
 app.get('/filterdb/:letter', function (req, res) {
     var userList=[];
     var letter=req.params.letter;

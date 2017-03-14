@@ -1,0 +1,13 @@
+<!doctype HTML>
+<body >
+<div ng-controller="advCtrl" ng-cloak>
+    <ul class="unstyled">
+        <li ng-repeat="user in users | filter:search">
+            <label class="checkbox">
+                <input type="checkbox" ng-model="user.done">
+                <span>Title: {{advs.name}} </span>
+            </label>
+        </li>
+    </ul>
+</div>
+</body>

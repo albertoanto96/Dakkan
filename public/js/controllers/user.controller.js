@@ -40,6 +40,7 @@
                     userSRV.removeUsers(data, function (response) {
                         if(response.statusCode=200) {
                             $location.path("/");
+                            $scope.currentNavItem = 'Login';
                         }
                         else{
 
@@ -77,7 +78,7 @@
                 }else{
                     $mdToast.show(
                         $mdToast.simple()
-                            .textContent($scope.newName+"ya esta en uso")
+                            .textContent($scope.newName+" ya esta en uso")
                             .position("bottom")
                             .hideDelay(3000)
                     );
