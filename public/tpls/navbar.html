@@ -9,14 +9,21 @@
         Anuncios
     </md-nav-item>
     <form class="navbar-form navbar-left">
-        <div class="form-group">
+        <div class="input-group">
             <input type="text" class="form-control" placeholder="Search">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submbit">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </div>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+
     </form>
-    <ul class="nav navbar-nav navbar-right">
-    <li><a ng-click="showAdvanced($event)"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
+    <span flex> </span>
+    <md-button ng-click="showAdvanced($event)" class="md-fab md-primary" aria-label="Use Android" >
+        <md-icon md-svg-src="img/login.svg"></md-icon>
+    </md-button>
+
 </md-nav-bar>
 
 </div>
