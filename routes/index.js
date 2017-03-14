@@ -70,10 +70,27 @@ app.post('/login', function (req, res) {
             res.send(response[0]);
         });
 });
-app.put('/update', function (req, res) {
+app.put('/updatePass', function (req, res) {
     User.findOneAndUpdate({name:req.body.name},{password:req.body.new}).then(function (response) {
             res.sendStatus(200);
         });
+});
+
+app.put('/updateName', function (req, res) {
+    User.find({name:req.body.new}).then(function (response) {
+
+
+        if(response[0]==undefined){
+            User.findOneAndUpdate({name:req.body.name},{name:req.body.new}).then(function (response) {
+                res.sendStatus(200);
+            });
+        }
+        else
+        {
+            res.send("500");
+        }
+    })
+
 });
 
 

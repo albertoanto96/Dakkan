@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.controller('userCtrl', ['userSRV','$scope','$location','$rootScope','$mdDialog', function (userSRV,$scope,$location,$rootScope,$mdDialog) {
+    app.controller('userCtrl', ['userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast', function (userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast) {
 
         $scope.users = [];
         $scope.subjects=[];
@@ -40,15 +40,46 @@
                     });
             });
         };
-        $scope.update=function(){
-            var data = {
-                name: $rootScope.name,
-                password:$scope.userPass,
-                new:$scope.newPass
-            };
+        $scope.updatePass=function(){
+             if($scope.newPass==$scope.newPass2) {
+                 var data = {
+                     name: $rootScope.name,
+                     password: $scope.userPass,
+                     new: $scope.newPass
+                 };
+
+                 userSRV.updatePass(data, function () {
+                 });
+             }
             $scope.newPass="";
             $scope.userPass = "";
-            userSRV.updateUser(data,function () {
+            $scope.newName="";
+            $scope.newPass2="";
+
+        };
+        $scope.updateName=function(){
+            var data = {
+                name: $rootScope.name,
+                new:$scope.newName
+            };
+
+            userSRV.updateName(data,function (results) {
+
+                if(results!="500") {
+                    $rootScope.name = $scope.newName
+                }else{
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent($scope.newName+"ya esta en uso")
+                            .position("bottom")
+                            .hideDelay(3000)
+                    );
+                }
+                $scope.newPass="";
+                $scope.userPass = "";
+                $scope.newName="";
+                $scope.newPass2="";
+
             });
 
         };
@@ -97,22 +128,6 @@
                 $scope.subjects ="";
                 $scope.users = users;
             });
-        };
-
-        $scope.remove = function() {
-
-
-
-            /*
-            var deltedUsers = [];
-            angular.forEach($scope.users,function (user) {
-                if(user.done){deltedUsers.push(user.name);}
-            });
-            userSRV.removeUsers(deltedUsers,function (list) {
-                $scope.users = list;
-            });
-            */
-
         };
     }]);
 })();

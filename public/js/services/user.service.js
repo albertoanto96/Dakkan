@@ -73,15 +73,28 @@
 
              });
         };
-        this.updateUser=function(data,callback){
+        this.updatePass=function(data,callback){
             var req = {
                 method: 'PUT',
-                url: '/update',
+                url: '/updatePass',
                 headers: {'Content-Type': 'application/json'},
                 data: data
             };
             $http(req).then(function (response) {
                 callback(response.data)
+            });
+        }
+
+        this.updateName=function(data,callback){
+            var req = {
+                method: 'PUT',
+                url: '/updateName',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+            $http(req).then(function (response) {
+                var result = response.data
+                callback(result)
             });
         }
     }]);
