@@ -3,7 +3,7 @@ app.config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider.when('/',{
         templateUrl:'tpls/main.html',
-        controller:'mainCtrl'
+        controller:'userCtrl'
     });
 
     $routeProvider.when('/Anuncios',{
@@ -12,11 +12,11 @@ app.config(['$routeProvider', function ($routeProvider) {
     });
     $routeProvider.when('/Perfil',{
         templateUrl:'tpls/profile.html',
-        controller:'profileCtrl'
+        controller:'userCtrl'
     });
     $routeProvider.when('/Login',{
         templateUrl:'tpls/login.html',
-        controller:'profileCtrl'
+        controller:'mainCtrl'
     });
 
 

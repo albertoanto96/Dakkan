@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.controller('userCtrl', ['userSRV','$scope','$location', function (userSRV,$scope,$location) {
+    app.controller('userCtrl', ['userSRV','$scope','$location','$rootScope', function (userSRV,$scope,$location,$rootScope) {
 
         $scope.users = [];
         $scope.subjects=[];
@@ -17,11 +17,11 @@
         $scope.redirectToADVs = function(){
             $location.path("/Anuncios");
         };
-        angular.element(document).ready(function () {
+        /*angular.element(document).ready(function () {
             userSRV.getSubjects(function (subjects) {
                 $scope.subjectsdb = subjects;
             });
-        });
+        });*/
 
 
         $scope.showSubjects=function(){ /////////////
@@ -69,6 +69,21 @@
                 $scope.users = users;
             });
         };
+        $scope.update=function(){
+            var data = {
+                name: $rootScope.name,
+                password:$scope.userPass,
+                new:$scope.newPass
+            };
+            $scope.newPass="";
+            $scope.userPass = "";
+            userSRV.updateUser(data,function (list) {
+                $scope.users=list
+            });
+
+        };
+
+
 
         $scope.remove = function() {
             var data = {
