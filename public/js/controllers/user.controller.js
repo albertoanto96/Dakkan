@@ -8,17 +8,6 @@
         $scope.subjectsdb = [];
         $scope.currentNavItem = 'Anuncios';
 
-        $scope.redirectToLogin = function(){
-            $location.path("/");
-        };
-        $scope.redirectToProfile = function(){
-            $location.path("/Perfil");
-            $scope.currentNavItem = 'Profile';
-        };
-        $scope.redirectToADVs = function(){
-            $location.path("/Anuncios");
-            $scope.currentNavItem = 'Anuncios';
-        };
         angular.element(document).ready(function () {
             userSRV.getSubjects(function (subjects) {
                 $scope.subjectsdb = subjects;
