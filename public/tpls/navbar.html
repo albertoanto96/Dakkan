@@ -8,9 +8,6 @@
     <md-nav-item md-nav-href="/#!/Anuncios" name="Anuncios">
         Anuncios
     </md-nav-item>
-    <md-nav-item md-nav-href="/#!/Login"  name="Login">
-        Login
-    </md-nav-item>
     <form class="navbar-form navbar-left">
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Search">
@@ -18,7 +15,7 @@
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    <li><a ng-click="showAdvanced($event)"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
 </md-nav-bar>
 

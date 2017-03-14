@@ -13,7 +13,14 @@
                 $scope.subjectsdb = subjects;
             });
         });
-
+        $scope.showAdvanced = function(ev) {
+            $mdDialog.show({
+                templateUrl: 'tpls/dialog.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true
+            })
+        };
         $scope.showPrompt = function(ev) {
             var confirm = $mdDialog.prompt()
                 .title('¿Estás seguro de que quieres borrar tu cuenta?')

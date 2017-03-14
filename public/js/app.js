@@ -5,7 +5,6 @@ app.config(['$routeProvider', function ($routeProvider) {
         templateUrl:'tpls/main.html',
         controller:'userCtrl'
     });
-
     $routeProvider.when('/Anuncios',{
         templateUrl:'tpls/main.html',
         controller:'userCtrl'
@@ -14,17 +13,18 @@ app.config(['$routeProvider', function ($routeProvider) {
         templateUrl:'tpls/profile.html',
         controller:'userCtrl'
     });
-    $routeProvider.when('/Login',{
-        templateUrl:'tpls/login.html',
-        controller:'mainCtrl'
-    });
+
 
 
 }]);
 
-app.controller('mainCtrl',['$http','$rootScope','$scope','$location',function($http, $rootScope, $scope, $location)
+app.controller('mainCtrl',['$http','$rootScope','$scope','$location','$mdDialog',function($http, $rootScope, $scope, $location,$mdDialog)
     {
-       $scope.doLogin=function() {
+        $scope.currentNavItem = 'Login';
+
+
+
+$scope.doLogin=function() {
            $rootScope.name=$scope.userName;
            var newUser = {
            name: $scope.userName,
@@ -42,6 +42,8 @@ app.controller('mainCtrl',['$http','$rootScope','$scope','$location',function($h
            };
            $http(req).then(function (response) {
             if (angular.equals(response.data.password,newUser.password)) {
+                $scope.currentNavItem = 'Anuncios';
+                $mdDialog.hide();
                 $location.path("/Anuncios");
             }
            });
@@ -61,7 +63,10 @@ app.controller('mainCtrl',['$http','$rootScope','$scope','$location',function($h
             };
             $http(req).then(function (response) {
                 if(response.statusCode=200){
+                    $scope.currentNavItem = 'Anuncios';
+                    $mdDialog.hide();
                     $location.path("/Anuncios");
+
                 }
 
             });
