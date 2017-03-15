@@ -17,6 +17,10 @@ app.config(['$routeProvider', function ($routeProvider) {
         templateUrl:'tpls/advs.html',
         controller:'advCtrl'
     });
+    $routeProvider.when('/Adv',{
+        templateUrl:'tpls/adv.html',
+        controller:'advCtrl'
+    });
 
 
 

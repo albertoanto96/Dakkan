@@ -7,12 +7,19 @@
     app.controller('advCtrl', ['advSRV','$scope','$location','$rootScope','$mdDialog','$mdToast', function (advSRV,$scope,$location,$rootScope,$mdDialog,$mdToast) {
 
         $scope.advs=[];
+        $scope.owner="piernas";
 
         angular.element(document).ready(function () {
             advSRV.getAdvs(function (listadv) {
                 $scope.advs = listadv;
             });
         });
+
+        $scope.gotoUser = function() {
+
+            $location.path("/Adv")
+
+        };
 
     }]);
 })();
