@@ -12,10 +12,14 @@
 </div>
 
 <div ng-controller="userCtrl" ng-cloak>
+    <div>
     <md-input-container  >
         <label >Nuevo nombre</label>
         <input ng-model="newName">
     </md-input-container>
+        <button  type="button" class="btn btn-outline-primary" ng-click="updateName()">Actualizar nombre</button>
+    </div>
+    <div>
     <md-input-container>
         <label>Contraseña</label>
         <input ng-model="userPass">
@@ -28,13 +32,13 @@
         <label>Nueva contraseña</label>
         <input ng-model="newPass2" type="password">
     </md-input-container>
+        <button type="button" class="btn btn-outline-primary" ng-click="updatePass()">Actualizar contraseña</button>
 
-    <md-button class ="md-raised md-primary md-hue-1" ng-click="updatePass()">Actualizar contraseña</md-button>
-    <md-button class ="md-raised md-primary md-hue-1" ng-click="updateName()">Actualizar nombre</md-button>
+    </div>
+
 <div>
-    <md-button class="md-primary md-raised" ng-click="showPrompt($event)"  >
-        Eliminar esta cuenta
-    </md-button>
+    <button type="button" class="btn btn-outline-danger" ng-click="showPrompt($event)">Eliminar esta cuenta</button>
+
 </div>
 </div>
 </body>

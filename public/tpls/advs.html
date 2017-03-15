@@ -1,19 +1,15 @@
 <!doctype HTML>
 <div ng-controller="advCtrl" ng-cloak>
-
-<br>
-
     <div class="grid"  style="background-color: transparent">
-        <div class="row" >
-
+        <div class="row">
             <div ng-repeat="adv in advs" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="txthover">
                     <img src="../img/anun1.jpg" height="389" width="338">
                     <div class="txtcontent">
                         <div class="stars">
-                            <div class="glyphicon glyphicon-star"></div>
-                            <div class="glyphicon glyphicon-star"></div>
-                            <div class="glyphicon glyphicon-star"></div>
+                            <div class="fa fa-star"></div>
+                            <div class="fa fa-star"></div>
+                            <div class="fa fa-star"></div>
                         </div>
                         <div class="simpletxt">
                             <h3 class="name">{{adv.title}}</h3>
@@ -22,14 +18,14 @@
                             <p>{{adv.category}} </p>
                             <button>READ MORE</button><br>
                             <div class="wishtxt">
-                                <p class="paragraph1"> Add to Wishlist <span class="glyphicon glyphicon-heart"></span> </p>
+                                <p class="paragraph1"> Add to Wishlist <span class="fa fa-heart"></span> </p>
                                 <p class="paragraph2">Compare <span class="icon"><img src="../img/compicon.png" alt="compicon"></span></p>
                             </div>
                         </div>
                         <div class="stars2">
-                            <div class="glyphicon glyphicon-star"></div>
-                            <div class="glyphicon glyphicon-star"></div>
-                            <div class="glyphicon glyphicon-star"></div>
+                            <div class="fa fa-star"></div>
+                            <div class="fa fa-star"></div>
+                            <div class="fa fa-star"></div>
                         </div>
                     </div>
                 </div>
