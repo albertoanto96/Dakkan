@@ -1185,7 +1185,7 @@ padding-left: 0px;
 	padding-top: 57px;
 	padding-bottom: 12px;
 	text-align: center;
-	border-bottom: 2px solid #F6F6FB;
+	border-bottom: 2px solid #458dfb;
 	margin-left:58px;
 	margin-right: 58px;
 	color: #F6F6FB;
@@ -1193,8 +1193,6 @@ padding-left: 0px;
 }
 .simpletxt{
 	text-align: center;
-	border-top: 1px solid #F6F6FB;
-	border-bottom: 1px solid #F6F6FB;
 	margin-top: 2px;
 	margin-left: 58px;
 	margin-right: 58px;
@@ -1265,12 +1263,12 @@ padding-left: 0px;
 }
 @media screen and (min-width: 320px) and (max-width: 766px){
  .stars{
-	padding-top: 20px;
+	padding-top: 10px;
 }
 }
 @media screen and (min-width: 1200px)and (max-width: 1280px){
 .stars{
-	padding-top: 37px;
+	padding-top: 10px;
 }
 }
 /*  -----------------     End Latest Cars Images    ------------------------ */
