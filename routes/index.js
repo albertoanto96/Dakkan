@@ -11,7 +11,9 @@ var storage =   multer.diskStorage({
         callback(null, './public/img/profiles');
     },
     filename: function (req, file, callback) {
-        callback(null, username+ ".png");
+        if(username!="") {
+            callback(null, username + ".png");
+        }
     }
 });
 
@@ -45,7 +47,6 @@ app.get('/',function(req,res){
 });
 
 app.post('/upload',function(req,res){
-
     upload(req,res,function(err) {
         if(err) {
             return res.send("Error uploading file.");
@@ -71,6 +72,7 @@ app.post('/push', function (req, res) {
         }
         else{
             u=new User({name:req.body.name,password:req.body.password});
+            username=req.body.name;
             u.save().then(function(){});
             res.sendStatus(200);
         }

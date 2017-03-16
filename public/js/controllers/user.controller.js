@@ -1,18 +1,29 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.controller('userCtrl', ['userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast', function (userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast) {
+    app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast',
+        function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast) {
 
         $scope.users = [];
         $scope.subjects=[];
         $scope.subjectsdb = [];
         $scope.currentNavItem = 'Anuncios';
+        $scope.image = "../img/profiles/" + $rootScope.name + ".png";
+
+
+
+
+
+
 
         /*angular.element(document).ready(function () {
             userSRV.getSubjects(function (subjects) {
                 $scope.subjectsdb = subjects;
             });
         });*/
+            $scope.upload = function (file) {
+                userSRV.upload(file);
+            };
         $scope.showAdvanced = function(ev) {
             $mdDialog.show({
                 templateUrl: 'tpls/dialog.html',

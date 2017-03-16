@@ -5,8 +5,8 @@
 </head>
 <body>
 <div class="img">
-    <a target="_blank" href="../img/giphy.gif">
-        <img src="../img/giphy.gif" alt="Gif" width="600" height="400">
+    <a target="_blank">
+        <img ng-src="{{image}}" alt="Gif" width="600" height="400">
     </a>
 </div>
 
@@ -38,7 +38,7 @@
 
 <div>
     <button type="button" class="btn btn-outline-danger" ng-click="showPrompt($event)">Eliminar esta cuenta</button>
-
 </div>
+    <div class="btn btn-outline-primary" ngf-select="upload($file)">Upload on file select</div>
 </div>
 </body>

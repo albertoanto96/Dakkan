@@ -23,15 +23,5 @@
 
         };
 
-        $scope.uploadFile=function (file) {
-
-            var data={
-                file:file,
-                name: $rootScope.name
-            }
-            advSRV.uploadFile(data,function (response) {
-            });
-
-        }
     }]);
 })();

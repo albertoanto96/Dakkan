@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.service('userSRV', ['$http',function ($http) {
+    app.service('userSRV', ['$http','Upload',function ($http,Upload) {
 
 
         this.usersFromSubj=function(subject,callback){ //cambiar
@@ -18,6 +18,22 @@
             });
 
         };
+
+        this.upload=function (file) {
+            Upload.upload({
+                url: 'upload/',
+                data: {file: file, username: "alberto"}
+            }).then(function (resp) {
+                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+            }, function (resp) {
+                console.log('Error status: ' + resp.status);
+            }, function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
+
+        };
+
 
         this.addUserToSubj=function(u){ //cambiar
             var req = {
