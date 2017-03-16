@@ -4,15 +4,38 @@
     <title>Profile</title>
 </head>
 <body>
-<div class="img">
-    <a target="_blank" href="../img/giphy.gif">
-        <img src="../img/anun1.jpg" alt="pierna" width="600" height="400">
-    </a>
-</div>
-
 <div ng-controller="advCtrl" ng-cloak>
 
-<h1>{{owner}}</h1>
+<h1>{{adv.title}}</h1>
+
+    <h2>El propietario {{adv.owner}}</h2>
+    <div class="img">
+        <a target="_blank">
+            <img src="../img/perfect.png" alt="pierna" width="600" height="400">
+        </a>
+    </div>
+
+    <div class="img">
+        <a target="_blank">
+            <img src="../img/anun1.jpg" alt="pierna" width="600" height="400">
+        </a>
+    </div>
+
+    <md-button class="md-icon-button md-primary" aria-label="Like">
+        <md-icon md-svg-src="../img/like.svg"></md-icon>
+    </md-button>
+
+    <md-button class="md-icon-button md-primary" aria-label="Like">
+        <md-icon md-svg-src="../img/email.svg"></md-icon>
+    </md-button>
+
+    <br>
+    <br>
+    <br>
+    <p>{{adv.description}}</p>
+    <p>{{adv.exchange}}</p>
+    <p>{{adv.category}}</p>
+
 
 
 </div>

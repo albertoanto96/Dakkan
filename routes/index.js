@@ -4,6 +4,7 @@ var app = express();
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var advs = mongoose.Schema({
+    id:Schema.ObjectId,
     title: String,
     description: String,
     exchange: String,
@@ -124,7 +125,7 @@ app.get('/allAdvs', function (req,res) { //todos los anuncios
     var advs = [];
     Adv.find(function(err, adv){
         for (var i = 0; i < adv.length; i++) {
-            advs.push({title:adv[i].title,description:adv[i].description,exchange:adv[i].exchange,category:adv[i].category});
+            advs.push({id:adv[i]._id,title:adv[i].title,description:adv[i].description,exchange:adv[i].exchange,category:adv[i].category});
         }
         res.send(advs);
     });
