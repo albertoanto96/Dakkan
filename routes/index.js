@@ -1,8 +1,20 @@
 var express = require('express'),
+
     bodyParser = require('body-parser');
 var app = express();
+var username=""
 var mongoose = require('mongoose');
+var multer  =  require('multer');
 var Schema = mongoose.Schema;
+var storage =   multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './public/img/profiles');
+    },
+    filename: function (req, file, callback) {
+        callback(null, username+ ".png");
+    }
+});
+
 var advs = mongoose.Schema({
     id:Schema.ObjectId,
     title: String,
@@ -26,7 +38,21 @@ var Adv = mongoose.model('advs', advs);
 var u;
 app.use(express.static('public'));
 app.use(bodyParser.json());
+var upload = multer({ storage : storage}).single('file');
 
+app.get('/',function(req,res){
+    res.sendFile(__dirname + "/adv.html");
+});
+
+app.post('/upload',function(req,res){
+
+    upload(req,res,function(err) {
+        if(err) {
+            return res.send("Error uploading file.");
+        }
+        res.send("File is uploaded");
+    });
+});
 
 /*app.put('/updsub', function (req, res) {
     User.find({name: req.body.name}, function (err, usuario) {
@@ -73,6 +99,7 @@ app.post('/push', function (req, res) {
 });*/
 app.post('/login', function (req, res) {
         User.find({name:req.body.name,password:req.body.password}).then(function(response){
+            username=req.body.name;
             res.send(response[0]);
         });
 });

@@ -12,6 +12,7 @@
     "angular-route": "^1.6.2",
     "bootstrap": "latest",
     "angular-material": "^1.0.9",
+    "ng-file-upload":"latest",
     "font-awesome": "latest",
     "angular-aria": "1.5.8"
   },

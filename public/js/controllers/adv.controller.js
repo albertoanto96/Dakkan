@@ -4,7 +4,7 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.controller('advCtrl', ['advSRV','$scope','$location','$rootScope','$mdDialog','$mdToast', function (advSRV,$scope,$location,$rootScope,$mdDialog,$mdToast) {
+    app.controller('advCtrl', ['advSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','Upload', function (advSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,Upload) {
 
         $scope.advs=[];
 
@@ -23,5 +23,15 @@
 
         };
 
+        $scope.uploadFile=function (file) {
+
+            var data={
+                file:file,
+                name: $rootScope.name
+            }
+            advSRV.uploadFile(data,function (response) {
+            });
+
+        }
     }]);
 })();

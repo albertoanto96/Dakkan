@@ -2,6 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
+
 </head>
 <body>
 <div ng-controller="advCtrl" ng-cloak>
@@ -36,7 +37,9 @@
     <p>{{adv.exchange}}</p>
     <p>{{adv.category}}</p>
 
-
+    <div>
+        <button ngf-select="uploadFile($file)">Upload file </button>
+    </div>
 
 </div>
 </body>
