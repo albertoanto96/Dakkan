@@ -29,7 +29,8 @@ var advs = mongoose.Schema({
 var users = mongoose.Schema({
     name: String,
     password: String,
-    advs: [{type: Schema.ObjectId ,ref:'advs'}]
+    advs: [{type: Schema.ObjectId ,ref:'advs'}],
+    image: Boolean
 });
 mongoose.connect("mongodb://localhost:27017/dakkan", function(err) {
     if(!err) {
@@ -52,6 +53,8 @@ app.post('/upload',function(req,res){
         if(err) {
             return res.send("Error uploading file.");
         }
+        User.findOneAndUpdate({name:username},{image:true}).then(function() {
+        });
         res.send("File is uploaded");
     });
 });
@@ -74,7 +77,7 @@ app.post('/push', function (req, res) {
         else{
             var pass = req.body.password;
             var passhash = new Hash.SHA256(pass).hex(pass);
-            u=new User({name:req.body.name,password:passhash});
+            u=new User({name:req.body.name,password:passhash, image: false});
             username=req.body.name;
             u.save().then(function(){});
             res.sendStatus(200);
@@ -179,9 +182,14 @@ app.get('/allAdvs', function (req,res) { //todos los anuncios
 
 app.post('/profile', function (req,res) { //todos los anuncios
 
-
     User.find({name:req.body.name}).then(function (response) {
-        res.send(response[0].name)
+        if(response[0].image != false){
+            res.send(response[0].name)
+        }
+        else{
+            res.send("undefined");
+        }
+
     });
 });
 
