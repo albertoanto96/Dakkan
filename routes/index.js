@@ -160,15 +160,25 @@ app.get('/all', function (req,res) {
         res.send(users);
     });
 });
-app.get('/allAdvs', function (req,res) { //todos los anuncios
-    var advs = [];
-    Adv.find(function(err, adv){
-        for (var i = 0; i < adv.length; i++) {
-            advs.push({id:adv[i]._id,title:adv[i].title,description:adv[i].description,exchange:adv[i].exchange,category:adv[i].category});
+
+app.get('/all', function (req,res) {
+    var users = [];
+    User.find(function(err, usuarios){
+        for (var i = 0; i < usuarios.length; i++) {
+            users.push({name: usuarios[i].name, password: usuarios[i].password, done:false});
         }
-        res.send(advs);
+        res.send(users);
     });
 });
+
+app.post('/profile', function (req,res) { //todos los anuncios
+
+
+    User.find({name:req.body.name}).then(function (response) {
+        res.send(response[0].name)
+    });
+});
+
 app.get('/filterdb/:letter', function (req, res) {
     var userList=[];
     var letter=req.params.letter;

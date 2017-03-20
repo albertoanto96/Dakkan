@@ -1,26 +1,23 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast',
-        function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast) {
+    app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','localStorageService',
+        function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,localStorageService) {
 
         $scope.users = [];
         $scope.subjects=[];
         $scope.subjectsdb = [];
         $scope.currentNavItem = 'Anuncios';
-        $scope.image = "../img/profiles/" + $rootScope.name + ".png";
 
 
-
-
-
-
-
-        /*angular.element(document).ready(function () {
-            userSRV.getSubjects(function (subjects) {
-                $scope.subjectsdb = subjects;
+        angular.element(document).ready(function () {
+            var data = {
+                name:  localStorageService.get('userName')
+            };
+            userSRV.getProfile(data,function (profile) {
+                $scope.image = "../img/profiles/" + profile + ".png";
             });
-        });*/
+        });
             $scope.upload = function (file) {
                 userSRV.upload(file);
             };

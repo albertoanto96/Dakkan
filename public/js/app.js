@@ -1,4 +1,4 @@
-var app = angular.module('mainApp',['ngRoute','ngMaterial','ngFileUpload']);
+var app = angular.module('mainApp',['ngRoute','ngMaterial','ngFileUpload','LocalStorageModule']);
 app.config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider.when('/',{
@@ -26,14 +26,15 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 }]);
 
-app.controller('mainCtrl',['$http','$rootScope','$scope','$location','$mdDialog',function($http, $rootScope, $scope, $location,$mdDialog)
+app.controller('mainCtrl',['$http','$rootScope','$scope','$location','$mdDialog','localStorageService',function($http, $rootScope, $scope, $location,$mdDialog,localStorageService)
     {
         $scope.currentNavItem = 'Login';
 
 
 
 $scope.doLogin=function() {
-           $rootScope.name=$scope.userName;
+
+           localStorageService.add('userName',$scope.userName)
            var newUser = {
            name: $scope.userName,
            password: $scope.userPass
@@ -72,6 +73,7 @@ $scope.doLogin=function() {
             };
             $http(req).then(function (response) {
                 if(response.statusCode=200){
+                    localStorageService.add('userName',$scope.userName)
                     $scope.currentNavItem = 'Anuncios';
                     $mdDialog.hide();
                     $location.path("/Anuncios");

@@ -22,7 +22,7 @@
         this.upload=function (file) {
             Upload.upload({
                 url: 'upload/',
-                data: {file: file, username: "alberto"}
+                data: {file: file}
             }).then(function (resp) {
                 console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
             }, function (resp) {
@@ -33,6 +33,21 @@
             });
 
         };
+
+        this.getProfile=function (data,callback) {
+
+            var req = {
+                method: 'POST',
+                url: '/profile',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+
+        }
+
 
 
         this.addUserToSubj=function(u){ //cambiar
