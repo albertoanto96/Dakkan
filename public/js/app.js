@@ -49,7 +49,7 @@ $scope.doLogin=function() {
                data: newUser
            };
            $http(req).then(function (response) {
-            if (angular.equals(response.data.password,newUser.password)) {
+            if (angular.equals(response.data.name,newUser.name)) {
                 $scope.currentNavItem = 'Anuncios';
                 $mdDialog.hide();
                 $location.path("/Anuncios");

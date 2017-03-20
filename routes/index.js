@@ -2,9 +2,11 @@ var express = require('express'),
 
     bodyParser = require('body-parser');
 var app = express();
-var username=""
+var username="";
 var mongoose = require('mongoose');
 var multer  =  require('multer');
+var Hash = require('jshashes');
+
 var Schema = mongoose.Schema;
 var storage =   multer.diskStorage({
     destination: function (req, file, callback) {
@@ -71,7 +73,9 @@ app.post('/push', function (req, res) {
             res.sendStatus(500);
         }
         else{
-            u=new User({name:req.body.name,password:req.body.password});
+            var pass = req.body.password;
+            var passhash = new Hash.SHA256(pass).hex(pass);
+            u=new User({name:req.body.name,password:passhash});
             username=req.body.name;
             u.save().then(function(){});
             res.sendStatus(200);
@@ -100,13 +104,19 @@ app.post('/push', function (req, res) {
     });
 });*/
 app.post('/login', function (req, res) {
-        User.find({name:req.body.name,password:req.body.password}).then(function(response){
+        var pass = req.body.password;
+        var passhash = new Hash.SHA256(pass).hex(pass);
+        User.find({name:req.body.name,password:passhash}).then(function(response){
             username=req.body.name;
             res.send(response[0]);
         });
 });
 app.put('/updatePass', function (req, res) {
-    User.findOneAndUpdate({name:req.body.name},{password:req.body.new}).then(function (response) {
+    var passold = req.body.password;
+    var passhashold = new Hash.SHA256(passold).hex(passold);
+    var passnew = req.body.new;
+    var passhashnew = new Hash.SHA256(passnew).hex(passnew);
+    User.findOneAndUpdate({name:req.body.name,password:passhashold},{password:passhashnew}).then(function (response) {
             res.sendStatus(200);
         });
 });

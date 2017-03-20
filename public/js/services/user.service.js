@@ -99,7 +99,7 @@
             $http(req).then(function (response) {
                 callback(response.data)
             });
-        }
+        };
 
         this.updateName=function(data,callback){
             var req = {
