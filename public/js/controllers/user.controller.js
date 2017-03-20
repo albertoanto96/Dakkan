@@ -19,7 +19,11 @@
             });
         });
             $scope.upload = function (file) {
-                userSRV.upload(file);
+                var data= {
+                    name:localStorageService.get('userName'),
+                    file : file
+                }
+                userSRV.upload(data);
             };
         $scope.showAdvanced = function(ev) {
             $mdDialog.show({

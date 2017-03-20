@@ -19,10 +19,10 @@
 
         };
 
-        this.upload=function (file) {
+        this.upload=function (data) {
             Upload.upload({
                 url: 'upload/',
-                data: {file: file}
+                data:data
             }).then(function (resp) {
                 console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
             }, function (resp) {
