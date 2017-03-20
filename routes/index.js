@@ -160,15 +160,22 @@ app.get('/all', function (req,res) {
     });
 });
 
-app.get('/all', function (req,res) {
-    var users = [];
-    User.find(function(err, usuarios){
-        for (var i = 0; i < usuarios.length; i++) {
-            users.push({name: usuarios[i].name, password: usuarios[i].password, done:false});
+app.get('/allAdvs', function (req,res) { //todos los anuncios
+    var advs = [];
+    Adv.find(function (err, adv) {
+        for (var i = 0; i < adv.length; i++) {
+            advs.push({
+                id: adv[i]._id,
+                title: adv[i].title,
+                description: adv[i].description,
+                exchange: adv[i].exchange,
+                category: adv[i].category
+            });
         }
-        res.send(users);
+        res.send(advs);
     });
 });
+
 
 app.post('/profile', function (req,res) { //todos los anuncios
 
