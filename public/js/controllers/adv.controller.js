@@ -1,6 +1,3 @@
-/**
- * Created by Adria on 14/3/17.
- */
 (function() {
     'use strict';
     var app = angular.module('mainApp');

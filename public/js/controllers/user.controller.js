@@ -29,6 +29,10 @@
                 clickOutsideToClose:true
             })
         };
+        $scope.logout=function () {
+            localStorageService.clearAll();
+            $location.path("/");
+        };
         $scope.showPrompt = function(ev) {
             var confirm = $mdDialog.prompt()
                 .title('¿Estás seguro de que quieres borrar tu cuenta?')

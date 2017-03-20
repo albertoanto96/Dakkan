@@ -25,7 +25,11 @@
 
     <span flex> </span>
     <md-button ng-click="showAdvanced($event)" class="md-fab md-primary" >
-        <md-icon md-svg-src="img/login.svg"></md-icon>
+        <md-icon md-svg-src="../img/login.svg" class="fa"></md-icon>
+    </md-button>
+
+    <md-button class="md-fab md-mini" ng-click="logout()">
+        <md-icon md-font-icon="fa fa-sign-out"></md-icon>
     </md-button>
 
 </md-nav-bar>
