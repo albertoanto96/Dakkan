@@ -5,6 +5,8 @@
         function (advSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,Upload,localStorageService) {
 
         $scope.advs=[];
+        $scope.classes = [{"title":"Deportes"}, {"title":"Hogar"}, {"title":"Ocio"}];
+        $scope.classType = 'Deportes';
 
         angular.element(document).ready(function () {
             if(localStorageService.get('advs')==null) {
