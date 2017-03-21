@@ -203,6 +203,27 @@ app.post('/profile', function (req,res) {
 
     });
 });
+app.post('/oprofile', function (req,res) {
+
+    if (req.body.oname != null){
+        User.find({name: req.body.oname, active: true}).then(function (response) {
+            if (response[0].image != false) {
+                console.log("Idiota");
+                res.send(response[0].name)
+
+            }
+            else {
+                res.send("undefined");
+            }
+
+        });
+    }
+    else{
+        res.send("undefined");
+    }
+
+
+});
 
 app.get('/filterdb/:letter', function (req, res) {
     var userList=[];

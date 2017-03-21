@@ -15,10 +15,8 @@
 
         $scope.getAdv=function(adv){
             $location.path("/Adv");
-            console.log(localStorageService.get('adv'));
             if(localStorageService.get('adv')==null) {
                 localStorageService.add('adv', adv);
-                console.log("esta vacio")
             }
             $rootScope.adv=localStorageService.get('adv');
 
@@ -26,7 +24,8 @@
         };
         $scope.profile=function(){
             localStorageService.add('seller',$scope.adv.owner);
-            $location.path("/uProfile")
+            console.log("Owner: "+$scope.adv.owner);
+            $location.path("/oProfile")
         }
     }]);
 })();

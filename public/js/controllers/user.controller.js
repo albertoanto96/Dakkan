@@ -13,9 +13,17 @@
             var data = {
                 name:  localStorageService.get('userName')
             };
-            userSRV.getProfile(data,function (profile) {
-                $scope.image = "../img/profiles/" + profile + ".png";
-            });
+            if(data.name == null){
+                $location.path("/");
+                $scope.currentNavItem = 'Anuncios';
+
+            }
+            else{
+                userSRV.getProfile(data,function (profile) {
+                    $scope.image = "../img/profiles/" + profile + ".png";
+                });
+            }
+
         });
             $scope.upload = function (file) {
                 var data= {

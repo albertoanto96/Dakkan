@@ -21,8 +21,8 @@ app.config(['$routeProvider', function ($routeProvider) {
         templateUrl:'tpls/adv.html',
         controller:'advCtrl'
     });
-    $routeProvider.when('/uProfile',{
-        templateUrl:'tpls/uProfile.html',
+    $routeProvider.when('/oProfile',{
+        templateUrl:'tpls/oProfile.html',
         controller:'userCtrl'
     });
 
@@ -76,7 +76,8 @@ $scope.doLogin=function() {
                 data: newUser
             };
             $http(req).then(function (response) {
-                if(response.statusCode=200){
+                if
+                (response.statusCode=200){
                     localStorageService.add('userName',$scope.userName)
                     $scope.currentNavItem = 'Anuncios';
                     $mdDialog.hide();
