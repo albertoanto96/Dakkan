@@ -176,17 +176,21 @@ app.get('/all', function (req,res) {
 
 app.get('/allAdvs', function (req,res) { //todos los anuncios
     var advs = [];
+
+    var id,title,description,exchange,category;
     Adv.find(function (err, adv) {
-        for (var i = 0; i < adv.length; i++) {
-            advs.push({
-                id: adv[i]._id,
-                title: adv[i].title,
-                description: adv[i].description,
-                exchange: adv[i].exchange,
-                category: adv[i].category
-            });
-        }
-        res.send(advs);
+        User.populate(adv,{path :"owner"},function (err, result) {
+            for (var i = 0; i < adv.length; i++) {
+                id= adv[i]._id;
+                title= adv[i].title;
+                description= adv[i].description;
+                exchange= adv[i].exchange;
+                category= adv[i].category;
+                advs.push({id:id,title:title,description:description,exchange:exchange,category:category,owner:result[i].owner.name});
+            }
+            res.send(advs);
+        });
+
     });
 });
 

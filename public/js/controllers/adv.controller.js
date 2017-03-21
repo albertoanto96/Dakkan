@@ -26,7 +26,7 @@
         $scope.categoryAdv=function () {
 
             $scope.advs=$scope.totaladv
-            var catadv=[]
+            var catadv=[];
             var i=0;
             for(i;i<$scope.advs.length;i++){
             if($scope.advs[i].category==$scope.category){
@@ -36,13 +36,12 @@
                 }
 
                 $scope.advs=catadv
-        }
+        };
 
         $scope.getAdv=function(adv){
             $location.path("/Adv");
-            if(localStorageService.get('adv')==null) {
                 localStorageService.add('adv', adv);
-            }
+
             $rootScope.adv=localStorageService.get('adv');
 
 
