@@ -75,6 +75,14 @@ app.post('/push', function (req, res) {
         if(response[0]!=undefined){
             res.sendStatus(500);
         }
+        else if(response[0].active==false){
+
+            User.findOneAndUpdate({name:req.body.name},{active:true}).then(function() {
+
+                res.sendStatus(200);
+
+            });
+        }
         else{
             var pass = req.body.password;
             var passhash = new Hash.SHA256(pass).hex(pass);
@@ -109,7 +117,7 @@ app.post('/push', function (req, res) {
 app.post('/login', function (req, res) {
         var pass = req.body.password;
         var passhash = new Hash.SHA256(pass).hex(pass);
-        User.find({name:req.body.name,password:passhash}).then(function(response){
+        User.find({name:req.body.name,password:passhash,active:true}).then(function(response){
             username=req.body.name;
             res.send(response[0]);
         });
