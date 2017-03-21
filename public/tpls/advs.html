@@ -3,7 +3,9 @@
     <div layout="row">
         <md-input-container>
             <md-select ng-model="category" placeholder="Elige la categoria" md-selected-text="categoryAdv()"  >
-                <md-option ng-valtue="t.title" data-ng-repeat="t in classes">{{ t.title }}</md-option>
+                <md-optgroup label="items">
+                    <md-option ng-value="t.title" ng-repeat="t in classes">{{t.title}}</md-option>
+                </md-optgroup>
             </md-select>
         </md-input-container>
     </div>

@@ -4,7 +4,6 @@
     app.controller('sellerCtrl', ['sellerSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','Upload', 'localStorageService',
         function (sellerSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,Upload,localStorageService) {
 
-
         angular.element(document).ready(function () {
             var data={
                 name:localStorageService.get('seller')
