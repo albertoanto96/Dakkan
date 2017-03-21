@@ -2,8 +2,8 @@
 <div ng-controller="advCtrl">
     <div layout="row">
         <md-input-container>
-            <md-select ng-model="category" md-selected-text="categoryAdv()" placeholder="Elige la categoria" >
-                <md-option ng-value="t.title" data-ng-repeat="t in classes">{{ t.title }}</md-option>
+            <md-select ng-model="category" placeholder="Elige la categoria" md-selected-text="categoryAdv()"  >
+                <md-option ng-valtue="t.title" data-ng-repeat="t in classes">{{ t.title }}</md-option>
             </md-select>
         </md-input-container>
     </div>

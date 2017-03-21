@@ -23,7 +23,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     });
     $routeProvider.when('/oProfile',{
         templateUrl:'tpls/oProfile.html',
-        controller:'userCtrl'
+        controller:'sellerCtrl'
     });
 
 

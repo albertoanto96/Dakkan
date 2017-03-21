@@ -5,7 +5,7 @@
         this.getoProfile=function(data,callback){ //cambiar
             var req = {
                 method: 'POST',
-                url: '/oprofile',
+                url: '/profile',
                 headers: {'Content-Type': 'application/json'},
                 data: data
             };

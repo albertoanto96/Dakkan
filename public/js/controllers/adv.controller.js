@@ -25,7 +25,7 @@
         });
         $scope.categoryAdv=function () {
 
-            $scope.advs=$scope.totaladv
+            $scope.advs=$scope.totaladv;
             var catadv=[];
             var i=0;
             for(i;i<$scope.advs.length;i++){
@@ -33,9 +33,15 @@
 
                 catadv.push($scope.advs[i])
             }
-                }
+            }
+            $scope.advs=catadv;
+            if($scope.category == undefined){
+                return "Elige una categoria";
+            }
+            else{
+                return $scope.category;
+            }
 
-                $scope.advs=catadv
         };
 
         $scope.getAdv=function(adv){
@@ -48,7 +54,7 @@
         };
         $scope.profile=function(){
             localStorageService.add('seller',$scope.adv.owner);
-            $location.path("/oProfile")
+            $location.path("/oProfile");
         }
     }]);
 })();
