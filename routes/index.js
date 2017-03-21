@@ -30,7 +30,8 @@ var users = mongoose.Schema({
     name: String,
     password: String,
     advs: [{type: Schema.ObjectId ,ref:'advs'}],
-    image: Boolean
+    image: Boolean,
+    active: Boolean
 });
 mongoose.connect("mongodb://localhost:27017/dakkan", function(err) {
     if(!err) {
@@ -77,7 +78,7 @@ app.post('/push', function (req, res) {
         else{
             var pass = req.body.password;
             var passhash = new Hash.SHA256(pass).hex(pass);
-            u=new User({name:req.body.name,password:passhash, image: false});
+            u=new User({name:req.body.name,password:passhash, image: false,active:true});
             username=req.body.name;
             u.save().then(function(){});
             res.sendStatus(200);
@@ -142,14 +143,14 @@ app.put('/updateName', function (req, res) {
 
 
 app.delete('/delete', function (req, res) {
-        User.findOneAndRemove({name:req.body.name,password:req.body.password}, function (err, response) {
+     var pass = req.body.password;
+     var passhash = new Hash.SHA256(pass).hex(pass);
+        User.findOneAndUpdate({name:req.body.name,password:passhash},{active:false}, function (err, response) {
             if(response!=null){
                 res.sendStatus(200);
-
             }
             else {
                 res.sendStatus(500);
-
             }
              });
 });
@@ -157,7 +158,9 @@ app.get('/all', function (req,res) {
     var users = [];
     User.find(function(err, usuarios){
         for (var i = 0; i < usuarios.length; i++) {
-            users.push({name: usuarios[i].name, password: usuarios[i].password, done:false});
+            if (usuarios[i].active==true) {
+                users.push({name: usuarios[i].name, password: usuarios[i].password, done: false});
+            }
         }
         res.send(users);
     });
@@ -180,11 +183,11 @@ app.get('/allAdvs', function (req,res) { //todos los anuncios
 });
 
 
-app.post('/profile', function (req,res) { //todos los anuncios
-
+app.post('/profile', function (req,res) {
     User.find({name:req.body.name}).then(function (response) {
         if(response[0].image != false){
             res.send(response[0].name)
+
         }
         else{
             res.send("undefined");

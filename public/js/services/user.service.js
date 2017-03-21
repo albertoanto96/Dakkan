@@ -46,7 +46,7 @@
                 callback(response.data)
             });
 
-        }
+        };
 
 
 
