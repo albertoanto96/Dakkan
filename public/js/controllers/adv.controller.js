@@ -6,7 +6,6 @@
 
         $scope.advs=[];
         $scope.classes = [{"title":"Deportes"}, {"title":"Hogar"}, {"title":"Ocio"}];
-        $scope.classType = 'Deportes';
 
         angular.element(document).ready(function () {
             if(localStorageService.get('advs')==null) {

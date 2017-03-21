@@ -1,8 +1,8 @@
 <!doctype HTML>
-<div ng-controller="advCtrl" ng-cloak>
+<div ng-controller="advCtrl">
     <div layout="row">
         <md-input-container>
-            <md-select ng-model="classType" >
+            <md-select ng-model="classType" placeholder="Elige la categoria" >
                 <md-option ng-value="t.title" data-ng-repeat="t in classes">{{ t.title }}</md-option>
             </md-select>
         </md-input-container>

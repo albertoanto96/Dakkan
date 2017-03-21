@@ -30,14 +30,13 @@
 
             userSRV.search($scope.search.word,function (response) {
 
-
                 localStorageService.add('advs', response);
                 $location.path("/Advs");
 
 
 
            })
-        }
+        };
 
             $scope.filterdb=function(){
                 userSRV.filterdb($scope.filterDB,function (users) {
