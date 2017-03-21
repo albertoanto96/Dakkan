@@ -11,7 +11,6 @@
             };
 
             $http(req).then(function (response) {
-                console.log("Service: "+response.data);
                 callback(response.data)
             });
         };

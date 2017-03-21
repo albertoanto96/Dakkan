@@ -7,10 +7,10 @@
 
         angular.element(document).ready(function () {
             var data={
-                oname:localStorageService.get('seller')
+                name:localStorageService.get('seller')
             };
             sellerSRV.getoProfile(data,function (profile) {
-                $scope.oimage = "../img/profiles/" + profile + ".png";
+                $scope.image = "../img/profiles/" + profile + ".png";
             });
         });
     }]);

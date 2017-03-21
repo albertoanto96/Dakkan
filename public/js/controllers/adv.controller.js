@@ -24,7 +24,6 @@
         };
         $scope.profile=function(){
             localStorageService.add('seller',$scope.adv.owner);
-            console.log("Owner: "+$scope.adv.owner);
             $location.path("/oProfile")
         }
     }]);

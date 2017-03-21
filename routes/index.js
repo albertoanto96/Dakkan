@@ -192,23 +192,9 @@ app.get('/allAdvs', function (req,res) { //todos los anuncios
 
 
 app.post('/profile', function (req,res) {
-    User.find({name:req.body.name,active:true}).then(function (response) {
-        if(response[0].image != false){
-            res.send(response[0].name)
-
-        }
-        else{
-            res.send("undefined");
-        }
-
-    });
-});
-app.post('/oprofile', function (req,res) {
-
-    if (req.body.oname != null){
-        User.find({name: req.body.oname, active: true}).then(function (response) {
+    if (req.body.oname != null) {
+        User.find({name: req.body.name, active: true}).then(function (response) {
             if (response[0].image != false) {
-                console.log("Idiota");
                 res.send(response[0].name)
 
             }
@@ -221,8 +207,6 @@ app.post('/oprofile', function (req,res) {
     else{
         res.send("undefined");
     }
-
-
 });
 
 app.get('/filterdb/:letter', function (req, res) {
