@@ -14,15 +14,14 @@
 
     <form class="navbar-form navbar-left">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search">
+            <input ng-model="search.word" type="text" class="form-control" placeholder="Search">
             <div class="input-group-btn">
-                <button class="btn btn-default" type="submbit">
+                <button class="btn btn-default" ng-click="search()" type="submbit">
                     <i class="fa fa-search"></i>
                 </button>
             </div>
         </div>
     </form>
-
     <span flex> </span>
     <md-button ng-click="showAdvanced($event)" class="md-fab md-primary" >
         <md-icon md-svg-src="../img/login.svg" class="fa"></md-icon>

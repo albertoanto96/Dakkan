@@ -104,6 +104,24 @@
 
              });
         };
+
+        this.search =function (data,callback) {
+
+            var req = {
+                method: 'GET',
+                data: data,
+                url: '/search/'+data,
+                headers: {'Content-Type': 'application/json'}
+
+            };
+
+            $http(req).then(function (response) {
+
+                callback(response.data)
+
+            });
+        };
+
         this.updatePass=function(data,callback){
             var req = {
                 method: 'PUT',

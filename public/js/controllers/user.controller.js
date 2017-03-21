@@ -1,8 +1,8 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','localStorageService',
-        function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,localStorageService) {
+    app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','localStorageService','$timeout',
+        function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,localStorageService,$timeout) {
 
         $scope.users = [];
         $scope.subjects=[];
@@ -25,6 +25,30 @@
             }
 
         });
+        $scope.search=function () {
+
+            userSRV.search($scope.search.word,function (response) {
+
+
+                localStorageService.add('advs', response);
+                $location.path("/Advs");
+
+
+
+           })
+        }
+
+            $scope.filterdb=function(){
+                userSRV.filterdb($scope.filterDB,function (users) {
+                    $scope.users = users;
+                    $scope.userName = "";
+                    $scope.userPass = "";
+                    $scope.filterDB="";
+
+                })
+
+            };
+
             $scope.upload = function (file) {
                 var data= {
                     name:localStorageService.get('userName'),
@@ -145,16 +169,6 @@
         };
 
 
-        $scope.filterdb=function(){
-            userSRV.filterdb($scope.filterDB,function (users) {
-                $scope.users = users;
-                $scope.userName = "";
-                $scope.userPass = "";
-                $scope.filterDB="";
-
-            })
-
-        };
         $scope.showList = function() {
             userSRV.getUsers(function (users) {
                 $scope.subjects ="";

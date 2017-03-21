@@ -7,10 +7,17 @@
         $scope.advs=[];
 
         angular.element(document).ready(function () {
-            advSRV.getAdvs(function (listadv) {
-                $scope.advs = listadv;
-                $rootScope.adv=localStorageService.get('adv');
-            });
+            if(localStorageService.get('advs')==null) {
+                advSRV.getAdvs(function (listadv) {
+                    $scope.advs = listadv;
+                    $rootScope.adv = localStorageService.get('adv');
+                });
+            }
+            else{
+                $scope.advs=localStorageService.get('advs');
+                $rootScope.adv = localStorageService.get('adv');
+                console.log($scope.advs)
+            }
         });
 
         $scope.getAdv=function(adv){

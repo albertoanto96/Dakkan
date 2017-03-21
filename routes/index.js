@@ -24,7 +24,7 @@ var advs = mongoose.Schema({
     description: String,
     exchange: String,
     category: String,
-    owner: [{type: Schema.ObjectId , ref:'users'}]
+    owner: {type: Schema.ObjectId , ref:'users'}
 });
 var users = mongoose.Schema({
     name: String,
@@ -217,6 +217,22 @@ app.get('/filterdb/:letter', function (req, res) {
             userList.push({name: us[i].name, password: us[i].password, done:false});
         }
         res.send(userList);
+    });
+});
+app.get('/search/:word', function (req, res) {
+    var advList=[];
+    var word=req.params.word;
+    Adv.find({"title":{"$regex": word} },function (err, adv) {
+        for (var i = 0; i < adv.length; i++) {
+            advList.push({
+                id: adv[i]._id,
+                title: adv[i].title,
+                description: adv[i].description,
+                exchange: adv[i].exchange,
+                category: adv[i].category
+            });
+        }
+        res.send(advList);
     });
 });
 
