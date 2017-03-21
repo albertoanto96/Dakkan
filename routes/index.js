@@ -126,8 +126,6 @@ app.put('/updatePass', function (req, res) {
 
 app.put('/updateName', function (req, res) {
     User.find({name:req.body.new}).then(function (response) {
-
-
         if(response[0]==undefined){
             User.findOneAndUpdate({name:req.body.name},{name:req.body.new}).then(function (response) {
                 res.sendStatus(200);

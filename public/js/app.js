@@ -21,6 +21,10 @@ app.config(['$routeProvider', function ($routeProvider) {
         templateUrl:'tpls/adv.html',
         controller:'advCtrl'
     });
+    $routeProvider.when('/uProfile',{
+        templateUrl:'tpls/uProfile.html',
+        controller:'userCtrl'
+    });
 
 
 

@@ -6,13 +6,13 @@
 </head>
 <body>
 <div ng-controller="advCtrl" ng-cloak>
-
 <h1>{{adv.title}}</h1>
 
     <h2>El propietario {{adv.owner}}</h2>
     <div class="img">
         <a target="_blank">
-            <img src="../img/perfect.png" alt="pierna" width="600" height="400">
+            <img src="../img/perfect.png" alt="pierna" width="600" height="400" ng-click="profile()">
+
         </a>
     </div>
 

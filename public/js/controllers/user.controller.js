@@ -9,7 +9,6 @@
         $scope.subjectsdb = [];
         $scope.currentNavItem = 'Anuncios';
 
-
         angular.element(document).ready(function () {
             var data = {
                 name:  localStorageService.get('userName')
