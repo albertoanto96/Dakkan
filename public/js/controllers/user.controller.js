@@ -9,7 +9,6 @@
         $scope.subjectsdb = [];
         $scope.currentNavItem = 'Anuncios';
 
-
         angular.element(document).ready(function () {
             var data = {
                 name:  localStorageService.get('userName')
@@ -30,13 +29,11 @@
 
             userSRV.search($scope.search.word,function (response) {
 
-                localStorageService.add('advs', response);
+                $rootScope.advs=response;
                 $location.path("/Advs");
 
-
-
            })
-        };
+        }
 
             $scope.filterdb=function(){
                 userSRV.filterdb($scope.filterDB,function (users) {
