@@ -57,6 +57,7 @@
                         if(response.statusCode=200) {
                             $location.path("/");
                             $scope.currentNavItem = 'Login';
+                            localStorageService.clearAll();
                         }
                         else{
 
