@@ -70,18 +70,28 @@ app.post('/upload',function(req,res){
     });
 });*/
 app.post('/push', function (req, res) {
-
     User.find({name:req.body.name}).then(function(response){
         if(response[0]!=undefined){
-            res.sendStatus(500);
+            if(response[0].active != true) {
+                User.findOneAndUpdate({name: req.body.name}, {active: true}).then(function () {
+
+                    res.sendStatus(200);
+
+                });
+            }
+            else{
+                res.sendStatus(500);
+            }
+
         }
         else{
-            var pass = req.body.password;
-            var passhash = new Hash.SHA256(pass).hex(pass);
-            u=new User({name:req.body.name,password:passhash, image: false,active:true});
-            username=req.body.name;
-            u.save().then(function(){});
-            res.sendStatus(200);
+                    var pass = req.body.password;
+                    var passhash = new Hash.SHA256(pass).hex(pass);
+                    u = new User({name: req.body.name, password: passhash, image: false, active: true});
+                    username = req.body.name;
+                    u.save().then(function () {
+                    });
+                    res.sendStatus(200);
         }
     });
 
@@ -90,7 +100,7 @@ app.post('/push', function (req, res) {
     var subjList=[];
     var name=req.body.name;
     Adv.find({name: name},function(err, subject){
-        User.populate(subject,{path:"users"},function (err, result) {
+        User.populate(subject,{path :"users"},function (err, result) {
             for (var i = 0; i < result[0].users.length; i++) {
                 subjList.push({name: result[0].users[i].name, password: result[0].users[i].password});
             }
@@ -109,7 +119,7 @@ app.post('/push', function (req, res) {
 app.post('/login', function (req, res) {
         var pass = req.body.password;
         var passhash = new Hash.SHA256(pass).hex(pass);
-        User.find({name:req.body.name,password:passhash}).then(function(response){
+        User.find({name:req.body.name,password:passhash,active:true}).then(function(response){
             username=req.body.name;
             res.send(response[0]);
         });
@@ -182,7 +192,7 @@ app.get('/allAdvs', function (req,res) { //todos los anuncios
 
 
 app.post('/profile', function (req,res) {
-    User.find({name:req.body.name}).then(function (response) {
+    User.find({name:req.body.name,active:true}).then(function (response) {
         if(response[0].image != false){
             res.send(response[0].name)
 
