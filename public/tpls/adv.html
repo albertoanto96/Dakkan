@@ -6,37 +6,43 @@
 </head>
 <body>
 <div ng-controller="advCtrl" ng-cloak>
-<h1>{{adv.title}}</h1>
+    <div layout="row" layout-sm="column">
+        <div flex="58" >
+            <img src="../img/anun1.jpg" alt="pierna" style="width:650px; height:570px; padding-left: 50px; padding-top: 10px;">
+        </div>
+        <div flex-xs flex-gt-xs="40" layout="column">
+            <div flex-xs flex-gt-xs="40" layout="column">
+                <md-card>
+                    <md-card-header>
+                        <md-card-avatar>
+                            <md-icon class="md-avatar-icon" md-svg-icon="img/icons/menu.svg"></md-icon>
+                        </md-card-avatar>
+                        <md-card-header-text>
+                            <span class="md-title">{{adv.owner}}</span>
+                            <span class="md-subhead">Usuario desde ...</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{adv.title}}</span>
+                            <span class="md-subhead">{{adv.description}}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-actions layout="row" layout-align="start center">
+                        <md-button class="md-icon-button md-primary" aria-label="Like" ng-click="favorite()">
+                            <md-icon md-svg-src="../img/like.svg"></md-icon>
+                        </md-button>
 
-    <h2>El propietario {{adv.owner}}</h2>
-    <div class="img">
-        <a target="_blank">
-            <img src="../img/perfect.png" alt="pierna" width="600" height="400" ng-click="profile()">
+                        <md-button class="md-icon-button md-primary" aria-label="Like">
+                            <md-icon md-svg-src="../img/email.svg"></md-icon>
+                        </md-button>
+                    </md-card-actions>
+                    <md-card-content>
 
-        </a>
+                    </md-card-content>
+                </md-card>
+            </div>
+        </div>
     </div>
-
-    <div class="img">
-        <a target="_blank">
-            <img src="../img/anun1.jpg" alt="pierna" width="600" height="400">
-        </a>
-    </div>
-
-    <md-button class="md-icon-button md-primary" aria-label="Like" ng-click="favorite()">
-        <md-icon md-svg-src="../img/like.svg"></md-icon>
-    </md-button>
-
-    <md-button class="md-icon-button md-primary" aria-label="Like">
-        <md-icon md-svg-src="../img/email.svg"></md-icon>
-    </md-button>
-
-    <br>
-    <br>
-    <br>
-    <p>{{adv.description}}</p>
-    <p>{{adv.exchange}}</p>
-    <p>{{adv.category}}</p>
-
-
 </div>
 </body>
