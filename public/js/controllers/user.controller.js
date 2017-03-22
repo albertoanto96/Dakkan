@@ -21,7 +21,7 @@
             }
             else{
                 userSRV.getProfile(data,function (profile) {
-                    $scope.profile=profile
+                    $scope.profile=profile;
                     $scope.image = "../img/profiles/" + profile.name + ".png";
                 });
             }

@@ -11,7 +11,6 @@
         angular.element(document).ready(function () {
             if($rootScope.advs==null) {
                 advSRV.getAdvs(function (listadv) {
-
                     $scope.totaladv=listadv;
                     $scope.advs = listadv;
                     $rootScope.adv = localStorageService.get('adv');
@@ -35,6 +34,8 @@
 
         }
 
+
+
         $scope.categoryAdv=function () {
 
             $scope.advs=$scope.totaladv;
@@ -57,11 +58,10 @@
         };
 
         $scope.getAdv=function(adv){
-            $location.path("/Adv");
-                localStorageService.add('adv', adv);
-
+            localStorageService.add('adv', adv);
             $rootScope.adv=localStorageService.get('adv');
 
+            $location.path("/Adv");
 
         };
         $scope.profile=function(){
