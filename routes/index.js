@@ -30,6 +30,7 @@ var users = mongoose.Schema({
     name: String,
     password: String,
     advs: [{type: Schema.ObjectId ,ref:'advs'}],
+    favorites: [{type: Schema.ObjectId ,ref:'advs'}],
     image: Boolean,
     active: Boolean
 });
@@ -173,6 +174,17 @@ app.get('/all', function (req,res) {
         res.send(users);
     });
 });
+
+app.post('/addfavorite',function (req,res) {
+
+
+        User.update({name: req.body.name}, {$push: {favorites: req.body.advid}}, function (err, upd){
+
+        res.send("Added to favorites");
+
+    })
+
+})
 
 app.get('/allAdvs', function (req,res) { //todos los anuncios
     var advs = [];

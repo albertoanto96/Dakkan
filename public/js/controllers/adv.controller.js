@@ -23,6 +23,18 @@
                 console.log($scope.advs)
             }
         });
+        $scope.favorite=function () {
+
+            var data={
+                name: localStorageService.get('userName'),
+                advid:$rootScope.adv.id
+            }
+            advSRV.addfavorite(data,function (response) {
+
+            })
+
+        }
+
         $scope.categoryAdv=function () {
 
             $scope.advs=$scope.totaladv;

@@ -10,6 +10,20 @@
             });
 
         };
+        this.addfavorite=function (data,callback) {
+
+            var req = {
+                method: 'POST',
+                url: '/addfavorite',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+
+        }
 
     }]);
 })();
