@@ -1,9 +1,10 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','localStorageService','$timeout',
-        function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,localStorageService,$timeout) {
+    app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','localStorageService','$window',
+        function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,localStorageService,$window) {
 
+        $scope.profile="";
         $scope.users = [];
         $scope.subjects=[];
         $scope.subjectsdb = [];
@@ -20,7 +21,8 @@
             }
             else{
                 userSRV.getProfile(data,function (profile) {
-                    $scope.image = "../img/profiles/" + profile + ".png";
+                    $scope.profile=profile
+                    $scope.image = "../img/profiles/" + profile.name + ".png";
                 });
             }
 
@@ -51,8 +53,10 @@
                     name:localStorageService.get('userName'),
                     file : file
                 };
-                userSRV.upload(data);
-            };
+                userSRV.upload(data,function () {
+                    $window.location.reload();
+                });
+                            };
         $scope.showAdvanced = function(ev) {
             $mdDialog.show({
                 templateUrl: 'tpls/dialog.html',

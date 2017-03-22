@@ -1,13 +1,17 @@
 <!doctype HTML>
 <div ng-controller="advCtrl">
     <div layout="row">
+        <md-optgroup>
         <md-input-container>
+
             <md-select ng-model="category" placeholder="Elige la categoria" md-selected-text="categoryAdv()"  >
                 <md-optgroup label="items">
                     <md-option ng-value="t.title" ng-repeat="t in classes">{{t.title}}</md-option>
                 </md-optgroup>
             </md-select>
+
         </md-input-container>
+        </md-optgroup>
     </div>
     <div class="grid"  style="background-color: transparent">
         <div class="row">

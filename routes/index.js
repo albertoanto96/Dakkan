@@ -199,7 +199,7 @@ app.post('/profile', function (req,res) {
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (response) {
             if (response[0].image != false) {
-                res.send(response[0].name)
+                res.send(response[0])
 
             }
             else {
