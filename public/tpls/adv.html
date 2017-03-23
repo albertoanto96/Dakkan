@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <title>Anuncios</title>
-
+    <title>{{adv.title}}</title>
 </head>
 <body>
 <div ng-controller="advCtrl" ng-cloak>
     <div layout="row" layout-sm="column">
         <div flex="58" >
-            <img src="../img/anun1.jpg" alt="pierna" style="width:650px; height:570px; padding-left: 50px; padding-top: 10px;">
+            <img src="../img/anun1.jpg" alt="pierna" style="width:650px; height:570px; padding-left: 50px; padding-top: 9px;">
         </div>
-        <div flex-xs flex-gt-xs="40" layout="column">
-            <div flex-xs flex-gt-xs="40" layout="column">
-                <md-card>
-                    <md-card-header>
-                        <md-card-avatar>
-                            <img ng-src="../img/profiles/{{adv.owner}}.png" class="rounded-circle" ng-click="profile()">
-                        </md-card-avatar>
-                        <md-card-header-text>
-                            <span class="md-title">{{adv.owner}}</span>
-                            <span class="md-subhead">Usuario desde ...</span>
-                        </md-card-header-text>
-                    </md-card-header>
-                    <md-card-title>
-                        <md-card-title-text>
-                            <span class="md-headline">{{adv.title}}</span>
+        <md-content style="background: transparent">
+            <div flex="70" layout="column">
+                <div flex="70" layout="column">
+                    <md-card >
+                        <md-card-header>
+                            <md-card-avatar>
+                                <img ng-src="../img/profiles/{{adv.owner}}.png" class="rounded-circle" ng-click="profile()">
+                            </md-card-avatar>
+                            <md-card-header-text>
+                                <span class="md-title">{{adv.owner}}</span>
+                                <span class="md-subhead">Usuario desde ...</span>
+                            </md-card-header-text>
+                        </md-card-header>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">{{adv.title}}</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                        <md-card-content>
                             <span class="md-subhead">{{adv.description}}</span>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <md-card-actions layout="row" layout-align="start center">
-                        <md-button class="md-icon-button md-primary" aria-label="Like" ng-click="favorite()">
-                            <md-icon md-svg-src="../img/like.svg"></md-icon>
-                        </md-button>
+                        </md-card-content>
+                        <md-card-actions layout="row" layout-align="start center">
+                            <md-button class="md-icon-button md-primary" aria-label="Like" ng-click="favorite()">
+                                <md-icon md-svg-src="../img/like.svg"></md-icon>
+                            </md-button>
 
-                        <md-button class="md-icon-button md-primary" aria-label="Like">
-                            <md-icon md-svg-src="../img/email.svg"></md-icon>
-                        </md-button>
-                    </md-card-actions>
-                    <md-card-content>
-
-                    </md-card-content>
-                </md-card>
+                            <md-button class="md-icon-button md-primary" aria-label="Like">
+                                <md-icon md-svg-src="../img/email.svg"></md-icon>
+                            </md-button>
+                        </md-card-actions>
+                    </md-card>
+                </div>
             </div>
-        </div>
+        </md-content>
     </div>
 </div>
 </body>

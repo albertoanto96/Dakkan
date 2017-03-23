@@ -7,17 +7,15 @@
     <div layout="row">
         <md-optgroup>
         <md-input-container>
-
             <md-select ng-model="category" placeholder="Elige la categoria" md-selected-text="categoryAdv()"  >
                 <md-optgroup label="Categorias">
                     <md-option ng-value="t.title" ng-repeat="t in classes">{{t.title}}</md-option>
                 </md-optgroup>
             </md-select>
-
         </md-input-container>
         </md-optgroup>
     </div>
-    <div class="grid"  style="background-color: transparent">
+    <div class="grid" >
         <div class="row">
             <div ng-repeat="adv in advs" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="txthover">
