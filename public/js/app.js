@@ -2,20 +2,16 @@ var app = angular.module('mainApp',['ngRoute','ngMaterial','ngFileUpload','Local
 app.config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider.when('/',{
-        templateUrl:'tpls/main.html',
-        controller:'userCtrl'
+        templateUrl:'tpls/advs.html',
+        controller:'advCtrl'
     });
     $routeProvider.when('/Anuncios',{
-        templateUrl:'tpls/main.html',
-        controller:'userCtrl'
+        templateUrl:'tpls/advs.html',
+        controller:'advCtrl'
     });
     $routeProvider.when('/Perfil',{
         templateUrl:'tpls/profile.html',
         controller:'userCtrl'
-    });
-    $routeProvider.when('/Advs',{
-        templateUrl:'tpls/advs.html',
-        controller:'advCtrl'
     });
     $routeProvider.when('/Adv',{
         templateUrl:'tpls/adv.html',

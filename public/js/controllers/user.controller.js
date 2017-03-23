@@ -8,7 +8,7 @@
         $scope.users = [];
         $scope.subjects=[];
         $scope.subjectsdb = [];
-        $scope.currentNavItem = 'Anuncios';
+        $scope.currentNavItem = 'Perfil';
 
         angular.element(document).ready(function () {
             var data = {
@@ -32,7 +32,7 @@
             userSRV.search($scope.search.word,function (response) {
 
                 $rootScope.advs=response;
-                $location.path("/Advs");
+                $location.path("/Anuncios");
 
            })
         }

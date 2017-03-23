@@ -4,9 +4,11 @@
     app.controller('advCtrl', ['advSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','Upload','localStorageService',
         function (advSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,Upload,localStorageService) {
 
+        $scope.category="Todo";
         $scope.totaladv=[];
         $scope.advs=[];
-        $scope.classes = [{"title":"Deportes"}, {"title":"Hogar"}, {"title":"Ocio"},{"title":"Salud"}];
+        $scope.currentNavItem = 'Anuncios';
+        $scope.classes = [{"title":"Todo"},{"title":"Deportes"}, {"title":"Hogar"}, {"title":"Ocio"},{"title":"Salud"}];
 
         angular.element(document).ready(function () {
             if($rootScope.advs==null) {
@@ -38,22 +40,22 @@
 
         $scope.categoryAdv=function () {
 
-            $scope.advs=$scope.totaladv;
-            var catadv=[];
-            var i=0;
-            for(i;i<$scope.advs.length;i++){
-            if($scope.advs[i].category==$scope.category){
 
-                catadv.push($scope.advs[i])
+            $scope.advs=$scope.totaladv;
+            if($scope.category!="Todo") {
+                var catadv = [];
+                var i = 0;
+                for (i; i < $scope.advs.length; i++) {
+                    if ($scope.advs[i].category == $scope.category) {
+
+                        catadv.push($scope.advs[i])
+                    }
+                }
+                $scope.advs = catadv;
+
             }
-            }
-            $scope.advs=catadv;
-            if($scope.category == undefined){
-                return "Elige una categoria";
-            }
-            else{
-                return $scope.category;
-            }
+
+            return $scope.category
 
         };
 
