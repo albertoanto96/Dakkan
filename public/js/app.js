@@ -1,10 +1,6 @@
 var app = angular.module('mainApp',['ngRoute','ngMaterial','ngFileUpload','LocalStorageModule']);
 app.config(['$routeProvider', function ($routeProvider) {
 
-    $routeProvider.when('/',{
-        templateUrl:'tpls/advs.html',
-        controller:'advCtrl'
-    });
     $routeProvider.when('/Anuncios',{
         templateUrl:'tpls/advs.html',
         controller:'advCtrl'
@@ -21,6 +17,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         templateUrl:'tpls/oProfile.html',
         controller:'sellerCtrl'
     });
+    $routeProvider.otherwise({redirectTo:'/Anuncios'})
 
 
 
