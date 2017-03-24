@@ -1168,9 +1168,9 @@ padding-left: 0px;
 .txtcontent{
 	position: absolute;
 	top:0px;
-	left:0px;
+	left:15px;
 	background: rgba(12,12,12,.7);
-	width: 96%;
+	width: 91%;
 	height: 89%;
 	opacity: 0;
 	-webkit-transition: opacity 500ms;

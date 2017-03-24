@@ -3,11 +3,12 @@
     <meta charset="UTF-8">
     <title>Anuncios</title>
 </head>
-<div ng-controller="advCtrl">
+<body>
+<div ng-controller="advCtrl" ng-cloak>
     <div layout="row">
         <md-optgroup>
         <md-input-container>
-            <md-select ng-model="category" placeholder="Elige la categoria" md-selected-text="categoryAdv()"  >
+            <md-select ng-model="category" placeholder="Elige la categoria" md-selected-text="categoryAdv()" >
                 <md-optgroup label="Categorias">
                     <md-option ng-value="t.title" ng-repeat="t in classes">{{t.title}}</md-option>
                 </md-optgroup>
@@ -19,8 +20,8 @@
         <div class="row">
             <div ng-repeat="adv in advs" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="txthover">
-                    <img src="../img/anun1.jpg" height="389" width="338">
-                    <div class="txtcontent">
+                    <img src="../img/anun1.jpg" height="389" width="400">
+                    <div class="txtcontent" >
                         <div class="simpletxt">
                             <h3 class="name">{{adv.title}}</h3>
                             <p>{{adv.description}} </p>
@@ -36,3 +37,4 @@
         </div>
     </div>
 </div>
+</body>
