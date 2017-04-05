@@ -1,33 +1,36 @@
 <div ng-controller="userCtrl">
-<md-nav-bar
-        md-selected-nav-item="currentNavItem"
-        nav-bar-aria-label="navigation links">
-    <md-nav-item md-nav-href="/#!/Perfil" name="Profile">
-        Perfil
-    </md-nav-item>
-    <md-nav-item md-nav-href="/#!/Anuncios" name="Advs">
-        Anuncios
-    </md-nav-item>
+    <md-nav-bar
+            md-selected-nav-item="currentNavItem"
+            nav-bar-aria-label="navigation links">
+        <md-nav-item md-nav-href="/#!/Perfil" name="Profile">
+            Perfil
+        </md-nav-item>
+        <md-nav-item md-nav-href="/#!/Anuncios" name="Advs">
+            Anuncios
+        </md-nav-item>
+        <md-nav-item md-nav-href="/#!/NewAdv" name="NewAdv">
+            Nuevo anuncio
+        </md-nav-item>
 
-    <form class="navbar-form navbar-left" style="padding-top:5px " >
-        <div class="input-group">
-            <input ng-model="search.word" type="text" class="form-control" placeholder="Search">
-            <div class="input-group-btn">
-                <button class="btn btn-default" ng-click="search()" type="submbit">
-                    <i class="fa fa-search"></i>
-                </button>
+        <form class="navbar-form navbar-left" style="padding-top:5px ">
+            <div class="input-group">
+                <input ng-model="search.word" type="text" class="form-control" placeholder="Search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" ng-click="search()" type="submbit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
             </div>
-        </div>
-    </form>
-    <span flex> </span>
-    <md-button ng-click="showAdvanced($event)" class="md-fab md-primary" >
-        <md-icon md-svg-src="../img/login.svg" class="fa"></md-icon>
-    </md-button>
+        </form>
+        <span flex> </span>
+        <md-button ng-click="showAdvanced($event)" class="md-fab md-primary">
+            <md-icon md-svg-src="../img/login.svg" class="fa"></md-icon>
+        </md-button>
 
-    <md-button class="md-fab md-mini" ng-click="logout()">
-        <md-icon md-font-icon="fa fa-sign-out"></md-icon>
-    </md-button>
+        <md-button class="md-fab md-mini" ng-click="logout()">
+            <md-icon md-font-icon="fa fa-sign-out"></md-icon>
+        </md-button>
 
-</md-nav-bar>
+    </md-nav-bar>
 
 </div>

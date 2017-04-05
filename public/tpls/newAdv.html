@@ -5,6 +5,49 @@
     <title>Nuevo anuncio</title>
 </head>
 <body>
-<h1>descripcion</h1>
+<br>
+<div layout="row">
+    <div>
+        <img ng-src="{{image}}" alt="Imagen anuncio" width="300" height="200">
+        <br><br>
+        <div>
+            <button type="button" class="btn btn-outline-primary" ng-click="addNewAdv($event)">Publicar anuncio</button>
+            <button type="button" class="btn btn-outline-danger" ng-click="cancelAdv($event)">Cancelar</button>
+        </div>
+    </div>
+    &nbsp&nbsp&nbsp
+    <div flex ng-cloak class="md-block">
+        <div>
+            <br>
+            <md-input-container>
+                <label>Título</label>
+                <input ng-model="tittle">
+            </md-input-container>
+        </div>
+        <div>
+            <md-input-container class="md-block">
+                <label>Descripción del producto</label>
+                <input ng-model="productDesc">
+            </md-input-container>
+        </div>
+        <div>
+            <md-input-container class="md-block">
+                <label>Qué se busca a cambio</label>
+                <input ng-model="productInterest">
+            </md-input-container>
+        </div>
+        <div>
+            <md-input-container>
+                <label>Categoria</label>
+                <md-select ng-model="category" placeholder="Elige la categoria" md-selected-text="categoryAdv()">
+                    <md-optgroup label="Categoria">
+                        <md-option ng-value="t.title" ng-repeat="t in classes">{{t.title}}</md-option>
+                    </md-optgroup>
+                </md-select>
+            </md-input-container>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
