@@ -26,18 +26,14 @@
                 }
             });
             $scope.favorite = function () {
-
                 var data = {
                     name: localStorageService.get('userName'),
                     advid: $rootScope.adv.id
-                }
+                };
                 advSRV.addfavorite(data, function (response) {
 
                 })
-
-            }
-
-
+            };
             $scope.categoryAdv = function () {
 
                 $scope.advs = $scope.totaladv;
@@ -68,6 +64,15 @@
                 localStorageService.add('seller', $scope.adv.owner);
                 $location.path("/oProfile");
             };
+            $scope.upload = function (file) {
+                var data= {
+                    name:localStorageService.get('userName'),
+                    file : file
+                };
+                userSRV.upload(data,function () {
+                    $window.location.reload();
+                });
+            };
             $scope.addNewAdv = function (ev) {
                 var data = {
                     title: $scope.tittle,
@@ -76,39 +81,55 @@
                     category: $scope.category,
                     owner: localStorageService.get('userID')
                 };
-                if (data.title == null || data.description == null || data.exchange == null) {
+                if (data.owner == null) {
                     $mdDialog.show(
                         $mdDialog.alert()
                             .clickOutsideToClose(true)
-                            .title('Hay que rellenar todos los campos!')
+                            .title('Registrate primero para poder subir tu anuncio.')
                             .ok('Entendido!')
                     );
-                } else {
-                    var confirm = $mdDialog.confirm()
-                        .title('Estás seguro que quieres publicar este anuncio?')
-                        .targetEvent(ev)
-                        .ok('Estoy seguro!')
-                        .cancel('Mejor en otro momento');
-
-                    $mdDialog.show(confirm).then(function () {
-                        advSRV.addAdv(data, function (response) {
-                            if (response == "500") {
-                                $mdDialog.show(
-                                    $mdDialog.alert()
-                                        .clickOutsideToClose(true)
-                                        .title('Ya existe un anuncio con ese título')
-                                        .ok('Entendido!')
-                                );
-                            } else {
-                                $scope.status = 'Anuncio publicado.';
-                                console.log("status: " + $scope.status);
-                                $scope.currentNavItem = 'Anuncios';
-                                $location.path("/Anuncios");
-                            }
-                        })
-                    });
+                    $location.path("/Anuncios");
                 }
-            }
+                else{
+                    if (data.title == null || data.description == null || data.exchange == null) {
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title('Hay que rellenar todos los campos!')
+                                .ok('Entendido!')
+                        );
+                    } else {
+                        var confirm = $mdDialog.confirm()
+                            .title('Estás seguro que quieres publicar este anuncio?')
+                            .targetEvent(ev)
+                            .ok('Estoy seguro!')
+                            .cancel('Mejor en otro momento');
+
+                        $mdDialog.show(confirm).then(function () {
+                            advSRV.addAdv(data, function (response) {
+                                if (response == "500") {
+                                    $mdDialog.show(
+                                        $mdDialog.alert()
+                                            .clickOutsideToClose(true)
+                                            .title('Ya existe un anuncio con ese título')
+                                            .ok('Entendido!')
+                                    );
+                                } else {
+                                    $scope.status = 'Anuncio publicado.';
+                                    console.log("status: " + $scope.status);
+                                    $scope.currentNavItem = 'Anuncios';
+                                    advSRV.getAdvs(function (listadv) {
+                                        $scope.totaladv = listadv;
+                                        $scope.advs = listadv;
+                                        $rootScope.adv = localStorageService.get('adv');
+                                    });
+                                    $location.path("/Anuncios");
+                                }
+                            })
+                        });
+                    }
+                }
+            };
 
             $scope.cancelAdv = function (ev) {
                 var confirm = $mdDialog.confirm()

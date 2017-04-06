@@ -35,7 +35,7 @@
                 $location.path("/Anuncios");
 
            })
-        }
+        };
 
             $scope.filterdb=function(){
                 userSRV.filterdb($scope.filterDB,function (users) {
@@ -56,7 +56,7 @@
                 userSRV.upload(data,function () {
                     $window.location.reload();
                 });
-                            };
+            };
         $scope.showAdvanced = function(ev) {
             $mdDialog.show({
                 templateUrl: 'tpls/dialog.html',

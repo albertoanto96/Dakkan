@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Nuevo anuncio</title>
 </head>
-<body>
+<body ng-controller="advCtrl">
 <br>
 <div layout="row">
     <div>
-        <img ng-src="{{image}}" alt="Imagen anuncio" width="300" height="200">
+        <img ng-src="{{image}}" alt="Imagen anuncio" width="300" height="300">
+        <br><br>
+        <div class="btn btn-outline-primary" ngf-select="upload($file)">Upload on file select</div>
         <br><br>
         <div>
             <button type="button" class="btn btn-outline-primary" ng-click="addNewAdv($event)">Publicar anuncio</button>

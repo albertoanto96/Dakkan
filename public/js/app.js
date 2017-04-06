@@ -72,6 +72,7 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
         };
         $http(req).then(function (response) {
             if (response.statusCode = 200) {
+                localStorageService.add('userID', response.data._id);
                 localStorageService.add('userName', $scope.userName)
                 $scope.currentNavItem = 'Anuncios';
                 $mdDialog.hide();
