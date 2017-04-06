@@ -144,7 +144,7 @@
                 data: data
             };
             $http(req).then(function (response) {
-                var result = response.data
+                var result = response.data;
                 callback(result)
             });
         }
