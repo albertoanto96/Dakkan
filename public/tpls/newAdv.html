@@ -14,9 +14,10 @@
             {{file.name}}
             <div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
                  ngf-accept="'image/*'" ngf-max-size="20MB"
-                 ngf-resize="{width: 100, height: 100}">Select image</div>
+                 ngf-resize="{width: 389, height: 400}">Select image</div>
 
             <div>
+
                 <button type="button" class="btn btn-outline-primary" ng-click="addNewAdv($event)">Publicar anuncio</button>
                 <button type="button" class="btn btn-outline-danger" ng-click="cancelAdv($event)">Cancelar</button>
             </div>
