@@ -10,12 +10,18 @@
     <div>
         <img ng-src="{{image}}" alt="Imagen anuncio" width="300" height="300">
         <br><br>
-        <div class="btn btn-outline-primary" ngf-select="upload($file)">Upload on file select</div>
+        <form name="form">
+            {{file.name}}
+            <div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
+                 ngf-accept="'image/*'" ngf-max-size="20MB"
+                 ngf-resize="{width: 100, height: 100}">Select image</div>
+
+            <div>
+                <button type="button" class="btn btn-outline-primary" ng-click="addNewAdv($event)">Publicar anuncio</button>
+                <button type="button" class="btn btn-outline-danger" ng-click="cancelAdv($event)">Cancelar</button>
+            </div>
+        </form>
         <br><br>
-        <div>
-            <button type="button" class="btn btn-outline-primary" ng-click="addNewAdv($event)">Publicar anuncio</button>
-            <button type="button" class="btn btn-outline-danger" ng-click="cancelAdv($event)">Cancelar</button>
-        </div>
     </div>
     &nbsp&nbsp&nbsp
     <div flex ng-cloak class="md-block">
@@ -50,6 +56,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

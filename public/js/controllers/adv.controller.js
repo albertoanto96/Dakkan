@@ -25,6 +25,7 @@
                     console.log($scope.advs)
                 }
             });
+
             $scope.favorite = function () {
                 var data = {
                     name: localStorageService.get('userName'),
@@ -115,6 +116,14 @@
                                             .ok('Entendido!')
                                     );
                                 } else {
+                                    var data2= {
+                                        name:localStorageService.get('userName')+"-"+$scope.tittle,
+                                        file : $scope.file
+                                    };
+                                    $scope.tittle="";
+                                    if ($scope.form.file.$valid && $scope.file) {
+                                        advSRV.upload(data2);
+                                    }
                                     $scope.status = 'Anuncio publicado.';
                                     console.log("status: " + $scope.status);
                                     $scope.currentNavItem = 'Anuncios';

@@ -12,9 +12,18 @@ var storage = multer.diskStorage({
         callback(null, './public/img/profiles');
     },
     filename: function (req, file, callback) {
-        if (username != "") {
+        if (username !== "") {
             callback(null, username + ".png");
         }
+    }
+});
+var storageadv = multer.diskStorage({
+
+    destination: function (req, file, callback) {
+        callback(null, './public/img/advs');
+    },
+    filename: function (req, file, callback) {
+            callback(null, req.body.name + ".png");
     }
 });
 
@@ -45,12 +54,13 @@ var u;
 app.use(express.static('public'));
 app.use(bodyParser.json());
 var upload = multer({storage: storage}).single('file');
-
+var uploadadv = multer({storage: storageadv}).single('file');
 app.get('/', function (req, res) {
     res.sendFile(__dirname + "/adv.html");
 });
 
 app.post('/upload', function (req, res) {
+
     upload(req, res, function (err) {
         if (err) {
             return res.send("Error uploading file.");
@@ -61,6 +71,14 @@ app.post('/upload', function (req, res) {
     });
 });
 
+app.post('/uploadadv', function (req, res) {
+    uploadadv(req, res, function (err) {
+        if (err) {
+            return res.send("Error uploading file.");
+        }
+        res.send("File is uploaded");
+    });
+});
 /*app.put('/updsub', function (req, res) {
  User.find({name: req.body.name}, function (err, usuario) {
  u = usuario;
@@ -72,27 +90,26 @@ app.post('/upload', function (req, res) {
  });*/
 app.post('/push', function (req, res) {
     User.find({name: req.body.name}).then(function (response) {
-        if (response[0] != undefined) {
-            if (response[0].active != true) {
-                User.findOneAndUpdate({name: req.body.name}, {active: true}).then(function () {
-
-                    res.sendStatus(200);
-
+        if (response[0] !== undefined) {
+            if (response[0].active !== true) {
+                User.findOneAndUpdate({name: req.body.name}, {active: true}).then(function (response) {
+                    res.send(response);
                 });
             }
             else {
                 res.sendStatus(500);
             }
-
         }
         else {
             var pass = req.body.password;
             var passhash = new Hash.SHA256(pass).hex(pass);
             u = new User({name: req.body.name, password: passhash, image: false, active: true});
-            username = req.body.name;
             u.save().then(function () {
+                User.find({name: req.body.name}).then(function (response) {
+                    res.send(response);
+                });
             });
-            res.sendStatus(200);
+
         }
     });
 
@@ -186,7 +203,7 @@ app.post('/addfavorite', function (req, res) {
 
     })
 
-})
+});
 
 app.get('/allAdvs', function (req, res) { //todos los anuncios
     var advs = [];

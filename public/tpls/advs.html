@@ -24,7 +24,8 @@
                     <div class="txtcontent" >
                         <div class="simpletxt">
                             <h3 class="name">{{adv.title}}</h3>
-                            <p>{{adv.description}} </p>
+                            <p ng-if="adv.description.length<=360">{{adv.description}}</p>
+                            <p ng-if="adv.description.length > 360">{{adv.description|limitTo:365}}...</p>
                             <h4 class="price">{{adv.exchange}}</h4>
                             <p>{{adv.category}} </p>
                             <button ng-click="getAdv(adv)">READ MORE</button><br>
