@@ -26,16 +26,17 @@
 
                     $scope.profile=profile.userid;
                     $scope.image = "../img/profiles/" + profile.userid + ".png";
-
                     for(var i=0;i<profile.advs[0].length;i++){
                        advs.push({
                             id: profile.advs[0][i]._id,
                             title: profile.advs[0][i].title,
                             description: profile.advs[0][i].description,
                             exchange: profile.advs[0][i].exchange,
-                            owner:profile.advs[0][i].owner,
+                            owner:profile.advs[0][i].owner._id,
+                            ownername:profile.advs[0][i].owner.name,
                             category: profile.advs[0][i].category})
                     }
+
                     $scope.advs=advs
 
                 });
@@ -44,6 +45,7 @@
         });
 
             $scope.getAdv = function (adv) {
+
                 localStorageService.add('adv', adv);
                 $rootScope.adv = localStorageService.get('adv');
                 $location.path("/Adv");

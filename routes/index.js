@@ -248,8 +248,11 @@ app.post('/profile', function (req, res) {
                     for (; i < adv.length; i++) {
                         advs.push(adv[i].favorites)
                     }
-                    data={name:name,userid:usr,advs:advs}
-                    res.send(data);
+                    User.populate(advs, {path: "owner"},function (err,result) {
+                        data={name:name,userid:usr,advs:advs}
+                        res.send(data);
+                    })
+
                 });
         });
 
