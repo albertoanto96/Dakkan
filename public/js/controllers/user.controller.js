@@ -22,7 +22,7 @@
             else{
                 userSRV.getProfile(data,function (profile) {
                     $scope.profile=profile;
-                    $scope.image = "../img/profiles/" + profile.name + ".png";
+                    $scope.image = "../img/profiles/" + profile._id + ".png";
                 });
             }
 
@@ -100,7 +100,7 @@
         $scope.updatePass=function(){
              if($scope.newPass==$scope.newPass2) {
                  var data = {
-                     name: $rootScope.name,
+                     name: localStorageService.get('userName'),
                      password: $scope.userPass,
                      new: $scope.newPass
                  };
@@ -116,14 +116,14 @@
         };
         $scope.updateName=function(){
             var data = {
-                name: localStorageService.get("userName"),
+                name:localStorageService.get('userName'),
                 new:$scope.newName
             };
 
             userSRV.updateName(data,function (results) {
 
                 if(results!="500") {
-                    localStorageService.add("userName",$scope.newName);
+                    $rootScope.name = $scope.newName
                 }else{
                     $mdToast.show(
                         $mdToast.simple()

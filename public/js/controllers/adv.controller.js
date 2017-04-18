@@ -62,7 +62,7 @@
 
             };
             $scope.profile = function () {
-                localStorageService.add('seller', $scope.adv.owner);
+                localStorageService.add('seller', $scope.adv.ownername);
                 $location.path("/oProfile");
             };
             $scope.upload = function (file) {

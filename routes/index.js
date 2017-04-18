@@ -158,6 +158,7 @@ app.put('/updatePass', function (req, res) {
 app.put('/updateName', function (req, res) {
     User.find({name: req.body.new}).then(function (response) {
         if (response[0] == undefined) {
+            storage.
             User.findOneAndUpdate({name: req.body.name}, {name: req.body.new}).then(function (response) {
                 res.sendStatus(200);
             });
@@ -223,7 +224,8 @@ app.get('/allAdvs', function (req, res) { //todos los anuncios
                     description: description,
                     exchange: exchange,
                     category: category,
-                    owner: result[i].owner.name
+                    owner: result[i].owner._id,
+                    ownername:result[i].owner.name
                 });
             }
             res.send(advs);

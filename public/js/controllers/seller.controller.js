@@ -11,7 +11,7 @@
             };
             sellerSRV.getoProfile(data,function (profile) {
                 $scope.profile=profile
-                $scope.image = "../img/profiles/" + profile.name + ".png";
+                $scope.image = "../img/profiles/" + profile._id + ".png";
             });
         });
     }]);
