@@ -22,7 +22,7 @@
                 <div class="txthover">
                     <img src="../img/advs/{{adv.owner}}-{{adv.title}}.png" height="389" width="400">
                     <div class="txtcontent" >
-                        <div class="simpletxt">
+                            <div class="simpletxt">
                             <h3 class="name">{{adv.title}}</h3>
                             <p ng-if="adv.description.length<=360">{{adv.description}}</p>
                             <p ng-if="adv.description.length > 360">{{adv.description|limitTo:365}}...</p>

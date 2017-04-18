@@ -12,9 +12,9 @@ var storage = multer.diskStorage({
         callback(null, './public/img/profiles');
     },
     filename: function (req, file, callback) {
-        if (username !== "") {
-            callback(null, username + ".png");
-        }
+        console.log(req)
+            callback(null, req.body.id + ".png");
+
     }
 });
 var storageadv = multer.diskStorage({
@@ -279,7 +279,6 @@ app.get('/search/:word', function (req, res) {
 });
 
 app.post('/addAdv', function (req, res) {
-
 
     Adv.find({title: req.body.title, owner: req.body.owner}).then(function (response) {
         if (response[0] != undefined) {

@@ -50,7 +50,7 @@
 
             $scope.upload = function (file) {
                 var data= {
-                    name:localStorageService.get('userName'),
+                    id:localStorageService.get('userID'),
                     file : file
                 };
                 userSRV.upload(data,function () {
@@ -116,14 +116,14 @@
         };
         $scope.updateName=function(){
             var data = {
-                name: $rootScope.name,
+                name: localStorageService.get("userName"),
                 new:$scope.newName
             };
 
             userSRV.updateName(data,function (results) {
 
                 if(results!="500") {
-                    $rootScope.name = $scope.newName
+                    localStorageService.add("userName",$scope.newName);
                 }else{
                     $mdToast.show(
                         $mdToast.simple()
