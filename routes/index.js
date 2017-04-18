@@ -158,7 +158,6 @@ app.put('/updatePass', function (req, res) {
 app.put('/updateName', function (req, res) {
     User.find({name: req.body.new}).then(function (response) {
         if (response[0] == undefined) {
-            storage.
             User.findOneAndUpdate({name: req.body.name}, {name: req.body.new}).then(function (response) {
                 res.sendStatus(200);
             });
@@ -236,17 +235,24 @@ app.get('/allAdvs', function (req, res) { //todos los anuncios
 
 
 app.post('/profile', function (req, res) {
+    var advs = [];
+    var usr;
+    var name;
+    var i=0;
+    var data;
     if (req.body.name != null) {
-        User.find({name: req.body.name, active: true}).then(function (response) {
-            if (response[0].image != false) {
-                res.send(response[0])
-
-            }
-            else {
-                res.send("undefined");
-            }
-
+        User.find({name: req.body.name, active: true}).then(function (adv) {
+                Adv.populate(adv, {path: "favorites"}, function (err,result) {
+                    usr=adv[0]._id
+                    name=adv[0].name
+                    for (; i < adv.length; i++) {
+                        advs.push(adv[i].favorites)
+                    }
+                    data={name:name,userid:usr,advs:advs}
+                    res.send(data);
+                });
         });
+
     }
     else {
         res.send("undefined");

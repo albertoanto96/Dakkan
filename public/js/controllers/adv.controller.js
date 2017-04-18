@@ -22,7 +22,6 @@
                 else {
                     $scope.advs = $rootScope.advs;
                     $rootScope.adv = localStorageService.get('adv');
-                    console.log($scope.advs)
                 }
             });
 

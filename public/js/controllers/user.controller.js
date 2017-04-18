@@ -6,6 +6,7 @@
 
         $scope.profile="";
         $scope.users = [];
+        $scope.advs = [];
         $scope.subjects=[];
         $scope.subjectsdb = [];
         $scope.currentNavItem = 'Perfil';
@@ -20,13 +21,36 @@
 
             }
             else{
+                var advs=[];
                 userSRV.getProfile(data,function (profile) {
-                    $scope.profile=profile;
-                    $scope.image = "../img/profiles/" + profile._id + ".png";
+
+                    $scope.profile=profile.userid;
+                    $scope.image = "../img/profiles/" + profile.userid + ".png";
+
+                    for(var i=0;i<profile.advs[0].length;i++){
+                       advs.push({
+                            id: profile.advs[0][i]._id,
+                            title: profile.advs[0][i].title,
+                            description: profile.advs[0][i].description,
+                            exchange: profile.advs[0][i].exchange,
+                            owner:profile.advs[0][i].owner,
+                            category: profile.advs[0][i].category})
+                    }
+                    $scope.advs=advs
+
                 });
             }
 
         });
+
+            $scope.getAdv = function (adv) {
+                localStorageService.add('adv', adv);
+                $rootScope.adv = localStorageService.get('adv');
+                $location.path("/Adv");
+
+            };
+
+
         $scope.search=function () {
 
             userSRV.search($scope.search.word,function (response) {
@@ -123,7 +147,7 @@
             userSRV.updateName(data,function (results) {
 
                 if(results!="500") {
-                    $rootScope.name = $scope.newName
+                    localStorageService.add('userName',$scope.newName)
                 }else{
                     $mdToast.show(
                         $mdToast.simple()
