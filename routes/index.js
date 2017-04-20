@@ -5,6 +5,7 @@ var username = "";
 var mongoose = require('mongoose');
 var multer = require('multer');
 var Hash = require('jshashes');
+var cors = require('cors');
 
 var Schema = mongoose.Schema;
 var storage = multer.diskStorage({
@@ -12,7 +13,7 @@ var storage = multer.diskStorage({
         callback(null, './public/img/profiles');
     },
     filename: function (req, file, callback) {
-        console.log(req)
+        console.log(req);
             callback(null, req.body.id + ".png");
 
     }
@@ -33,7 +34,8 @@ var advs = mongoose.Schema({
     description: String,
     exchange: String,
     category: String,
-    owner: {type: Schema.ObjectId, ref: 'users'}
+    owner: {type: Schema.ObjectId, ref: 'users'},
+    imageurl: String
 });
 var users = mongoose.Schema({
     name: String,
@@ -53,8 +55,12 @@ var Adv = mongoose.model('advs', advs);
 var u;
 app.use(express.static('public'));
 app.use(bodyParser.json());
+app.use(cors());
 var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
+
+
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + "/adv.html");
 });
@@ -70,6 +76,7 @@ app.post('/upload', function (req, res) {
         res.send("File is uploaded");
     });
 });
+
 
 app.post('/uploadadv', function (req, res) {
     uploadadv(req, res, function (err) {
@@ -208,7 +215,7 @@ app.post('/addfavorite', function (req, res) {
 app.get('/allAdvs', function (req, res) { //todos los anuncios
     var advs = [];
 
-    var id, title, description, exchange, category;
+    var id, title, description, exchange, category, imageurl;
     Adv.find(function (err, adv) {
         User.populate(adv, {path: "owner"}, function (err, result) {
             for (var i = 0; i < adv.length; i++) {
@@ -217,6 +224,7 @@ app.get('/allAdvs', function (req, res) { //todos los anuncios
                 description = adv[i].description;
                 exchange = adv[i].exchange;
                 category = adv[i].category;
+                imageurl = adv[i].imageurl;
                 advs.push({
                     id: id,
                     title: title,
@@ -224,7 +232,8 @@ app.get('/allAdvs', function (req, res) { //todos los anuncios
                     exchange: exchange,
                     category: category,
                     owner: result[i].owner._id,
-                    ownername:result[i].owner.name
+                    ownername:result[i].owner.name,
+                    imageurl: imageurl
                 });
             }
             res.send(advs);
@@ -300,7 +309,8 @@ app.post('/addAdv', function (req, res) {
                 description: req.body.description,
                 exchange: req.body.exchange,
                 category: req.body.category,
-                owner: req.body.owner
+                owner: req.body.owner,
+                imageurl: req.body.owner+"-"+req.body.title
             });
             a.save().then(function () {
             });

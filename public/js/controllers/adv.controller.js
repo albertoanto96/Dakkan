@@ -116,7 +116,7 @@
                                     );
                                 } else {
                                     var data2= {
-                                        name:localStorageService.get('userName')+"-"+$scope.tittle,
+                                        name:localStorageService.get('userID')+"-"+$scope.tittle,
                                         file : $scope.file
                                     };
                                     $scope.tittle="";

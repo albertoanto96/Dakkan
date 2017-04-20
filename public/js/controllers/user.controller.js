@@ -6,7 +6,6 @@
 
         $scope.profile="";
         $scope.users = [];
-        $scope.advs = [];
         $scope.subjects=[];
         $scope.subjectsdb = [];
         $scope.currentNavItem = 'Perfil';
@@ -21,7 +20,6 @@
 
             }
             else{
-                var advs=[];
                 userSRV.getProfile(data,function (profile) {
 
                     $scope.profile=profile.userid;
@@ -43,16 +41,6 @@
             }
 
         });
-
-            $scope.getAdv = function (adv) {
-
-                localStorageService.add('adv', adv);
-                $rootScope.adv = localStorageService.get('adv');
-                $location.path("/Adv");
-
-            };
-
-
         $scope.search=function () {
 
             userSRV.search($scope.search.word,function (response) {
