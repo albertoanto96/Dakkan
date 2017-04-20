@@ -252,13 +252,11 @@ app.post('/profile', function (req, res) {
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (adv) {
                 Adv.populate(adv, {path: "favorites"}, function (err,result) {
-                    usr=adv[0]._id
-                    name=adv[0].name
-                    for (; i < adv.length; i++) {
-                        advs.push(adv[i].favorites)
-                    }
+                    usr=adv[0]._id;
+                    name=adv[0].name;
+                    advs.push(adv[0].favorites);
                     User.populate(advs, {path: "owner"},function (err,result) {
-                        data={name:name,userid:usr,advs:advs}
+                        data={name:name,userid:usr,advs:advs,image:adv[0].image};
                         res.send(data);
                     })
 
