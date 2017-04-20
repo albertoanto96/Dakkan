@@ -14,5 +14,18 @@
                 callback(response.data)
             });
         };
+
+        this.getoAdv=function(data,callback){ //cambiar
+            var req = {
+                method: 'POST',
+                url: '/userAdvs',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+        };
+
     }]);
 })();

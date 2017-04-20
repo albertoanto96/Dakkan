@@ -12,17 +12,28 @@
             $scope.classes = [{"title": "Todo"}, {"title": "Deportes"}, {"title": "Hogar"}, {"title": "Ocio"}, {"title": "Salud"}];
 
             angular.element(document).ready(function () {
+
+                if(localStorageService.get('advs')!=null){
+                    $rootScope.advs =localStorageService.get('advs')
+                }
                 if ($rootScope.advs == null) {
                     advSRV.getAdvs(function (listadv) {
                         $scope.totaladv = listadv;
                         $scope.advs = listadv;
                         $rootScope.adv = localStorageService.get('adv');
+                        localStorageService.add('advs', null)
                     });
+
                 }
                 else {
+
                     $scope.advs = $rootScope.advs;
-                    $rootScope.adv = localStorageService.get('adv');
+                    $scope.totaladv = $scope.advs
+
+
                 }
+
+
             });
 
             $scope.favorite = function () {
@@ -115,6 +126,7 @@
                                             .ok('Entendido!')
                                     );
                                 } else {
+
                                     var data2= {
                                         name:localStorageService.get('userID')+"-"+$scope.tittle,
                                         file : $scope.file

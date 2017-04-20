@@ -40,7 +40,6 @@ var advs = mongoose.Schema({
 var users = mongoose.Schema({
     name: String,
     password: String,
-    advs: [{type: Schema.ObjectId, ref: 'advs'}],
     favorites: [{type: Schema.ObjectId, ref: 'advs'}],
     image: Boolean,
     active: Boolean
@@ -212,6 +211,38 @@ app.post('/addfavorite', function (req, res) {
 
 });
 
+app.post('/userAdvs', function (req, res) { //todos los anuncios
+    var advs = [];
+    var sellerID=req.body.id
+    var id, title, description, exchange, category, imageurl;
+    Adv.find({owner:(sellerID)},function (err, adv) {
+            for (var i = 0; i < adv.length; i++) {
+                id = adv[i]._id;
+                title = adv[i].title;
+                description = adv[i].description;
+                exchange = adv[i].exchange;
+                category = adv[i].category;
+                imageurl = adv[i].imageurl;
+                advs.push({
+                    id: id,
+                    title: title,
+                    description: description,
+                    exchange: exchange,
+                    category: category,
+                    owner: sellerID,
+                    ownername:req.body.name,
+                    imageurl: imageurl
+                });
+            }
+            res.send(advs);
+
+
+    });
+});
+
+
+
+
 app.get('/allAdvs', function (req, res) { //todos los anuncios
     var advs = [];
 
@@ -252,11 +283,11 @@ app.post('/profile', function (req, res) {
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (adv) {
                 Adv.populate(adv, {path: "favorites"}, function (err,result) {
-                    usr=adv[0]._id;
-                    name=adv[0].name;
-                    advs.push(adv[0].favorites);
+                    usr=adv[0]._
+                    name=adv[0].name
+                    advs.push(adv[0].favorites)
                     User.populate(advs, {path: "owner"},function (err,result) {
-                        data={name:name,userid:usr,advs:advs,image:adv[0].image};
+                        data={name:name,userid:usr,advs:advs,image:adv[0].image}
                         res.send(data);
                     })
 
@@ -282,17 +313,22 @@ app.get('/filterdb/:letter', function (req, res) {
 app.get('/search/:word', function (req, res) {
     var advList = [];
     var word = req.params.word;
-    Adv.find({"title": {"$regex": word}}, function (err, adv) {
-        for (var i = 0; i < adv.length; i++) {
-            advList.push({
-                id: adv[i]._id,
-                title: adv[i].title,
-                description: adv[i].description,
-                exchange: adv[i].exchange,
-                category: adv[i].category
-            });
-        }
-        res.send(advList);
+    Adv.find({$text: {$search: word}}, function (err, adv) {
+        User.populate(adv, {path: "owner"}, function (err, result) {
+            for (var i = 0; i < adv.length; i++) {
+                advList.push({
+                    id: adv[i]._id,
+                    title: adv[i].title,
+                    description: adv[i].description,
+                    exchange: adv[i].exchange,
+                    category: adv[i].category,
+                    owner: result[i].owner._id,
+                    ownername:result[i].owner.name
+                });
+            }
+            res.send(advList);
+        })
+
     });
 });
 

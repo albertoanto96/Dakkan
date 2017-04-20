@@ -24,6 +24,7 @@
                     var advs=[];
                     userSRV.getProfile(data,function (profile) {
 
+
                         $scope.profile=profile.userid;
                         if(profile.image!=false){
                         $scope.image = "../img/profiles/" + profile.userid + ".png";
