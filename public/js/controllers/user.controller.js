@@ -28,6 +28,7 @@
                         $scope.profile=profile.userid;
                         if(profile.image!=false){
                         $scope.image = "../img/profiles/" + profile.userid + ".png";
+
                         }
                         else{
                            $scope.image = "../img/profiles/undefined.png";

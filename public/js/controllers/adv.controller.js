@@ -7,33 +7,34 @@
             $scope.category = "Todo";
             $scope.totaladv = [];
             $scope.advs = [];
-            $scope.image = "../img/anun1.jpg";
+
             $scope.currentNavItem = 'Anuncios';
             $scope.classes = [{"title": "Todo"}, {"title": "Deportes"}, {"title": "Hogar"}, {"title": "Ocio"}, {"title": "Salud"}];
 
             angular.element(document).ready(function () {
-
-                if(localStorageService.get('advs')!=null){
-                    $rootScope.advs =localStorageService.get('advs')
-                }
                 if ($rootScope.advs == null) {
                     advSRV.getAdvs(function (listadv) {
                         $scope.totaladv = listadv;
                         $scope.advs = listadv;
                         $rootScope.adv = localStorageService.get('adv');
-                        localStorageService.add('advs', null)
                     });
-
                 }
                 else {
-
                     $scope.advs = $rootScope.advs;
-                    $scope.totaladv = $scope.advs
-
-
+                    $rootScope.adv = localStorageService.get('adv');
                 }
-
-
+                var data = {
+                    name: localStorageService.get('adv').ownername
+                };
+                advSRV.getownerimage(data,function (ownerimage) {
+                    console.log(ownerimage)
+                    if(ownerimage==false){
+                        $scope.image = "../img/profiles/undefined.png";
+                    }
+                    else{
+                        $scope.image = "../img/profiles/"+localStorageService.get('adv').owner+".png";
+                    }
+                });
             });
 
             $scope.favorite = function () {
@@ -126,7 +127,6 @@
                                             .ok('Entendido!')
                                     );
                                 } else {
-
                                     var data2= {
                                         name:localStorageService.get('userID')+"-"+$scope.tittle,
                                         file : $scope.file

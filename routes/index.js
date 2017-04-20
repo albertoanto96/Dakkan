@@ -188,15 +188,12 @@ app.delete('/delete', function (req, res) {
         }
     });
 });
-app.get('/all', function (req, res) {
+app.post('/getOwnerImage', function (req,res) {
+
     var users = [];
-    User.find(function (err, usuarios) {
-        for (var i = 0; i < usuarios.length; i++) {
-            if (usuarios[i].active == true) {
-                users.push({name: usuarios[i].name, password: usuarios[i].password, done: false});
-            }
-        }
-        res.send(users);
+    User.find({name:req.body.name},function (err, usuarios) {
+     res.send(usuarios[0].image);
+
     });
 });
 
@@ -250,22 +247,26 @@ app.get('/allAdvs', function (req, res) { //todos los anuncios
     Adv.find(function (err, adv) {
         User.populate(adv, {path: "owner"}, function (err, result) {
             for (var i = 0; i < adv.length; i++) {
-                id = adv[i]._id;
-                title = adv[i].title;
-                description = adv[i].description;
-                exchange = adv[i].exchange;
-                category = adv[i].category;
-                imageurl = adv[i].imageurl;
-                advs.push({
-                    id: id,
-                    title: title,
-                    description: description,
-                    exchange: exchange,
-                    category: category,
-                    owner: result[i].owner._id,
-                    ownername:result[i].owner.name,
-                    imageurl: imageurl
-                });
+                if (!result[i].owner.active){
+                }
+                else{
+                    id = adv[i]._id;
+                    title = adv[i].title;
+                    description = adv[i].description;
+                    exchange = adv[i].exchange;
+                    category = adv[i].category;
+                    imageurl = adv[i].imageurl;
+                    advs.push({
+                        id: id,
+                        title: title,
+                        description: description,
+                        exchange: exchange,
+                        category: category,
+                        owner: result[i].owner._id,
+                        ownername:result[i].owner.name,
+                        imageurl: imageurl
+                    });
+                }
             }
             res.send(advs);
         });
