@@ -19,8 +19,10 @@
                             </md-card-avatar>
                             <md-card-header-text>
                                 <span class="md-title">{{adv.ownername}}</span>
-                                <span class="md-subhead">Usuario desde ...</span>
+                                <span class="md-subhead">Usuario desde {{dateuser}}</span>
+                                <span class="md-subhead">Anuncio creado desde {{dateadv}}</span>
                             </md-card-header-text>
+                            <br><br>  <br><br>
                         </md-card-header>
                         <md-card-title>
                             <md-card-title-text>
@@ -35,7 +37,7 @@
                                 <md-icon md-svg-src="../img/like.svg"></md-icon>
                             </md-button>
 
-                            <md-button class="md-icon-button md-primary" aria-label="Like">
+                            <md-button class="md-icon-button md-primary" aria-label="Like" ng-click="emailuser($event)" >
                                 <md-icon md-svg-src="../img/email.svg"></md-icon>
                             </md-button>
                         </md-card-actions>

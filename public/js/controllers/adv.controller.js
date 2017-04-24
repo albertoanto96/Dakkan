@@ -7,9 +7,15 @@
             $scope.category = "Todo";
             $scope.totaladv = [];
             $scope.advs = [];
-
             $scope.currentNavItem = 'Anuncios';
             $scope.classes = [{"title": "Todo"}, {"title": "Deportes"}, {"title": "Hogar"}, {"title": "Ocio"}, {"title": "Salud"}];
+
+
+            var dateFromObjectId = function (objectId) {
+                return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+            };
+            $scope.dateuser=dateFromObjectId(localStorageService.get('adv').owner)
+            $scope.dateadv=dateFromObjectId(localStorageService.get('adv').id)
 
             angular.element(document).ready(function () {
                 if ($rootScope.advs == null) {
@@ -26,8 +32,9 @@
                 var data = {
                     name: localStorageService.get('adv').ownername
                 };
+
+
                 advSRV.getownerimage(data,function (ownerimage) {
-                    console.log(ownerimage)
                     if(ownerimage==false){
                         $scope.image = "../img/profiles/undefined.png";
                     }
@@ -46,6 +53,28 @@
 
                 })
             };
+
+            $scope.emailuser = function (ev) {
+
+                $mdDialog.show({
+                    templateUrl: 'tpls/emailuser.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose:true
+                })
+            };
+            $scope.doOffer=function () {
+
+                var data={
+                    username: localStorageService.get('userName'),
+                    userid:localStorageService.get('userID'),
+                    sellername:localStorageService.get('adv').ownername,
+                    sellerid:localStorageService.get('adv').owner,
+                    offer:$scope.offer
+                }
+
+            }
+
             $scope.categoryAdv = function () {
 
                 $scope.advs = $scope.totaladv;

@@ -9,19 +9,30 @@
             $scope.advs=[]
 
             angular.element(document).ready(function () {
+                $scope.name=localStorageService.get('seller')
                 var data={
                     name:localStorageService.get('seller'),
                     id:localStorageService.get("adv").owner
                 };
                 sellerSRV.getoProfile(data,function (profile) {
-                    $scope.profile=profile
-                    $scope.image = "../img/profiles/" + localStorageService.get("adv").owner + ".png";
-                    $scope.name=profile.name
-                });
+                    $scope.profile = profile
+
+                    if (profile.image == false) {
+                        $scope.image = "../img/profiles/undefined.png";
+                    }
+                    else {
+
+                        $scope.image = "../img/profiles/"+localStorageService.get('adv').owner+".png";
+
+                    }
+                    ;
+                })
+                var advs=[]
                 sellerSRV.getoAdv(data,function (profile) {
+
                     $scope.profile=profile
                     for(var i=0;i<profile.length;i++){
-                        $scope.advs.push({
+                        advs.push({
                             id: profile[i].id,
                             title: profile[i].title,
                             description: profile[i].description,
@@ -30,6 +41,7 @@
                             ownername:profile[i].ownername,
                             category: profile[i].category})
                     }
+                    $scope.advs=advs
                 });
 
 

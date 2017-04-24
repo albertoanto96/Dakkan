@@ -43,7 +43,6 @@
                                 ownername:profile.advs[0][i].owner.name,
                                 category: profile.advs[0][i].category})
                         }
-
                         $scope.advs=advs
 
                     });
