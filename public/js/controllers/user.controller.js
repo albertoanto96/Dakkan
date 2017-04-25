@@ -33,15 +33,18 @@
                         else{
                            $scope.image = "../img/profiles/undefined.png";
                         }
-                        for(var i=0;i<profile.advs[0].length;i++){
-                            advs.push({
-                                id: profile.advs[0][i]._id,
-                                title: profile.advs[0][i].title,
-                                description: profile.advs[0][i].description,
-                                exchange: profile.advs[0][i].exchange,
-                                owner:profile.advs[0][i].owner._id,
-                                ownername:profile.advs[0][i].owner.name,
-                                category: profile.advs[0][i].category})
+                        if(profile.advs[0]!=null) {
+                            for (var i = 0; i < profile.advs[0].length; i++) {
+                                advs.push({
+                                    id: profile.advs[0][i]._id,
+                                    title: profile.advs[0][i].title,
+                                    description: profile.advs[0][i].description,
+                                    exchange: profile.advs[0][i].exchange,
+                                    owner: profile.advs[0][i].owner._id,
+                                    ownername: profile.advs[0][i].owner.name,
+                                    category: profile.advs[0][i].category
+                                })
+                            }
                         }
                         $scope.advs=advs
 

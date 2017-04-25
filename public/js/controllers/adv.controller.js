@@ -14,8 +14,10 @@
             var dateFromObjectId = function (objectId) {
                 return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
             };
-            $scope.dateuser=dateFromObjectId(localStorageService.get('adv').owner)
-            $scope.dateadv=dateFromObjectId(localStorageService.get('adv').id)
+            if(localStorageService.get('adv')!=null) {
+                $scope.dateuser = dateFromObjectId(localStorageService.get('adv').owner)
+                $scope.dateadv = dateFromObjectId(localStorageService.get('adv').id)
+            }
 
             angular.element(document).ready(function () {
                 if ($rootScope.advs == null) {
