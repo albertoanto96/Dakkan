@@ -3,6 +3,7 @@ var express = require('express'),
 var app = express();
 var username = "";
 var mongoose = require('mongoose');
+var fs = require('fs');
 var multer = require('multer');
 var Hash = require('jshashes');
 var cors = require('cors');
@@ -13,7 +14,6 @@ var storage = multer.diskStorage({
         callback(null, './public/img/profiles');
     },
     filename: function (req, file, callback) {
-        console.log(req);
             callback(null, req.body.id + ".png");
 
     }
@@ -65,16 +65,31 @@ app.get('/', function (req, res) {
 });
 
 app.post('/upload', function (req, res) {
-
     upload(req, res, function (err) {
         if (err) {
             return res.send("Error uploading file.");
         }
-        User.findOneAndUpdate({name: username}, {image: true}).then(function () {
-        });
-        res.send("File is uploaded");
+        else{
+            if(req.body.file != undefined){
+                var base64Data = req.body.file;
+                console.log('writing file...', base64Data);
+                fs.writeFile("./public/img/profiles/"+req.body.id+".png", base64Data, 'base64', function(err) {
+                    if (err) console.log(err);
+                    fs.readFile("./public/img/profiles/"+req.body.id+".png", function(err, data) {
+                        if (err) throw err;
+                        console.log('reading file...', data.toString('base64'));
+                    });
+                });
+            }
+            User.findOneAndUpdate({name: username}, {image: true}).then(function () {
+            });
+            res.send("File is uploaded");
+        }
+
     });
 });
+
+
 
 
 app.post('/uploadadv', function (req, res) {
@@ -284,11 +299,11 @@ app.post('/profile', function (req, res) {
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (adv) {
                 Adv.populate(adv, {path: "favorites"}, function (err,result) {
-                    usr=adv[0]._
-                    name=adv[0].name
-                    advs.push(adv[0].favorites)
+                    usr=adv[0]._id;
+                    name=adv[0].name;
+                    advs.push(adv[0].favorites);
                     User.populate(advs, {path: "owner"},function (err,result) {
-                        data={name:name,userid:usr,advs:advs,image:adv[0].image}
+                        data={name:name,userid:usr,advs:advs,image:adv[0].image};
                         res.send(data);
                     })
 
