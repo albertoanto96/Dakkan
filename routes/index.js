@@ -1,5 +1,7 @@
 var express = require('express'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    IMGR = require('imgr').IMGR;
+
 var app = express();
 var username = "";
 var mongoose = require('mongoose');
@@ -7,6 +9,7 @@ var fs = require('fs');
 var multer = require('multer');
 var Hash = require('jshashes');
 var cors = require('cors');
+var path = require('path');
 
 var Schema = mongoose.Schema;
 var storage = multer.diskStorage({
@@ -27,6 +30,8 @@ var storageadv = multer.diskStorage({
             callback(null, req.body.name + ".png");
     }
 });
+
+
 
 var advs = mongoose.Schema({
     id: Schema.ObjectId,
@@ -71,6 +76,14 @@ app.use(bodyParser.json());
 app.use(cors());
 var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
+
+var imgr = new IMGR({debug:true});
+
+imgr.serve(path.resolve(__dirname,'../public/img/advs'))
+    .namespace('/images')
+    .urlRewrite('/:path/:size/:file.:ext')
+    .whitelist([ '200x300', '100x100','150x'])
+    .using(app);
 
 
 
@@ -186,7 +199,13 @@ app.put('/updatePass', function (req, res) {
         name: req.body.name,
         password: passhashold
     }, {password: passhashnew}).then(function (response) {
-        res.sendStatus(200);
+        console.log(response);
+        if(response != null) {
+            res.send("200");
+        }
+        else{
+            res.send("500");
+        }
     });
 });
 
@@ -194,10 +213,11 @@ app.put('/updateName', function (req, res) {
     User.find({name: req.body.new}).then(function (response) {
         if (response[0] == undefined) {
             User.findOneAndUpdate({name: req.body.name}, {name: req.body.new}).then(function (response) {
-                res.sendStatus(200);
+                res.send("200");
             });
         }
         else {
+            console.log("esto es lo que pasa cuando repites nombre");
             res.send("500");
         }
     })
