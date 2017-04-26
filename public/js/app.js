@@ -31,7 +31,7 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
 
 
     $scope.doLogin = function () {
-
+        location.reload();
         localStorageService.add('userName', $scope.userName)
         var newUser = {
             name: $scope.userName,
@@ -59,6 +59,7 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
 
     };
     $scope.doRegister = function () {
+        location.reload();
         var newUser = {
             name: $scope.userName,
             password: $scope.userPass
