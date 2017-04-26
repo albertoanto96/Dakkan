@@ -65,6 +65,20 @@
 
         };
 
+        this.sendOffer = function (data, callback) {
+
+            var req = {
+                method: 'POST',
+                url: '/sendOffer',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+        };
+
     }]);
 })();
 

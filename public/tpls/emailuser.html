@@ -4,12 +4,11 @@
         <div layout="row" layout-align="center center">
             <md-input-container id="offer">
                 <label style="color: #000000;">Oferta</label>
-                <input ng-model="offer">
+                <textarea ng-model="offer"> </textarea>
             </md-input-container>
         </div>
-        <br>
         <div layout="row" layout-align="center center">
-            <b class="button" ng-click="doOffer()">Enviar oferta</b>
+            <b class="button" ng-click="doOffer($event)">Enviar oferta</b>
         </div>
     <br>
     </div>

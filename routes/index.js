@@ -42,8 +42,21 @@ var users = mongoose.Schema({
     password: String,
     favorites: [{type: Schema.ObjectId, ref: 'advs'}],
     image: Boolean,
-    active: Boolean
+    active: Boolean,
+    offers: [{type: Schema.ObjectId, ref: 'offers'}]
 });
+var offers = mongoose.Schema({
+    idAdv: {type: Schema.ObjectId, ref: 'advs'},
+    state: String,
+    idInterested: {type: Schema.ObjectId, ref: 'users'},
+    chat: [
+        {
+            owner: Boolean,
+            message: String
+        }
+    ]
+});
+
 mongoose.connect("mongodb://localhost:27017/dakkan", function (err) {
     if (!err) {
         console.log("We are connected")
@@ -51,6 +64,7 @@ mongoose.connect("mongodb://localhost:27017/dakkan", function (err) {
 });
 var User = mongoose.model('users', users);
 var Adv = mongoose.model('advs', advs);
+var Offer = mongoose.model('offers', offers);
 var u;
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -367,9 +381,31 @@ app.post('/addAdv', function (req, res) {
             res.sendStatus(200);
         }
     });
-
 });
 
+app.post('/sendOffer', function (req, res) {
+
+    Offer.find({idInterested: req.body.userid, idAdv: req.body.advid}).then(function (response) {
+        if (response[0] != undefined) {
+            res.send("500");
+        } else {
+            var a = new Offer({
+                idAdv: req.body.advid,
+                state: "Abierto",
+                idInterested: req.body.userid,
+                chat: [
+                    {
+                        owner: false,
+                        message: req.body.offer
+                    }
+                ]
+            });
+            a.save().then(function () {
+            });
+            res.sendStatus(200);
+        }
+    });
+});
 
 app.listen(3500, function () {
     console.log('App listening on port 3500!!')

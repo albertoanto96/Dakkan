@@ -14,9 +14,9 @@
             var dateFromObjectId = function (objectId) {
                 return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
             };
-            if(localStorageService.get('adv')!=null) {
-                $scope.dateuser = dateFromObjectId(localStorageService.get('adv').owner)
-                $scope.dateadv = dateFromObjectId(localStorageService.get('adv').id)
+            if(localStorageService.get('avd')!= null){
+            $scope.dateuser=dateFromObjectId(localStorageService.get('adv').owner)
+            $scope.dateadv=dateFromObjectId(localStorageService.get('adv').id)
             }
 
             angular.element(document).ready(function () {
@@ -65,16 +65,60 @@
                     clickOutsideToClose:true
                 })
             };
-            $scope.doOffer=function () {
+            $scope.doOffer=function (ev) {
 
-                var data={
-                    username: localStorageService.get('userName'),
-                    userid:localStorageService.get('userID'),
-                    sellername:localStorageService.get('adv').ownername,
-                    sellerid:localStorageService.get('adv').owner,
-                    offer:$scope.offer
+                var data = {
+                    advid: localStorageService.get('adv').id,
+                    userid: localStorageService.get('userID'),
+                    sellername: localStorageService.get('adv').ownername,
+                    offer: $scope.offer
                 }
 
+                if (localStorageService.get('userName') == data.sellername) {
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                            .clickOutsideToClose(true)
+                            .title('No puedes hacerte una oferta a ti mismo!')
+                            .ok('Entendido!')
+                    );
+                }else if (data.offer == undefined) {
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                            .clickOutsideToClose(true)
+                            .title('Tienes que introducir una oferta!')
+                            .ok('Entendido!')
+                    );
+                }else {
+                    var confirm = $mdDialog.confirm()
+                        .title('Estás seguro que quieres enviar esta oferta?')
+                        .textContent(data.offer)
+                        .targetEvent(ev)
+                        .ok('Estoy seguro!')
+                        .cancel('Mejor en otro momento');
+
+                    $mdDialog.show(confirm).then(function () {
+                        advSRV.sendOffer(data, function (response) {
+                            if (response == "500") {
+                                $mdDialog.show(
+                                    $mdDialog.alert()
+                                        .clickOutsideToClose(true)
+                                        .title('Ya has enviado una oferta a este anuncio')
+                                        .ok('Entendido!')
+                                );
+                            }else{
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title('Oferta enviada!')
+                                .ok('Entendido!')
+                        );
+                        $scope.currentNavItem = 'Anuncios';
+                        $location.path("/Anuncios");
+                            }
+                        });
+                    });
+
+                }
             }
 
             $scope.categoryAdv = function () {
@@ -166,8 +210,12 @@
                                     if ($scope.form.file.$valid && $scope.file) {
                                         advSRV.upload(data2);
                                     }
-                                    $scope.status = 'Anuncio publicado.';
-                                    console.log("status: " + $scope.status);
+                                    $mdDialog.show(
+                                        $mdDialog.alert()
+                                            .clickOutsideToClose(true)
+                                            .title('Anuncio publicado.')
+                                            .ok('Entendido!')
+                                    );
                                     $scope.currentNavItem = 'Anuncios';
                                     advSRV.getAdvs(function (listadv) {
                                         $scope.totaladv = listadv;
@@ -190,7 +238,12 @@
                     .cancel('No, quiero seguir');
 
                 $mdDialog.show(confirm).then(function () {
-                    $scope.status = 'Anuncio descartado.';
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                            .clickOutsideToClose(true)
+                            .title('Anuncio descartado.')
+                            .ok('Entendido!')
+                    );
                     $scope.currentNavItem = 'Anuncios';
                     $location.path("/Anuncios");
                 });
