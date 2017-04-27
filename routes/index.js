@@ -1,6 +1,5 @@
 var express = require('express'),
-    bodyParser = require('body-parser'),
-    IMGR = require('imgr').IMGR;
+    bodyParser = require('body-parser');
 
 var app = express();
 var username = "";
