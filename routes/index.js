@@ -1,5 +1,6 @@
 var express = require('express'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    IMGR = require('imgr').IMGR;
 
 var app = express();
 var username = "";
@@ -77,7 +78,13 @@ var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
 
 
+var imgr = new IMGR({debug:true});
 
+imgr.serve(path.resolve(__dirname,'../public/img/advs'))
+    .namespace('/images')
+    .urlRewrite('/:path/:size/:file.:ext')
+    .whitelist([ '200x300', '100x100','150x'])
+    .using(app);
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + "/adv.html");
