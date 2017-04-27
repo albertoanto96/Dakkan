@@ -14,7 +14,7 @@ var path = require('path');
 var Schema = mongoose.Schema;
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
-        callback(null, './public/img/profiles');
+        callback(null,path.resolve(__dirname,'../public/img/advs'));
     },
     filename: function (req, file, callback) {
             callback(null, req.body.id + ".png");
@@ -24,7 +24,7 @@ var storage = multer.diskStorage({
 var storageadv = multer.diskStorage({
 
     destination: function (req, file, callback) {
-        callback(null, './public/img/advs');
+        callback(null,path.resolve(__dirname,'../public/img/advs'));
     },
     filename: function (req, file, callback) {
             callback(null, req.body.name + ".png");
@@ -99,9 +99,9 @@ app.post('/upload', function (req, res) {
             if(req.body.file != undefined){
                 var base64Data = req.body.file;
                 console.log('writing file...', base64Data);
-                fs.writeFile("./public/img/profiles/"+req.body.id+".png", base64Data, 'base64', function(err) {
+                fs.writeFile("../public/img/profiles/"+req.body.id+".png", base64Data, 'base64', function(err) {
                     if (err) console.log(err);
-                    fs.readFile("./public/img/profiles/"+req.body.id+".png", function(err, data) {
+                    fs.readFile("../public/img/profiles/"+req.body.id+".png", function(err, data) {
                         if (err) throw err;
                         console.log('reading file...', data.toString('base64'));
                     });
