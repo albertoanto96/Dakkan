@@ -83,7 +83,7 @@ var imgr = new IMGR({debug:true});
 imgr.serve(path.resolve(__dirname,'../public/img/advs'))
     .namespace('/images')
     .urlRewrite('/:path/:size/:file.:ext')
-    .whitelist([ '200x300', '100x100','150x'])
+    .whitelist([ '200x300', '100x100','150x','389x400'])
     .using(app);
 
 app.get('/', function (req, res) {

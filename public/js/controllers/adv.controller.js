@@ -38,10 +38,10 @@
 
                 advSRV.getownerimage(data,function (ownerimage) {
                     if(ownerimage==false){
-                        $scope.image = "../img/profiles/undefined.png";
+                        $scope.image = "../images/profiles/undefined.png";
                     }
                     else{
-                        $scope.image = "../img/profiles/"+localStorageService.get('adv').owner+".png";
+                        $scope.image = "../images/profiles/"+localStorageService.get('adv').owner+".png";
                     }
                 });
             });
