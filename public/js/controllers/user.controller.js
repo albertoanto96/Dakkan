@@ -25,11 +25,11 @@
                     userSRV.getProfile(data,function (profile) {
                         $scope.profile=profile.userid;
                         if(profile.image!=false){
-                        $scope.image = "../img/profiles/" + profile.userid + ".png";
+                        $scope.image = "../images/profiles/" + profile.userid + ".png";
 
                         }
                         else{
-                           $scope.image = "../img/profiles/undefined.png";
+                           $scope.image = "..images/profiles/undefined.png";
                         }
                         if(profile.advs[0]!=null) {
                             for (var i = 0; i < profile.advs[0].length; i++) {
