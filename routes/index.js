@@ -124,7 +124,22 @@ app.post('/uploadadv', function (req, res) {
         if (err) {
             return res.send("Error uploading file.");
         }
-        res.send("File is uploaded");
+        else{
+            if(req.body.file != undefined)
+            {
+                var base64Data = req.body.file;
+                console.log('writing file...', base64Data);
+                fs.writeFile("./public/img/advs/"+req.body.name+".png", base64Data, 'base64', function(err) {
+                    if (err) console.log(err);
+                    fs.readFile("./public/img/advs/"+req.body.name+".png", function(err, data) {
+                        if (err) throw err;
+                        console.log('reading file...', data.toString('base64'));
+                    });
+                });
+            }
+            console.log("Imagen anuncio subida");
+            res.send("File is uploaded");
+        }
     });
 });
 /*app.put('/updsub', function (req, res) {
@@ -386,6 +401,7 @@ app.post('/addAdv', function (req, res) {
 
     Adv.find({title: req.body.title, owner: req.body.owner}).then(function (response) {
         if (response[0] != undefined) {
+            console.log("Sin subir anuncio")
             res.send("500");
         } else {
             var a = new Adv({
@@ -398,7 +414,8 @@ app.post('/addAdv', function (req, res) {
             });
             a.save().then(function () {
             });
-            res.sendStatus(200);
+            console.log("Subiendo anuncio")
+            res.send("200");
         }
     });
 });
