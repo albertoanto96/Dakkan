@@ -136,7 +136,6 @@ app.post('/uploadadv', function (req, res) {
                     });
                 });
             }
-            console.log("Imagen anuncio subida");
             res.send("File is uploaded");
         }
     });
