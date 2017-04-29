@@ -18,18 +18,17 @@
                 if(data.name == null){
                     $location.path("/");
                     $scope.currentNavItem = 'Anuncios';
-
                 }
                 else{
                     var advs=[];
                     userSRV.getProfile(data,function (profile) {
-                        $scope.profile=profile.userid;
+                        $scope.profile=localStorageService.get('userName');
                         if(profile.image!=false){
-                        $scope.image = "../images/profiles/" + profile.userid + ".png";
+                        $scope.image = "../img/profiles/" + profile.userid + ".png";
 
                         }
                         else{
-                           $scope.image = "..images/profiles/undefined.png";
+                           $scope.image = "../img/profiles/undefined.png";
                         }
                         if(profile.advs[0]!=null) {
                             for (var i = 0; i < profile.advs[0].length; i++) {
@@ -47,8 +46,8 @@
                         $scope.advs=advs
 
                     });
-                }
 
+                }
             });
 
             $scope.getAdv = function (adv) {

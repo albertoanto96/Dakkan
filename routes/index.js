@@ -1,6 +1,5 @@
 var express = require('express'),
-    bodyParser = require('body-parser'),
-    IMGR = require('imgr').IMGR;
+    bodyParser = require('body-parser');
 
 var app = express();
 var username = "";
@@ -14,7 +13,7 @@ var path = require('path');
 var Schema = mongoose.Schema;
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
-        callback(null,path.resolve(__dirname,'../public/img/advs'));
+        callback(null,path.resolve(__dirname,'../public/img/profiles'));
     },
     filename: function (req, file, callback) {
             callback(null, req.body.id + ".png");
@@ -78,13 +77,6 @@ var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
 
 
-var imgr = new IMGR({debug:true});
-
-imgr.serve(path.resolve(__dirname,'../public/img/advs'))
-    .namespace('/images')
-    .urlRewrite('/:path/:size/:file.:ext')
-    .whitelist([ '200x300', '100x100','150x','389x400'])
-    .using(app);
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + "/adv.html");

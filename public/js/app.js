@@ -32,11 +32,10 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
 
     $scope.doLogin = function () {
         location.reload();
-        localStorageService.add('userName', $scope.userName)
+        localStorageService.add('userName', $scope.userName);
         var newUser = {
             name: $scope.userName,
             password: $scope.userPass
-
         };
         $scope.userName = "";
         $scope.userPass = "";
@@ -50,6 +49,7 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
         $http(req).then(function (response) {
             localStorageService.add('userID', response.data._id);
             if (angular.equals(response.data.name, newUser.name)) {
+                console.log(response.data);
                 $scope.currentNavItem = 'Anuncios';
                 $mdDialog.hide();
                 $location.path("/Anuncios");
