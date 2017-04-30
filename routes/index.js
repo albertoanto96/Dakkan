@@ -154,15 +154,6 @@ app.post('/uploadadv', function (req, res) {
         }
     });
 });
-/*app.put('/updsub', function (req, res) {
- User.find({name: req.body.name}, function (err, usuario) {
- u = usuario;
- console.log(req.body.subject);
- Adv.update({name: req.body.subject}, {$push: {users: u[0]._id}}, function (err, subj) {
- console.log(subj);
- });
- });
- });*/
 app.post('/push', function (req, res) {
     User.find({name: req.body.name}).then(function (response) {
         if (response[0] !== undefined) {
