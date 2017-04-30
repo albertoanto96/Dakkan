@@ -20,10 +20,10 @@
                     $scope.profile = profile
 
                     if (profile.image == false) {
-                        $scope.image = "../img/profiles/undefined.png";
+                        $scope.image = "../imagesprof//undefined.png";
                     }
                     else {
-                        $scope.image = "../img/profiles/"+localStorageService.get('adv').owner+".png";
+                        $scope.image = "../imagesprof//"+localStorageService.get('adv').owner+".png";
                     }
 
                 })

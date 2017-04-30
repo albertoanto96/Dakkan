@@ -4,7 +4,7 @@
     app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','localStorageService','$window',
         function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,localStorageService,$window) {
 
-            $scope.profile="";
+            $scope.profile=null;
             $scope.users = [];
             $scope.advs = [];
             $scope.subjects=[];
@@ -17,18 +17,18 @@
                 };
                 if(data.name == null){
                     $location.path("/");
-                    $scope.currentNavItem = 'Anuncios';
+                    $scope.currentNavItem = 'Advs';
                 }
                 else{
                     var advs=[];
                     userSRV.getProfile(data,function (profile) {
                         $scope.profile=localStorageService.get('userName');
                         if(profile.image!=false){
-                        $scope.image = "../img/profiles/" + profile.userid + ".png";
+                        $scope.image = "../imagesprof//" + profile.userid + ".png";
 
                         }
                         else{
-                           $scope.image = "../img/profiles/undefined.png";
+                           $scope.image = "../imagesprof//undefined.png";
                         }
                         if(profile.advs[0]!=null) {
                             for (var i = 0; i < profile.advs[0].length; i++) {
@@ -64,12 +64,14 @@
                 if($scope.search.word!=undefined){
                     userSRV.search($scope.search.word, function (response) {
                         localStorageService.add('advs', response);
-                    })
+                    });
+                    location.reload();
+                    $location.path("/Anuncios");
                 }else{
-                    localStorageService.add('advs', null)
+                    localStorageService.add('advs', null);
+                    location.reload();
+                    $location.path("/Anuncios");
                 }
-                location.reload()
-                $location.path("/Anuncios");
             };
 
             $scope.filterdb=function(){
@@ -102,6 +104,7 @@
             };
             $scope.logout=function () {
                 localStorageService.clearAll();
+                $scope.profile=null;
                 $location.path("/");
             };
             $scope.showPrompt = function(ev) {

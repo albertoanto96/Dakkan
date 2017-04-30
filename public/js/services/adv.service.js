@@ -49,6 +49,20 @@
             });
 
         };
+        this.deletefavorite = function (data, callback) {
+
+            var req = {
+                method: 'POST',
+                url: '/deletefavorite',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+
+        };
 
         this.addAdv = function (data, callback) {
 

@@ -1,6 +1,6 @@
 var express = require('express'),
-    bodyParser = require('body-parser');
-
+    bodyParser = require('body-parser'),
+    IMGR = require('imgr').IMGR;
 var app = express();
 var username = "";
 var mongoose = require('mongoose');
@@ -76,6 +76,22 @@ app.use(cors());
 var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
 
+var imgr = new IMGR({debug:true});
+
+//Se ha de instalar graphicsmagick si se quiere probar desde un ordenador que no sea producción
+//Para instalarlo: http://www.graphicsmagick.org/README.html
+
+    imgr.serve(path.resolve(__dirname,'../public/img/advs'))
+    .namespace('/images')
+    .urlRewrite('/:path/:size/:file.:ext')
+    .whitelist([ '','200x300', '100x100','150x','389x400'])
+    .using(app);
+
+    imgr.serve(path.resolve(__dirname,'../public/img/profiles'))
+    .namespace('/imagesprof')
+    .urlRewrite('/:path/:size/:file.:ext')
+    .whitelist([ '','200x300', '100x100','150x','389x400'])
+    .using(app);
 
 
 app.get('/', function (req, res) {
@@ -91,10 +107,16 @@ app.post('/upload', function (req, res) {
             if(req.body.file != undefined){
                 var base64Data = req.body.file;
                 console.log('writing file...', base64Data);
-                fs.writeFile("../public/img/profiles/"+req.body.id+".png", base64Data, 'base64', function(err) {
-                    if (err) console.log(err);
-                    fs.readFile("../public/img/profiles/"+req.body.id+".png", function(err, data) {
-                        if (err) throw err;
+                fs.writeFile("./public/img/profiles/"+req.body.id+".png", base64Data, 'base64', function(err) {
+                    if (err){
+                        console.log(err);
+                        res.send("500");
+                    }
+                    fs.readFile("./public/img/profiles/"+req.body.id+".png", function(err, data) {
+                        if (err) {
+                            throw err;
+                            res.send("500");
+                        }
                         console.log('reading file...', data.toString('base64'));
                     });
                 });
@@ -192,7 +214,7 @@ app.post('/login', function (req, res) {
     var passhash = new Hash.SHA256(pass).hex(pass);
     User.find({name: req.body.name, password: passhash, active: true}).then(function (response) {
         username = req.body.name;
-        res.send(response[0]);
+        res.send(response);
     });
 });
 app.put('/updatePass', function (req, res) {
@@ -204,7 +226,6 @@ app.put('/updatePass', function (req, res) {
         name: req.body.name,
         password: passhashold
     }, {password: passhashnew}).then(function (response) {
-        console.log(response);
         if(response != null) {
             res.send("200");
         }
@@ -218,7 +239,12 @@ app.put('/updateName', function (req, res) {
     User.find({name: req.body.new}).then(function (response) {
         if (response[0] == undefined) {
             User.findOneAndUpdate({name: req.body.name}, {name: req.body.new}).then(function (response) {
-                res.send("200");
+                if(response != null) {
+                    res.send("200");
+                }
+                else{
+                    res.send("500");
+                }
             });
         }
         else {
@@ -257,6 +283,16 @@ app.post('/addfavorite', function (req, res) {
     User.update({name: req.body.name}, {$push: {favorites: req.body.advid}}, function (err, upd) {
 
         res.send("Added to favorites");
+
+    })
+
+});
+app.post('/deletefavorite', function (req, res) {
+
+
+    User.update({name: req.body.name}, {$pull: {favorites: req.body.advid}}, function (err, upd) {
+
+        res.send("Deleted from favorites");
 
     })
 
@@ -369,20 +405,28 @@ app.get('/search/:word', function (req, res) {
     var advList = [];
     var word = req.params.word;
     Adv.find({$text: {$search: word}}, function (err, adv) {
-        User.populate(adv, {path: "owner"}, function (err, result) {
-            for (var i = 0; i < adv.length; i++) {
-                advList.push({
-                    id: adv[i]._id,
-                    title: adv[i].title,
-                    description: adv[i].description,
-                    exchange: adv[i].exchange,
-                    category: adv[i].category,
-                    owner: result[i].owner._id,
-                    ownername:result[i].owner.name
-                });
-            }
+        //Si no va, añadir a la base de datos un inidce con
+        //db.advs.createIndex({ title: "text", description: "text", exchange: "text"})
+        if(adv != undefined) {
+            User.populate(adv, {path: "owner"}, function (err, result) {
+                for (var i = 0; i < adv.length; i++) {
+                    advList.push({
+                        id: adv[i]._id,
+                        title: adv[i].title,
+                        description: adv[i].description,
+                        exchange: adv[i].exchange,
+                        category: adv[i].category,
+                        owner: result[i].owner._id,
+                        ownername: result[i].owner.name
+                    });
+                }
+                console.log("Buscando: "+word);
+                res.send(advList);
+            })
+        }
+        else {
             res.send(advList);
-        })
+        }
 
     });
 });

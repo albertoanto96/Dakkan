@@ -7,20 +7,21 @@
 <div ng-controller="advCtrl" ng-cloak>
     <div layout="row">
         <md-optgroup>
-        <md-input-container>
-            <md-select ng-model="category" placeholder="Elige la categoria" md-selected-text="categoryAdv()" >
-                <md-optgroup label="Categorias">
-                    <md-option ng-value="t.title" ng-repeat="t in classes">{{t.title}}</md-option>
-                </md-optgroup>
-            </md-select>
-        </md-input-container>
+            <md-input-container>
+                <md-select ng-model="category" placeholder="Elige la categoria" md-selected-text="categoryAdv()" >
+                    <md-optgroup label="Categorias">
+                        <md-option ng-value="t.title" ng-repeat="t in classes">{{t.title}}</md-option>
+                    </md-optgroup>
+                </md-select>
+                <button class="btn btn-outline-primary" ng-click="resetAdv()">Mostrar todos los anuncios</button>
+            </md-input-container>
         </md-optgroup>
     </div>
     <div class="grid" >
         <div class="row">
             <div ng-repeat="adv in advs" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="txthover">
-                    <img src="../img/advs/{{adv.owner}}-{{adv.title}}.png" height="389" width="400">
+                    <img src="../images/389x400/{{adv.owner}}-{{adv.title}}.png" height="389" width="400">
                     <div class="txtcontent" >
                             <div class="simpletxt">
                             <h3 class="name">{{adv.title}}</h3>

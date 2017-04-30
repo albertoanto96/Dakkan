@@ -31,7 +31,6 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
 
 
     $scope.doLogin = function () {
-        location.reload();
         localStorageService.add('userName', $scope.userName);
         var newUser = {
             name: $scope.userName,
@@ -47,19 +46,16 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
             data: newUser
         };
         $http(req).then(function (response) {
-            localStorageService.add('userID', response.data._id);
-            if (angular.equals(response.data.name, newUser.name)) {
-                console.log(response.data);
-                $scope.currentNavItem = 'Anuncios';
+            localStorageService.set('userID', response.data[0]._id);
+            if (angular.equals(response.data[0].name, newUser.name)) {
+                $scope.currentNavItem = 'Advs';
                 $mdDialog.hide();
                 $location.path("/Anuncios");
-                $scope.currentNavItem = 'Anuncios';
             }
+            location.reload();
         });
-
     };
     $scope.doRegister = function () {
-        location.reload();
         var newUser = {
             name: $scope.userName,
             password: $scope.userPass
@@ -72,11 +68,19 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
         };
         $http(req).then(function (response) {
             if (response.statusCode = 200) {
-                localStorageService.add('userID', response.data[0]._id);
-                localStorageService.add('userName', $scope.userName);
-                $scope.currentNavItem = 'Anuncios';
+                localStorageService.set('userID', response.data[0]._id);
+                localStorageService.set('userName', $scope.userName);
+                $scope.currentNavItem = 'Advs';
                 $mdDialog.hide();
                 $location.path("/Anuncios");
+                location.reload();
+            }
+            else{
+                location.reload();
+                $mdDialog.alert()
+                    .clickOutsideToClose(true)
+                    .title('Imposible registrarse.')
+                    .ok('Entendido!')
             }
         });
     };

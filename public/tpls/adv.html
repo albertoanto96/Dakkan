@@ -6,7 +6,7 @@
 <body>
 <div layout="row" layout-sm="column">
     <div flex="58" >
-        <img src="../img/advs/{{adv.owner}}-{{adv.title}}.png" style="width:650px; height:570px; padding-left: 50px; padding-top: 9px;">
+        <img src="../images//{{adv.owner}}-{{adv.title}}.png" style="width:650px; height:570px; padding-left: 50px; padding-top: 9px;">
     </div>
 <div ng-controller="advCtrl" ng-cloak>
         <md-content style="background: transparent">
@@ -40,6 +40,11 @@
                             <md-button class="md-icon-button md-primary" aria-label="Like" ng-click="emailuser($event)" >
                                 <md-icon md-svg-src="../img/email.svg"></md-icon>
                             </md-button>
+
+                            <md-button class="md-icon-button md-primary" aria-label="Like" ng-click="unfavorite()">
+                                <md-icon md-svg-src="../img/error.svg"></md-icon>
+                            </md-button>
+
                         </md-card-actions>
                     </md-card>
                 </div>

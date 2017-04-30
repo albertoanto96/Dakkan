@@ -20,7 +20,7 @@
             }
 
             angular.element(document).ready(function () {
-                if ($rootScope.advs == null) {
+                if (localStorageService.get('advs') == null) {
                     advSRV.getAdvs(function (listadv) {
                         $scope.totaladv = listadv;
                         $scope.advs = listadv;
@@ -28,7 +28,8 @@
                     });
                 }
                 else {
-                    $scope.advs = $rootScope.advs;
+                    $scope.totaladv=localStorageService.get('advs');
+                    $scope.advs = localStorageService.get('advs');
                     $rootScope.adv = localStorageService.get('adv');
                 }
                 var data = {
@@ -38,10 +39,10 @@
 
                 advSRV.getownerimage(data,function (ownerimage) {
                     if(ownerimage==false){
-                        $scope.image = "../img/profiles/undefined.png";
+                        $scope.image = "../imagesprof//undefined.png";
                     }
                     else{
-                        $scope.image = "../img/profiles/"+localStorageService.get('adv').owner+".png";
+                        $scope.image = "../imagesprof//"+localStorageService.get('adv').owner+".png";
                     }
                 });
             });
@@ -54,6 +55,20 @@
                 advSRV.addfavorite(data, function (response) {
 
                 })
+            };
+            $scope.resetAdv=function () {
+                localStorageService.add('advs',null);
+                location.reload()
+            };
+            $scope.unfavorite = function () {
+                var data = {
+                    name: localStorageService.get('userName'),
+                    advid: $rootScope.adv.id
+                };
+                advSRV.deletefavorite(data, function (response) {
+
+                });
+                $location.path("/Profile");
             };
 
             $scope.emailuser = function (ev) {
@@ -168,14 +183,15 @@
                     category: $scope.category,
                     owner: localStorageService.get('userID')
                 };
-                if (data.owner == null) {
-                    $mdDialog.show(
-                        $mdDialog.alert()
-                            .clickOutsideToClose(true)
-                            .title('Registrate primero para poder subir tu anuncio.')
-                            .ok('Entendido!')
-                    );
-                    $location.path("/Anuncios");
+                if (localStorageService.get('userID') == null) {
+                        $location.path("/");
+                        $scope.currentNavItem = 'Advs';
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title('Registrate primero para poder subir tu anuncio.')
+                                .ok('Entendido!')
+                        );
                 }
                 else{
                     if (data.title == null || data.description == null || data.exchange == null) {
