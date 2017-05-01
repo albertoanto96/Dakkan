@@ -12,10 +12,10 @@
     "angular-route": "^1.6.2",
     "bootstrap": "4.0.0-alpha.6",
     "angular-material": "^1.0.9",
-    "ng-file-upload":"latest",
+    "ng-file-upload": "latest",
     "font-awesome": "latest",
     "angular-aria": "1.5.8",
-    "angular-local-storage":"latest"
+    "angular-local-storage": "latest"
   },
   "private": true,
   "ignore": [
@@ -25,5 +25,8 @@
     "public/bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "resolutions": {
+    "angular": "1.6.4"
+  }
 }

@@ -104,13 +104,26 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + "/adv.html");
 });
 
-app.post('/upload', function (req, res){
+app.post('/upload', function (req, res) {
     upload(req, res, function (err) {
         if (err) {
-	 console.log("ERROR Subiendo foto perfil");
-	return res.send("Error uploading file.");
+	console.log(__dirname);
+	fs.writeFile(path.resolve(__dirname,"../public/img/profiles/"+req.body.id+".png"), base64Data, 'base64', function(err) {
+                if (err){
+                    console.log(err);
+                    res.send("500");
+                }
+                fs.readFile(path.resolve(__dirname,"../public/img/profiles/"+req.body.id+".png"), function(err, data) {
+                    if (err) {
+                        console.log(err);
+                        res.send("500");
+                    }
+                    console.log('reading file...', data.toString('base64'));
+                });
+            });
         }
         else{
+	console.log(req.body);
             if(req.body.file != undefined){
                 var base64Data = req.body.file;
                 console.log('writing file...', base64Data);
@@ -128,10 +141,9 @@ app.post('/upload', function (req, res){
                     });
                 });
             }
-            User.findOneAndUpdate({name: username}, {$set:{image: true}}).then(function (response) {
-		console.log(response[0]);
+            User.findOneAndUpdate({name: username}, {image: true}).then(function () {
             });
-	res.send("File is uploaded");
+            res.send("File is uploaded");
         }
 
     });
@@ -375,15 +387,8 @@ app.post('/profile', function (req, res) {
                 Adv.populate(adv, {path: "favorites"}, function (err,result) {
                     usr=adv[0]._id;
                     name=adv[0].name;
-                    User.populate(adv[0].favorites, {path: "owner"},function (err,result) {
-                        for(var i = 0;i<adv[0].favorites.length;i++){
-                            if(!adv[0].favorites[i].owner.active){
-                            }
-                            else{
-                                advs.push(adv[0].favorites[i]);
-
-                            }
-                        }
+                    advs.push(adv[0].favorites);
+                    User.populate(advs, {path: "owner"},function (err,result) {
                         data={name:name,userid:usr,advs:advs,image:adv[0].image};
                         res.send(data);
                     })

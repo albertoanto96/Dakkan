@@ -31,15 +31,15 @@
                            $scope.image = "../imagesprof//undefined.png";
                         }
                         if(profile.advs[0]!=null) {
-                            for (var i = 0; i < profile.advs[0].length; i++) {
-                                advs.push({
-                                    id: profile.advs[0][i]._id,
-                                    title: profile.advs[0][i].title,
-                                    description: profile.advs[0][i].description,
-                                    exchange: profile.advs[0][i].exchange,
-                                    owner: profile.advs[0][i].owner._id,
-                                    ownername: profile.advs[0][i].owner.name,
-                                    category: profile.advs[0][i].category
+                            for (var i = 0; i < profile.advs.length; i++) {
+                                advs.push({ 
+                                    id: profile.advs[i]._id,
+                                    title: profile.advs[i].title,
+                                    description: profile.advs[i].description,
+                                    exchange: profile.advs[i].exchange,
+                                    owner: profile.advs[i].owner._id,
+                                    ownername: profile.advs[i].owner.name,
+                                    category: profile.advs[i].category
                                 })
                             }
                         }
@@ -64,9 +64,11 @@
                 if($scope.search.word!=undefined){
                     userSRV.search($scope.search.word, function (response) {
                         localStorageService.add('advs', response);
+			location.reload();
+			$location.path("/Anuncios");
                     });
-                    location.reload();
-                    $location.path("/Anuncios");
+                    
+                   
                 }else{
                     localStorageService.add('advs', null);
                     location.reload();
@@ -125,9 +127,10 @@
 
                     userSRV.removeUsers(data, function (response) {
                         if(response.statusCode=200) {
-                            $location.path("/");
+                            $scope.logout();
+			    location.reload();
                             $scope.currentNavItem = 'Login';
-                            localStorageService.clearAll();
+			    
                         }
                         else{
 
