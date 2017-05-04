@@ -13,7 +13,7 @@
                         <md-option ng-value="t.title" ng-repeat="t in classes">{{t.title}}</md-option>
                     </md-optgroup>
                 </md-select>
-                <button class="btn btn-outline-primary" ng-click="resetAdv()">Mostrar todos los anuncios</button>
+                <button class="btn btn-outline-primary" ng-if="boton" ng-click="resetAdv()">Mostrar todos los anuncios</button>
             </md-input-container>
         </md-optgroup>
     </div>

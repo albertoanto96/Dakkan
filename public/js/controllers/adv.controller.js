@@ -6,6 +6,7 @@
 
             $scope.category = "Todo";
             $scope.totaladv = [];
+	    $scope.boton = false;
             $scope.advs = [];
             $scope.currentNavItem = 'Anuncios';
             $scope.classes = [{"title": "Todo"}, {"title": "Deportes"}, {"title": "Hogar"}, {"title": "Ocio"}, {"title": "Salud"}];
@@ -14,7 +15,7 @@
             var dateFromObjectId = function (objectId) {
                 return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
             };
-            if(localStorageService.get('avd')!= null){
+            if(localStorageService.get('adv')!= null){
             $scope.dateuser=dateFromObjectId(localStorageService.get('adv').owner)
             $scope.dateadv=dateFromObjectId(localStorageService.get('adv').id)
             }
@@ -23,11 +24,13 @@
                 if (localStorageService.get('advs') == null) {
                     advSRV.getAdvs(function (listadv) {
                         $scope.totaladv = listadv;
+			$scope.boton = false;
                         $scope.advs = listadv;
                         $rootScope.adv = localStorageService.get('adv');
                     });
                 }
                 else {
+		    $scope.boton = true;
                     $scope.totaladv=localStorageService.get('advs');
                     $scope.advs = localStorageService.get('advs');
                     $rootScope.adv = localStorageService.get('adv');

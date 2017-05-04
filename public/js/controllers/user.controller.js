@@ -33,12 +33,12 @@
                         if(profile.advs[0]!=null) {
                             for (var i = 0; i < profile.advs.length; i++) {
                                 advs.push({ 
-                                    id: profile.advs[i]._id,
+                                    id: profile.advs[i].id,
                                     title: profile.advs[i].title,
                                     description: profile.advs[i].description,
                                     exchange: profile.advs[i].exchange,
-                                    owner: profile.advs[i].owner._id,
-                                    ownername: profile.advs[i].owner.name,
+                                    owner: profile.advs[i].owner,
+                                    ownername: profile.advs[i].ownername,
                                     category: profile.advs[i].category
                                 })
                             }
@@ -147,6 +147,12 @@
                     };
 
                     userSRV.updatePass(data, function () {
+			$mdToast.show(
+                            $mdToast.simple()
+                                .textContent('Contraseña cambiada correctamente')
+                                .position('bottom left')
+                                .hideDelay(3000)
+                        );
                     });
                 }
                 $scope.newPass="";
@@ -165,6 +171,8 @@
 
                     if(results!="500") {
                         localStorageService.add('userName',$scope.newName)
+			$scope.profile = $scope.newName;
+                        location.reload();
                     }else{
                         $mdToast.show(
                             $mdToast.simple()

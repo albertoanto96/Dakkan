@@ -370,6 +370,7 @@ app.post('/profile', function (req, res) {
     var name;
     var i=0;
     var data;
+    var id, title, description, exchange, category, imageurl;
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (adv) {
                 Adv.populate(adv, {path: "favorites"}, function (err,result) {
@@ -380,7 +381,23 @@ app.post('/profile', function (req, res) {
                             if(!adv[0].favorites[i].owner.active){
                             }
                             else{
-                                advs.push(adv[0].favorites[i]);
+                                id = adv[0].favorites[i]._id;
+                                title = adv[0].favorites[i].title;
+                                description = adv[0].favorites[i].description;
+                                exchange = adv[0].favorites[i].exchange;
+                                category = adv[0].favorites[i].category;
+                                imageurl = adv[0].favorites[i].imageurl;
+                                advs.push({
+                                    id: id,
+                                    title: title,
+                                    description: description,
+                                    exchange: exchange,
+                                    category: category,
+                                    owner: result[i].owner._id,
+                                    ownername: result[i].owner.name,
+                                    imageurl: imageurl
+                                });
+
 
                             }
                         }
