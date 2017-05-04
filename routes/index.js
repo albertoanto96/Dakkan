@@ -324,15 +324,47 @@ app.post('/deletefavorite', function (req, res) {
 
 });
 
-app.post('/deletefavorite', function (req, res) {
+app.post('/getfavorite', function(req,res){
+    var advs = [];
+    var id, title, description, exchange, category, imageurl;
+    if (req.body.name != null) {
+        User.find({name: req.body.name, active: true}).then(function (adv) {
+            Adv.populate(adv, {path: "favorites"}, function (err,result) {
+                User.populate(adv[0].favorites, {path: "owner"},function (err,result) {
+                    for(var i = 0;i<adv[0].favorites.length;i++){
+                        if(!adv[0].favorites[i].owner.active){
+                        }
+                        else{
+                            id = adv[0].favorites[i]._id;
+                            title = adv[0].favorites[i].title;
+                            description = adv[0].favorites[i].description;
+                            exchange = adv[0].favorites[i].exchange;
+                            category = adv[0].favorites[i].category;
+                            imageurl = adv[0].favorites[i].imageurl;
+                            advs.push({
+                                id: id,
+                                title: title,
+                                description: description,
+                                exchange: exchange,
+                                category: category,
+                                owner: result[i].owner._id,
+                                ownername: result[i].owner.name,
+                                imageurl: imageurl
+                            });
 
 
-    User.update({name: req.body.name}, {$pull: {favorites: req.body.advid}}, function (err, upd) {
+                        }
+                    }
+                    res.send(advs);
+                })
 
-        res.send("Deleted from favorites");
+            });
+        });
 
-    })
-
+    }
+    else {
+        res.send("undefined");
+    }
 });
 
 app.post('/userAdvs', function (req, res) { //todos los anuncios
