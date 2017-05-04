@@ -32,7 +32,7 @@
                         }
                         if(profile.advs[0]!=null) {
                             for (var i = 0; i < profile.advs.length; i++) {
-                                advs.push({ 
+                                advs.push({
                                     id: profile.advs[i].id,
                                     title: profile.advs[i].title,
                                     description: profile.advs[i].description,
@@ -67,8 +67,8 @@
 			location.reload();
 			$location.path("/Anuncios");
                     });
-                    
-                   
+
+
                 }else{
                     localStorageService.add('advs', null);
                     location.reload();
@@ -130,7 +130,7 @@
                             $scope.logout();
 			    location.reload();
                             $scope.currentNavItem = 'Login';
-			    
+
                         }
                         else{
 

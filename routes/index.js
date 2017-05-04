@@ -3,11 +3,17 @@ var express = require('express'),
     IMGR = require('imgr').IMGR;
 var app = express();
 var username = "";
+var passport= require('passport')
 var mongoose = require('mongoose');
 var fs = require('fs');
 var multer = require('multer');
 var Hash = require('jshashes');
 var cors = require('cors');
+var session = require('express-session')
+app.use(session({ secret: 'zasentodalaboca' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session());
+
 var path = require('path');
 
 var Schema = mongoose.Schema;
@@ -99,10 +105,31 @@ var imgr = new IMGR({debug:true});
     .whitelist([ '','200x300', '100x100','150x','389x400'])
     .using(app);
 
-
-app.get('/', function (req, res) {
+app.get('/', function (req, res,next) {
+    res.render('index', {title: 'OAuth example: facebook'});
     res.sendFile(__dirname + "/adv.html");
 });
+app.get('/FProfile',isAuth,function (req,res,next) {
+    res.render('profile', {title:'Your profile page', user: req.user});
+})
+app.get('/logout', function (req, res, next) {
+    req.logout();
+    res.redirect('/');
+});
+app.get('/auth/facebook', passport.authenticate('facebook', {
+    scope: ['public_profile', 'email'] }));
+//handle the callback after facebook has authenticated the user
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/profile',
+    failureRedirect: '/'
+}));
+function isAuth(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+// otherwise, send her back to home
+    res.redirect('/');
+}
+module.exports=app;
 
 app.post('/upload', function (req, res){
     upload(req, res, function (err) {
@@ -286,6 +313,17 @@ app.post('/addfavorite', function (req, res) {
     })
 
 });
+app.post('/deletefavorite', function (req, res) {
+
+
+    User.update({name: req.body.name}, {$pull: {favorites: req.body.advid}}, function (err, upd) {
+
+        res.send("Deleted from favorites");
+
+    })
+
+});
+
 app.post('/deletefavorite', function (req, res) {
 
 

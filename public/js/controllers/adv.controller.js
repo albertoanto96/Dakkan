@@ -13,15 +13,39 @@
 
 
             var dateFromObjectId = function (objectId) {
-                return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+                var date =new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+                var then= moment(date).utc().format("DD/MM/YYYY HH:mm:ss");
+                var now=moment().local().utc().format("DD/MM/YYYY HH:mm:ss");
+                var ms = moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"));
+                var d = moment.duration(ms);
+                var minutes=Math.floor(d.asMinutes())
+                var hours = Math.floor(d.asHours())
+                var days= Math.floor(d.asDays())
+                var response=""
+                if(minutes<=1){
+                    return "Justo ahora"
+                }
+                if(minutes<=60){
+                    return minutes+ " minutos"
+                }
+                if(hours>=24){
+                    return days + " dias"
+                }
+                if(hours<=24)
+                {
+                    return hours + " horas"
+                }
             };
             if(localStorageService.get('adv')!= null){
             $scope.dateuser=dateFromObjectId(localStorageService.get('adv').owner)
             $scope.dateadv=dateFromObjectId(localStorageService.get('adv').id)
             }
 
+
             angular.element(document).ready(function () {
-                if (localStorageService.get('advs') == null) {
+
+
+                if (localStorageService.get('advs')==null) {
                     advSRV.getAdvs(function (listadv) {
                         $scope.totaladv = listadv;
 			$scope.boton = false;
@@ -30,15 +54,16 @@
                     });
                 }
                 else {
-		    $scope.boton = true;
-                    $scope.totaladv=localStorageService.get('advs');
+                    $scope.totaladv=localStorageService.get('advs')
                     $scope.advs = localStorageService.get('advs');
                     $rootScope.adv = localStorageService.get('adv');
                 }
-                var data = {
-                    name: localStorageService.get('adv').ownername
-                };
 
+                if(localStorageService.get('adv').ownername!=null) {
+                    var data = {
+                        name: localStorageService.get('adv').ownername
+                    };
+                }
 
                 advSRV.getownerimage(data,function (ownerimage) {
                     if(ownerimage==false){
@@ -73,6 +98,33 @@
                 });
                 $location.path("/Profile");
             };
+
+            $scope.unfavorite = function (ev) {
+
+                var confirm = $mdDialog.confirm()
+                    .title('Estás seguro que quieres quitar de favoritos este anuncio?')
+                    .targetEvent(ev)
+                    .ok('Estoy seguro!')
+                    .cancel('No, dejalo');
+
+                $mdDialog.show(confirm).then(function () {
+
+                    var data = {
+                        name: localStorageService.get('userName'),
+                        advid: $rootScope.adv.id
+                    };
+                    advSRV.deletefavorite(data, function (response) {
+
+                    })
+                    $location.path("/Perfil")
+                });
+
+            };
+
+            $scope.resetAdv=function () {
+                localStorageService.add('advs',null)
+                location.reload()
+            }
 
             $scope.emailuser = function (ev) {
 
@@ -142,6 +194,7 @@
             $scope.categoryAdv = function () {
 
                 $scope.advs = $scope.totaladv;
+
                 if ($scope.category != "Todo") {
                     var catadv = [];
                     var i = 0;

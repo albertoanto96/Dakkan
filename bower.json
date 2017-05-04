@@ -15,7 +15,10 @@
     "ng-file-upload": "latest",
     "font-awesome": "latest",
     "angular-aria": "1.5.8",
-    "angular-local-storage": "latest"
+    "moment": "^2.18.1",
+    "angular-local-storage": "latest",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1"
   },
   "private": true,
   "ignore": [

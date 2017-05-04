@@ -1,5 +1,9 @@
 var app = angular.module('mainApp', ['ngRoute', 'ngMaterial', 'ngFileUpload', 'LocalStorageModule']);
+
+
 app.config(['$routeProvider', function ($routeProvider) {
+
+
 
     $routeProvider.when('/Anuncios', {
         templateUrl: 'tpls/advs.html',
@@ -29,6 +33,12 @@ app.config(['$routeProvider', function ($routeProvider) {
 app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDialog', 'localStorageService', function ($http, $rootScope, $scope, $location, $mdDialog, localStorageService) {
     $scope.currentNavItem = 'Login';
 
+    $scope.facebookLogin=function () {
+
+        $http.get('/auth/facebook').then(function (response) {
+            console.log(response)
+        });
+    }
 
     $scope.doLogin = function () {
         localStorageService.add('userName', $scope.userName);

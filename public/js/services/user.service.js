@@ -118,7 +118,6 @@
             };
 
             $http(req).then(function (response) {
-
                 callback(response.data)
 
             });
