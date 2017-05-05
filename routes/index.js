@@ -402,35 +402,18 @@ app.post('/getfavorite', function(req,res){
     var id, title, description, exchange, category, imageurl;
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (adv) {
-            Adv.populate(adv, {path: "favorites"}, function (err,result) {
-                User.populate(adv[0].favorites, {path: "owner"},function (err,result) {
+            Adv.populate(adv, {path: "favorites"}, function (err) {
                     for(var i = 0;i<adv[0].favorites.length;i++){
                         if(!adv[0].favorites[i].owner.active){
                         }
                         else{
-                            id = adv[0].favorites[i]._id;
-                            title = adv[0].favorites[i].title;
-                            description = adv[0].favorites[i].description;
-                            exchange = adv[0].favorites[i].exchange;
-                            category = adv[0].favorites[i].category;
-                            imageurl = adv[0].favorites[i].imageurl;
-                            advs.push({
-                                id: id,
-                                title: title,
-                                description: description,
-                                exchange: exchange,
-                                category: category,
-                                owner: result[i].owner._id,
-                                ownername: result[i].owner.name,
-                                imageurl: imageurl
-                            });
-
-
+                            if(adv[0].favorites[i]._id==req.body.adv.id)
+                            {
+                                res.send("True")
+                            }
                         }
                     }
-                    res.send(advs);
-                })
-
+                    res.send("False");
             });
         });
 
