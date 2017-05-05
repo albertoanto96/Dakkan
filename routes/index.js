@@ -44,6 +44,8 @@ mongoose.connect("mongodb://localhost:27017/dakkan", function (err) {
 var User =require('../models/users');
 var Adv = require('../models/advs')
 var Offer = require('../models/offers')
+var Review = require('../models/reviews')
+
 var u;
 app.use(express.static('public'));
 app.use(bodyParser.json());

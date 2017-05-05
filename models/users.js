@@ -9,8 +9,9 @@ var users = mongoose.Schema({
     favorites: [{type: Schema.ObjectId, ref: 'advs'}],
     image: Boolean,
     active: Boolean,
-    offers: [{type: Schema.ObjectId, ref: 'offers'}]
+    offers: [{type: Schema.ObjectId, ref: 'offers'}],
+    reviews: [{type: Schema.ObjectId, ref: 'reviews'}],
+    location: String
 });
-
 var User = mongoose.model('users', users);
 module.exports = User;
