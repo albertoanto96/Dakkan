@@ -53,7 +53,8 @@ var users = mongoose.Schema({
     favorites: [{type: Schema.ObjectId, ref: 'advs'}],
     image: Boolean,
     active: Boolean,
-    offers: [{type: Schema.ObjectId, ref: 'offers'}]
+    offers: [{type: Schema.ObjectId, ref: 'offers'}],
+    reviews: [{type: Schema.ObjectId, ref: 'reviews'}]
 });
 var offers = mongoose.Schema({
     idAdv: {type: Schema.ObjectId, ref: 'advs'},
@@ -66,7 +67,13 @@ var offers = mongoose.Schema({
         }
     ]
 });
-
+var reviews = mongoose.Schema({
+    title: String,
+    description: String,
+    rating: Number,
+    reviewername:String,
+    reviewerid:String
+});
 mongoose.connect("mongodb://localhost:27017/dakkan", function (err) {
     if (!err) {
         console.log("We are connected")
@@ -75,6 +82,7 @@ mongoose.connect("mongodb://localhost:27017/dakkan", function (err) {
 var User = mongoose.model('users', users);
 var Adv = mongoose.model('advs', advs);
 var Offer = mongoose.model('offers', offers);
+var Review=mongoose.model('reviews',reviews);
 var u;
 app.use(express.static('public'));
 app.use(bodyParser.json());
