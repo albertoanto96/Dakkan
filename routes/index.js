@@ -54,7 +54,8 @@ var users = mongoose.Schema({
     image: Boolean,
     active: Boolean,
     offers: [{type: Schema.ObjectId, ref: 'offers'}],
-    reviews: [{type: Schema.ObjectId, ref: 'reviews'}]
+    reviews: [{type: Schema.ObjectId, ref: 'reviews'}],
+    location: String
 });
 var offers = mongoose.Schema({
     idAdv: {type: Schema.ObjectId, ref: 'advs'},
@@ -119,7 +120,7 @@ app.get('/', function (req, res,next) {
 });
 app.get('/FProfile',isAuth,function (req,res,next) {
     res.render('profile', {title:'Your profile page', user: req.user});
-})
+});
 app.get('/logout', function (req, res, next) {
     req.logout();
     res.redirect('/');
@@ -236,7 +237,9 @@ app.post('/deletereview', function(req, res) {
     Review.remove({
         _id : req.body.review_id
     }, function(err, review) {
-        res.send("ok");
+        User.update({name: req.body.name}, {$pull: {reviews: req.body.review_id}}, function (err, upd) {
+            res.send("ok");
+        })
     });
 });
 app.post('/push', function (req, res) {
@@ -331,6 +334,24 @@ app.put('/updateName', function (req, res) {
 
 });
 
+app.put('/updateLocation',function (req, res) {
+    User.find({name:req.body.name}).then(function (response) {
+        if (response[0] == undefined) {
+            User.findOneAndUpdate({name: req.body.name}, {location:req.body.location}).then(function (response) {
+                if(response != null) {
+                    res.send("200");
+                }
+                else{
+                    res.send("500");
+                }
+            });
+        }
+        else {
+            console.log("explosiones");
+            res.send("500");
+        }
+    })
+})
 
 app.delete('/delete', function (req, res) {
     var pass = req.body.password;
@@ -620,6 +641,11 @@ app.post('/sendOffer', function (req, res) {
         }
     });
 });
+
+app.put('/updateloc',function (req, res) {
+    User.update({name: req.body.name},{$push: {location: req.body.location}},function (err, result) {
+    })
+})
 
 app.listen(3500, function () {
     console.log('App listening on port 3500!!')
