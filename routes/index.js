@@ -3,13 +3,13 @@ var express = require('express'),
     IMGR = require('imgr').IMGR;
 var app = express();
 var username = "";
-var passport= require('passport')
+var passport= require('passport');
 var mongoose = require('mongoose');
 var fs = require('fs');
 var multer = require('multer');
 var Hash = require('jshashes');
 var cors = require('cors');
-var session = require('express-session')
+var session = require('express-session');
 app.use(session({ secret: 'zasentodalaboca' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
@@ -195,6 +195,48 @@ app.post('/uploadadv', function (req, res) {
             }
             res.send("File is uploaded");
         }
+    });
+});
+
+app.post('/getreviews', function(req, res) {
+    console.log("fetching reviews");
+    var userid=req.body.id;
+    // use mongoose to get all reviews in the database
+    User.find({_id:userid},function(err, user) {
+        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+        if (err)
+            res.send(err);
+        Review.populate(user,{path:"reviews"},function (err, rev) {
+
+            res.json(user[0].reviews);
+        })
+        // return all reviews in JSON format
+    });
+});
+
+// create review and send back all reviews after creation
+app.post('/postreview', function(req, res) {
+
+    console.log("creating review");
+
+    // create a review, information comes from request from Ionic
+    var r=new Review({title:req.body.title,description:req.body.description,rating:req.body.rating,reviewername:req.body.reviewername,
+        reviewerid:req.body.reviewerid})
+    r.save(function (err, rev) {
+        User.update({name: req.body.usrname},{$push: {reviews: rev.id}},function (err, result) {
+
+        })
+    });
+});
+
+
+// delete a review
+app.post('/deletereview', function(req, res) {
+
+    Review.remove({
+        _id : req.body.review_id
+    }, function(err, review) {
+        res.send("ok");
     });
 });
 app.post('/push', function (req, res) {
