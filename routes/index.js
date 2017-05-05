@@ -1,23 +1,22 @@
 var express = require('express'),
-    bodyParser = require('body-parser'),
     IMGR = require('imgr').IMGR;
+var bodyParser = require( 'body-parser' );
 var app = express();
 var username = "";
-var passport= require('passport');
+app.use( bodyParser.urlencoded({ extended: true }) );
+var passport= require('passport')
 var mongoose = require('mongoose');
 var fs = require('fs');
 var multer = require('multer');
 var Hash = require('jshashes');
 var cors = require('cors');
-var session = require('express-session');
+var session = require('express-session')
+module.exports=app;
 require('../config/passport')(passport);
 app.use(session({ secret: 'zasentodalaboca' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
-
 var path = require('path');
-
-var Schema = mongoose.Schema;
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null,path.resolve(__dirname,'../public/img/profiles'));
@@ -37,54 +36,14 @@ var storageadv = multer.diskStorage({
     }
 });
 
-
-
-var advs = mongoose.Schema({
-    id: Schema.ObjectId,
-    title: String,
-    description: String,
-    exchange: String,
-    category: String,
-    owner: {type: Schema.ObjectId, ref: 'users'},
-    imageurl: String
-});
-var users = mongoose.Schema({
-    name: String,
-    password: String,
-    favorites: [{type: Schema.ObjectId, ref: 'advs'}],
-    image: Boolean,
-    active: Boolean,
-    offers: [{type: Schema.ObjectId, ref: 'offers'}],
-    reviews: [{type: Schema.ObjectId, ref: 'reviews'}],
-    location: String
-});
-var offers = mongoose.Schema({
-    idAdv: {type: Schema.ObjectId, ref: 'advs'},
-    state: String,
-    idInterested: {type: Schema.ObjectId, ref: 'users'},
-    chat: [
-        {
-            owner: Boolean,
-            message: String
-        }
-    ]
-});
-var reviews = mongoose.Schema({
-    title: String,
-    description: String,
-    rating: Number,
-    reviewername:String,
-    reviewerid:String
-});
 mongoose.connect("mongodb://localhost:27017/dakkan", function (err) {
     if (!err) {
         console.log("We are connected")
     }
 });
-var User = mongoose.model('users', users);
-var Adv = mongoose.model('advs', advs);
-var Offer = mongoose.model('offers', offers);
-var Review=mongoose.model('reviews',reviews);
+var User =require('../models/users');
+var Adv = require('../models/advs')
+var Offer = require('../models/offers')
 var u;
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -97,8 +56,6 @@ next();
 });
 var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
-
-
 var imgr = new IMGR({debug:true});
 
 //Se ha de instalar graphicsmagick si se quiere probar desde un ordenador que no sea producción
@@ -127,9 +84,21 @@ app.get('/logout', function (req, res, next) {
     req.logout();
     res.redirect('/');
 });
-app.get('/auth/facebook', passport.authenticate('facebook', {
+app.post('/auth/facebook', passport.authenticate('facebook', {
     scope: ['public_profile', 'email'] }));
+
+app.post('/auth/local', passport.authenticate('local',function (err,user,info) {
+
+    console.log(user)
+
+}));
+app.get('/localprofile', isAuth, function(req, res)  {
+    res.render('profile.html', {
+        user : req.user
+    });
+});
 //handle the callback after facebook has authenticated the user
+
 app.get('/auth/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/profile',
     failureRedirect: '/'
@@ -140,7 +109,6 @@ function isAuth(req, res, next) {
 // otherwise, send her back to home
     res.redirect('/');
 }
-module.exports=app;
 
 app.post('/upload', function (req, res){
     upload(req, res, function (err) {
@@ -151,7 +119,6 @@ app.post('/upload', function (req, res){
         else{
             if(req.body.file != undefined){
                 var base64Data = req.body.file;
-                console.log('writing file...', base64Data);
                 fs.writeFile("./public/img/profiles/"+req.body.id+".png", base64Data, 'base64', function(err) {
                     if (err){
                         console.log(err);
@@ -162,7 +129,6 @@ app.post('/upload', function (req, res){
                             throw err;
                             res.send("500");
                         }
-                        console.log('reading file...', data.toString('base64'));
                     });
                 });
             }
@@ -187,12 +153,10 @@ app.post('/uploadadv', function (req, res) {
             if(req.body.file != undefined)
             {
                 var base64Data = req.body.file;
-                console.log('writing file...', base64Data);
                 fs.writeFile("./public/img/advs/"+req.body.name+".png", base64Data, 'base64', function(err) {
                     if (err) console.log(err);
                     fs.readFile("./public/img/advs/"+req.body.name+".png", function(err, data) {
                         if (err) throw err;
-                        console.log('reading file...', data.toString('base64'));
                     });
                 });
             }
@@ -329,7 +293,6 @@ app.put('/updateName', function (req, res) {
             });
         }
         else {
-            console.log("esto es lo que pasa cuando repites nombre");
             res.send("500");
         }
     })
