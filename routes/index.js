@@ -10,6 +10,7 @@ var multer = require('multer');
 var Hash = require('jshashes');
 var cors = require('cors');
 var session = require('express-session');
+require('../config/passport')(passport);
 app.use(session({ secret: 'zasentodalaboca' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
@@ -95,6 +96,7 @@ next();
 });
 var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
+
 
 var imgr = new IMGR({debug:true});
 
