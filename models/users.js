@@ -4,6 +4,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var users = mongoose.Schema({
+    facebook:[{id:String,token:String,name:String,email:String}],
     name: String,
     password: String,
     favorites: [{type: Schema.ObjectId, ref: 'advs'}],
