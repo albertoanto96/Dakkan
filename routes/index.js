@@ -205,8 +205,10 @@ app.post('/deletereview', function(req, res) {
     Review.remove({
         _id : req.body.review_id
     }, function(err, review) {
+	console.log(req.body.name+" "+req.body.review_id)
         User.update({name: req.body.name}, {$pull: {reviews: req.body.review_id}}, function (err, upd) {
-            res.send("ok");
+console.log(upd);           
+ res.send("ok");
         })
     });
 });
