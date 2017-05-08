@@ -48,19 +48,6 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
         $http(req).then(function (response) {console.log(response)})
 
     }
-
-    $scope.facebookLogin=function () {
-
-        var req = {
-
-            method: 'POST',
-            url: '/auth/facebook',
-            headers: {'Content-Type': 'application/json'},
-        };
-        $http(req).then(function (response) {console.log(response)})
-
-    }
-
     $scope.doLogin = function () {
         localStorageService.add('userName', $scope.userName);
         var newUser = {
