@@ -64,4 +64,4 @@ public/bower_components/
 .idea
 
 public/config/
-passport.js
+auth.js

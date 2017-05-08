@@ -39,10 +39,9 @@ module.exports = function(passport) {
                         if (user) {
 
                             // if there is a user  id already but no token (user was linked at one point and then removed)
-                            if  (!user.facebook.token) {
-                                user.facebook.token = token;
-                                user.facebook.name  =  profile.name.givenName + ' ' + profile.name.familyName;
-                                user.facebook.email = profile.emails[0].value;
+                            if  (!user.facebookToken) {
+                                user.facebookToken = token;
+                                user.facebookName  =  profile.name.displayName;
 
                                 user.save(function(err) {
                                     if (err)
@@ -56,11 +55,10 @@ module.exports = function(passport) {
                             // if there is no  user, create them
                             var newUser            = new User();
 
-                            newUser.facebook.id    =  profile.id;
-                            newUser.facebook.token = token;
-                            newUser.facebook.name  =  profile.name.givenName + ' ' + profile.name.familyName;
-                            newUser.facebook.email = profile.emails[0].value;
-
+                            newUser.facebookId    =  profile.id;
+                            newUser.facebookToken =  token;
+                            newUser.facebookName  =  profile.displayName;
+                            newUser.name=profile.displayName
                             newUser.save(function(err) {
                                 if (err)
                                     throw err;
@@ -71,12 +69,11 @@ module.exports = function(passport) {
 
                 } else {
                     // user already exists and is  logged in, we have to link accounts
-                    var user            = req.user; // pull the user out  of the session
-
+                    var user            = new User(); // pull the user out  of the session
                     user.facebook.id    = profile.id;
                     user.facebook.token = token;
-                    user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                    user.facebook.email =  profile.emails[0].value;
+                    user.facebook.name  = profile.displayName;
+                    user.name=profile.displayName
 
                     user.save(function(err) {
                         if (err)
