@@ -13,6 +13,7 @@ var cors = require('cors');
 var session = require('express-session')
 module.exports=app;
 require('../config/passport')(passport);
+var localStorage = require('localStorage')
 app.use(session({ secret: 'zasentodalaboca' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
@@ -101,10 +102,20 @@ app.get('/localprofile', isAuth, function(req, res)  {
 });
 //handle the callback after facebook has authenticated the user
 
-app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-    successRedirect: '/profile',
-    failureRedirect: '/'
+app.get('/auth/facebook/callback', passport.authenticate('facebook',{
+    successRedirect: '/#!/Perfil',
+    failureRedirect: '/#!/Anuncios'
 }));
+app.post('/facebook',function (req,res) {
+    res.send(localStorage.getItem('facebookAuth'))
+})
+
+app.post('/logout',function (req,res) {
+
+    localStorage.removeItem('facebookAuth')
+    username="";
+    res.send("200")
+})
 function isAuth(req, res, next) {
     if (req.isAuthenticated())
         return next();
@@ -134,7 +145,7 @@ app.post('/upload', function (req, res){
                     });
                 });
             }
-            User.findOneAndUpdate({name: username}, {$set:{image: true}}).then(function (response) {
+            User.findOneAndUpdate({name: req.body.name}, {$set:{image: true}}).then(function (response) {
 		console.log(response[0]);
             });
 	res.send("File is uploaded");
@@ -534,7 +545,6 @@ app.get('/search/:word', function (req, res) {
                         ownername: result[i].owner.name
                     });
                 }
-                console.log("Buscando: "+word);
                 res.send(advList);
             })
         }

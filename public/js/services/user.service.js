@@ -19,6 +19,17 @@
 
         };
 
+        this.logoutWeb=function (callback) {
+            var req = {
+                method: 'POST',
+                url: '/logout',
+                headers: {'Content-Type': 'application/json'},
+
+            };
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+        }
         this.upload=function (data,callback) {
             Upload.upload({
                 url: 'upload/',
@@ -49,6 +60,19 @@
             });
 
         };
+        this.facebook=function (callback) {
+            var req = {
+                method: 'POST',
+                url: '/facebook',
+                headers: {'Content-Type': 'application/json'},
+            };
+            $http(req).then(function (response) {
+                if(response.data!=""){
+                callback(response.data)
+                }
+                else callback("noAuth")
+            });
+        }
 
 
 

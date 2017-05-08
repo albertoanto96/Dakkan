@@ -5,6 +5,9 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var configAuth = require('./auth');
 var User = require('../models/users');
+var localStorage = require('localStorage')
+
+
 module.exports = function(passport) {
 
 
@@ -32,33 +35,34 @@ module.exports = function(passport) {
                 // check if the user is already  logged in
                 if (!req.user) {
 
-                    User.findOne({ 'facebook.id'  : profile.id }, function(err, user) {
+                    User.findOne({ 'facebookId'  : profile.id }, function(err, user) {
                         if (err)
                             return done(err);
 
-                        if (user) {
+                        if (user!=null) {
 
                             // if there is a user  id already but no token (user was linked at one point and then removed)
                             if  (!user.facebookToken) {
                                 user.facebookToken = token;
-                                user.facebookName  =  profile.name.displayName;
-
+                                user.facebookName  =  profile.displayName;
                                 user.save(function(err) {
                                     if (err)
                                         throw  err;
                                     return  done(null, user);
                                 });
                             }
-
+                            localStorage.setItem('facebookAuth',profile.displayName)
                             return done(null,  user); // user found, return that user
                         } else {
                             // if there is no  user, create them
                             var newUser            = new User();
-
                             newUser.facebookId    =  profile.id;
                             newUser.facebookToken =  token;
                             newUser.facebookName  =  profile.displayName;
+                            newUser.active=true
+                            newUser.image=false
                             newUser.name=profile.displayName
+                            localStorage.setItem('facebookAuth',profile.displayName)
                             newUser.save(function(err) {
                                 if (err)
                                     throw err;
@@ -70,12 +74,14 @@ module.exports = function(passport) {
                 } else {
                     // user already exists and is  logged in, we have to link accounts
                     var user            = new User(); // pull the user out  of the session
-                    user.facebook.id    = profile.id;
-                    user.facebook.token = token;
-                    user.facebook.name  = profile.displayName;
+                    user.facebookId    = profile.id;
+                    user.facebookToken = token;
+                    user.facebookName  = profile.displayName;
                     user.name=profile.displayName
-
-                    user.save(function(err) {
+                    user.active=true
+                    user.image=false
+                    localStorage.setItem('facebookAuth',profile.displayName)
+                    user.save(function(err,us) {
                         if (err)
                             throw err;
                         return done(null, user);
