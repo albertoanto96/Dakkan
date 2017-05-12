@@ -376,8 +376,6 @@ app.post('/deletefavorite', function (req, res) {
 });
 
 app.post('/getfavorite', function(req,res){
-    var advs = [];
-    var id, title, description, exchange, category, imageurl;
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (adv) {
             Adv.populate(adv, {path: "favorites"}, function (err) {
@@ -389,7 +387,6 @@ app.post('/getfavorite', function(req,res){
                             else{
                                 if(adv[0].favorites[i]._id==req.body.advid)
                                 {
-                                    console.log("ESTA EN FAVORITOS");
                                     res.send("True")
                                 }
                             }
@@ -411,7 +408,7 @@ app.post('/getfavorite', function(req,res){
 app.post('/userAdvs', function (req, res) { //todos los anuncios
     var advs = [];
     var sellerID=req.body.id
-    var id, title, description, exchange, category, imageurl;
+    var id, title, description, exchange, category, imageurl, location;
     Adv.find({owner:(sellerID)},function (err, adv) {
             for (var i = 0; i < adv.length; i++) {
                 id = adv[i]._id;
@@ -420,6 +417,7 @@ app.post('/userAdvs', function (req, res) { //todos los anuncios
                 exchange = adv[i].exchange;
                 category = adv[i].category;
                 imageurl = adv[i].imageurl;
+                location = adv[i].location;
                 advs.push({
                     id: id,
                     title: title,
@@ -428,7 +426,8 @@ app.post('/userAdvs', function (req, res) { //todos los anuncios
                     category: category,
                     owner: sellerID,
                     ownername:req.body.name,
-                    imageurl: imageurl
+                    imageurl: imageurl,
+                    location: location
                 });
             }
             res.send(advs);
@@ -443,7 +442,7 @@ app.post('/userAdvs', function (req, res) { //todos los anuncios
 app.get('/allAdvs', function (req, res) { //todos los anuncios
     var advs = [];
 
-    var id, title, description, exchange, category, imageurl;
+    var id, title, description, exchange, category, imageurl, location;
     Adv.find(function (err, adv) {
         User.populate(adv, {path: "owner"}, function (err, result) {
             for (var i = 0; i < adv.length; i++) {
@@ -456,6 +455,7 @@ app.get('/allAdvs', function (req, res) { //todos los anuncios
                     exchange = adv[i].exchange;
                     category = adv[i].category;
                     imageurl = adv[i].imageurl;
+                    location = adv[i].location;
                     advs.push({
                         id: id,
                         title: title,
@@ -464,7 +464,9 @@ app.get('/allAdvs', function (req, res) { //todos los anuncios
                         category: category,
                         owner: result[i].owner._id,
                         ownername:result[i].owner.name,
-                        imageurl: imageurl
+                        imageurl: imageurl,
+                        location:location
+
                     });
                 }
             }
@@ -481,7 +483,7 @@ app.post('/profile', function (req, res) {
     var name;
     var i=0;
     var data;
-    var id, title, description, exchange, category, imageurl;
+    var id, title, description, exchange, category, imageurl, location;
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (adv) {
                 Adv.populate(adv, {path: "favorites"}, function (err,result) {
@@ -498,6 +500,7 @@ app.post('/profile', function (req, res) {
                                 exchange = adv[0].favorites[i].exchange;
                                 category = adv[0].favorites[i].category;
                                 imageurl = adv[0].favorites[i].imageurl;
+                                location = adv[0].favorites[i].location;
                                 advs.push({
                                     id: id,
                                     title: title,
@@ -506,7 +509,8 @@ app.post('/profile', function (req, res) {
                                     category: category,
                                     owner: result[i].owner._id,
                                     ownername: result[i].owner.name,
-                                    imageurl: imageurl
+                                    imageurl: imageurl,
+                                    location: location
                                 });
 
 
@@ -551,7 +555,8 @@ app.get('/search/:word', function (req, res) {
                         exchange: adv[i].exchange,
                         category: adv[i].category,
                         owner: result[i].owner._id,
-                        ownername: result[i].owner.name
+                        ownername: result[i].owner.name,
+                        location: adv[i].location
                     });
                 }
                 console.log("Buscando: "+word);
@@ -578,7 +583,8 @@ app.post('/addAdv', function (req, res) {
                 exchange: req.body.exchange,
                 category: req.body.category,
                 owner: req.body.owner,
-                imageurl: req.body.owner+"-"+req.body.title
+                imageurl: req.body.owner+"-"+req.body.title,
+                location: req.body.location
             });
             a.save().then(function () {
             });
@@ -612,10 +618,6 @@ app.post('/sendOffer', function (req, res) {
     });
 });
 
-app.put('/updateloc',function (req, res) {
-    User.update({name: req.body.name},{$push: {location: req.body.location}},function (err, result) {
-    })
-})
 
 app.listen(3500, function () {
     console.log('App listening on port 3500!!')
