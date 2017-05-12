@@ -10,7 +10,8 @@ var advs = mongoose.Schema({
     exchange: String,
     category: String,
     owner: {type: Schema.ObjectId, ref: 'users'},
-    imageurl: String
+    imageurl: String,
+    location: String
 });
 
 var Adv = mongoose.model('advs', advs);
