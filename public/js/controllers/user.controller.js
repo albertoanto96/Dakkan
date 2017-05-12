@@ -1,9 +1,9 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
+
     app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','localStorageService','$window',
         function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,localStorageService,$window) {
-
             $scope.profile=null;
             $scope.users = [];
             $scope.advs = [];
@@ -12,43 +12,63 @@
             $scope.currentNavItem = 'Perfil';
 
             angular.element(document).ready(function () {
-                var data = {
-                    name:  localStorageService.get('userName')
-                };
-                if(data.name == null){
-                    $location.path("/");
-                    $scope.currentNavItem = 'Advs';
-                }
-                else{
-                    var advs=[];
-                    userSRV.getProfile(data,function (profile) {
-                        $scope.profile=localStorageService.get('userName');
-                        if(profile.image!=false){
-                        $scope.image = "../imagesprof//" + profile.userid + ".png";
 
-                        }
-                        else{
-                           $scope.image = "../imagesprof//undefined.png";
-                        }
-                        if(profile.advs[0]!=null) {
-                            for (var i = 0; i < profile.advs.length; i++) {
-                                advs.push({
-                                    id: profile.advs[i].id,
-                                    title: profile.advs[i].title,
-                                    description: profile.advs[i].description,
-                                    exchange: profile.advs[i].exchange,
-                                    owner: profile.advs[i].owner,
-                                    ownername: profile.advs[i].ownername,
-                                    category: profile.advs[i].category
-                                })
+                userSRV.facebook(function (profile) {
+
+
+                    if(profile!="noAuth") {
+                        localStorageService.add('userName', profile)
+                    }
+
+                    var data = {
+                        name: localStorageService.get('userName')
+                    };
+                    if (data.name == "") {
+                        $location.path("/");
+                        $scope.currentNavItem = 'Advs';
+                    }
+                    else {
+                        var advs = [];
+                        userSRV.getProfile(data, function (profile) {
+                            console.log(profile)
+                            localStorageService.set('userID',profile.userid)
+                            $scope.profile = localStorageService.get('userName');
+                            if (profile.image != false) {
+                                $scope.image = "../imagesprof//" + profile.userid + ".png";
+
                             }
-                        }
-                        $scope.advs=advs
+                            else {
+                                $scope.image = "../imagesprof//undefined.png";
+                            }
+                            if (profile.advs[0] != null) {
+                                for (var i = 0; i < profile.advs.length; i++) {
+                                    advs.push({
+                                        id: profile.advs[i].id,
+                                        title: profile.advs[i].title,
+                                        description: profile.advs[i].description,
+                                        exchange: profile.advs[i].exchange,
+                                        owner: profile.advs[i].owner,
+                                        ownername: profile.advs[i].ownername,
+                                        category: profile.advs[i].category
+                                    })
+                                }
+                            }
+                            $scope.advs = advs
 
-                    });
+                        });
 
-                }
+                    }
+                })
             });
+
+            $scope.logoutWeb=function () {
+                userSRV.logoutWeb(function () {
+                    localStorageService.clearAll();
+                    $scope.profile=null;
+                    $location.path("/");
+                })
+
+            };
 
             $scope.getAdv = function (adv) {
 
@@ -89,6 +109,7 @@
 
             $scope.upload = function (file) {
                 var data= {
+                    name:localStorageService.get('userName'),
                     id:localStorageService.get('userID'),
                     file : file
                 };

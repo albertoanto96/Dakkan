@@ -1,6 +1,6 @@
 var express = require('express'),
-    bodyParser = require('body-parser'),
     IMGR = require('imgr').IMGR;
+var bodyParser = require( 'body-parser' );
 var app = express();
 var username = "";
 app.use( bodyParser.urlencoded({ extended: true }) );
@@ -13,10 +13,10 @@ var cors = require('cors');
 var session = require('express-session')
 module.exports=app;
 require('../config/passport')(passport);
+var localStorage = require('localStorage')
 app.use(session({ secret: 'zasentodalaboca' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
-
 var path = require('path');
 
 var Schema = mongoose.Schema;
@@ -38,7 +38,6 @@ var storageadv = multer.diskStorage({
             callback(null, req.body.name + ".png");
     }
 });
-
 
 mongoose.connect("mongodb://localhost:27017/dakkan", function (err) {
     if (!err) {
@@ -63,8 +62,6 @@ next();
 });
 var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
-
-
 var imgr = new IMGR({debug:true});
 
 //Se ha de instalar graphicsmagick si se quiere probar desde un ordenador que no sea producción
@@ -106,10 +103,21 @@ app.get('/localprofile', isAuth, function(req, res)  {
     });
 });
 //handle the callback after facebook has authenticated the user
-app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-    successRedirect: '/profile',
-    failureRedirect: '/'
+
+app.get('/auth/facebook/callback', passport.authenticate('facebook',{
+    successRedirect: '/#!/Perfil',
+    failureRedirect: '/#!/Anuncios'
 }));
+app.post('/facebook',function (req,res) {
+    res.send(localStorage.getItem('facebookAuth'))
+})
+
+app.post('/logout',function (req,res) {
+
+    localStorage.removeItem('facebookAuth')
+    username="";
+    res.send("200")
+})
 function isAuth(req, res, next) {
     if (req.isAuthenticated())
         return next();
@@ -214,8 +222,10 @@ app.post('/deletereview', function(req, res) {
     Review.remove({
         _id : req.body.review_id
     }, function(err, review) {
+	console.log(req.body.name+" "+req.body.review_id)
         User.update({name: req.body.name}, {$pull: {reviews: req.body.review_id}}, function (err, upd) {
-            res.send("ok");
+console.log(upd);           
+ res.send("ok");
         })
     });
 });
