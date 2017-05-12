@@ -23,7 +23,7 @@
                     var data = {
                         name: localStorageService.get('userName')
                     };
-                    if (data.name == "") {
+                    if (data.name == undefined) {
                         $location.path("/");
                         $scope.currentNavItem = 'Advs';
                     }
