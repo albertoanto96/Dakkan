@@ -322,8 +322,7 @@ app.put('/updateName', function (req, res) {
 });
 
 app.put('/updateLocation',function (req, res) {
-    User.find({name:req.body.name}).then(function (response) {
-        if (response[0] == undefined) {
+
             User.findOneAndUpdate({name: req.body.name}, {location:req.body.location}).then(function (response) {
                 if(response != null) {
                     res.send("200");
@@ -332,12 +331,6 @@ app.put('/updateLocation',function (req, res) {
                     res.send("500");
                 }
             });
-        }
-        else {
-            console.log("explosiones");
-            res.send("500");
-        }
-    })
 })
 
 app.delete('/delete', function (req, res) {

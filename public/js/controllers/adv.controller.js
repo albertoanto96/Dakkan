@@ -65,15 +65,16 @@
                         name: localStorageService.get('adv').ownername
                     };
                 }
-
-                advSRV.getownerimage(data,function (ownerimage) {
-                    if(ownerimage==false){
-                        $scope.image = "../imagesprof//undefined.png";
-                    }
-                    else{
-                        $scope.image = "../imagesprof//"+localStorageService.get('adv').owner+".png";
-                    }
-                });
+                if(data.name!=null) {
+                    advSRV.getownerimage(data, function (ownerimage) {
+                        if (ownerimage == false) {
+                            $scope.image = "../imagesprof//undefined.png";
+                        }
+                        else {
+                            $scope.image = "../imagesprof//" + localStorageService.get('adv').owner + ".png";
+                        }
+                    });
+                }
             });
 
             $scope.favorite = function () {
