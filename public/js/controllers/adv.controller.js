@@ -36,6 +36,7 @@
                     return hours + " horas"
                 }
             };
+
             if(localStorageService.get('adv')!= null){
             $scope.dateuser=dateFromObjectId(localStorageService.get('adv').owner)
             $scope.dateadv=dateFromObjectId(localStorageService.get('adv').id)
@@ -48,7 +49,7 @@
                 if (localStorageService.get('advs')==null) {
                     advSRV.getAdvs(function (listadv) {
                         $scope.totaladv = listadv;
-			$scope.boton = false;
+		             	$scope.boton = false;
                         $scope.advs = listadv;
                         $rootScope.adv = localStorageService.get('adv');
                     });

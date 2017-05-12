@@ -1,6 +1,6 @@
 var express = require('express'),
+    bodyParser = require('body-parser'),
     IMGR = require('imgr').IMGR;
-var bodyParser = require( 'body-parser' );
 var app = express();
 var username = "";
 app.use( bodyParser.urlencoded({ extended: true }) );
@@ -16,7 +16,10 @@ require('../config/passport')(passport);
 app.use(session({ secret: 'zasentodalaboca' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
+
 var path = require('path');
+
+var Schema = mongoose.Schema;
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null,path.resolve(__dirname,'../public/img/profiles'));
@@ -35,6 +38,7 @@ var storageadv = multer.diskStorage({
             callback(null, req.body.name + ".png");
     }
 });
+
 
 mongoose.connect("mongodb://localhost:27017/dakkan", function (err) {
     if (!err) {
@@ -59,6 +63,8 @@ next();
 });
 var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
+
+
 var imgr = new IMGR({debug:true});
 
 //Se ha de instalar graphicsmagick si se quiere probar desde un ordenador que no sea producción
@@ -100,7 +106,6 @@ app.get('/localprofile', isAuth, function(req, res)  {
     });
 });
 //handle the callback after facebook has authenticated the user
-
 app.get('/auth/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/profile',
     failureRedirect: '/'
@@ -121,6 +126,7 @@ app.post('/upload', function (req, res){
         else{
             if(req.body.file != undefined){
                 var base64Data = req.body.file;
+                console.log('writing file...', base64Data);
                 fs.writeFile("./public/img/profiles/"+req.body.id+".png", base64Data, 'base64', function(err) {
                     if (err){
                         console.log(err);
@@ -131,6 +137,7 @@ app.post('/upload', function (req, res){
                             throw err;
                             res.send("500");
                         }
+                        console.log('reading file...', data.toString('base64'));
                     });
                 });
             }
@@ -155,10 +162,12 @@ app.post('/uploadadv', function (req, res) {
             if(req.body.file != undefined)
             {
                 var base64Data = req.body.file;
+                console.log('writing file...', base64Data);
                 fs.writeFile("./public/img/advs/"+req.body.name+".png", base64Data, 'base64', function(err) {
                     if (err) console.log(err);
                     fs.readFile("./public/img/advs/"+req.body.name+".png", function(err, data) {
                         if (err) throw err;
+                        console.log('reading file...', data.toString('base64'));
                     });
                 });
             }
@@ -205,10 +214,8 @@ app.post('/deletereview', function(req, res) {
     Review.remove({
         _id : req.body.review_id
     }, function(err, review) {
-	console.log(req.body.name+" "+req.body.review_id)
         User.update({name: req.body.name}, {$pull: {reviews: req.body.review_id}}, function (err, upd) {
-console.log(upd);           
- res.send("ok");
+            res.send("ok");
         })
     });
 });
@@ -297,6 +304,7 @@ app.put('/updateName', function (req, res) {
             });
         }
         else {
+            console.log("esto es lo que pasa cuando repites nombre");
             res.send("500");
         }
     })
@@ -370,17 +378,25 @@ app.post('/getfavorite', function(req,res){
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (adv) {
             Adv.populate(adv, {path: "favorites"}, function (err) {
-                    for(var i = 0;i<adv[0].favorites.length;i++){
-                        if(!adv[0].favorites[i].owner.active){
-                        }
-                        else{
-                            if(adv[0].favorites[i]._id==req.body.adv.id)
-                            {
-                                res.send("True")
+                User.populate(adv[0].favorites, {path: "owner"}, function (err, result) {
+                    if(adv[0].favorites.length!=0){
+                        for(var i = 0;i<adv[0].favorites.length;i++){
+                            if(!adv[0].favorites[i].owner.active){
+                            }
+                            else{
+                                if(adv[0].favorites[i]._id==req.body.advid)
+                                {
+                                    console.log("ESTA EN FAVORITOS");
+                                    res.send("True")
+                                }
                             }
                         }
                     }
-                    res.send("False");
+                    else{
+                        console.log(adv[0].favorites.length)
+                        res.send("False");
+                    }
+                });
             });
         });
 
