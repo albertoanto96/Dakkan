@@ -134,7 +134,6 @@ app.post('/upload', function (req, res){
         else{
             if(req.body.file != undefined){
                 var base64Data = req.body.file;
-                console.log('writing file...', base64Data);
                 fs.writeFile("./public/img/profiles/"+req.body.id+".png", base64Data, 'base64', function(err) {
                     if (err){
                         console.log(err);
@@ -170,7 +169,6 @@ app.post('/uploadadv', function (req, res) {
             if(req.body.file != undefined)
             {
                 var base64Data = req.body.file;
-                console.log('writing file...', base64Data);
                 fs.writeFile("./public/img/advs/"+req.body.name+".png", base64Data, 'base64', function(err) {
                     if (err) console.log(err);
                     fs.readFile("./public/img/advs/"+req.body.name+".png", function(err, data) {
