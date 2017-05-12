@@ -403,7 +403,6 @@ app.post('/getfavorite', function(req,res){
                         }
                     }
                     else{
-                        console.log(adv[0].favorites.length)
                         res.send("False");
                     }
                 });
