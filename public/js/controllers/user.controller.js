@@ -4,6 +4,7 @@
 
     app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','localStorageService','$window',
         function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,localStorageService,$window) {
+
             $scope.profile=null;
             $scope.users = [];
             $scope.advs = [];

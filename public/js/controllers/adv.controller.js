@@ -2,15 +2,18 @@
     'use strict';
     var app = angular.module('mainApp');
     app.controller('advCtrl', ['advSRV', '$scope', '$location', '$rootScope', '$mdDialog', '$mdToast', 'Upload', 'localStorageService',
-        function (advSRV, $scope, $location, $rootScope, $mdDialog, $mdToast, Upload, localStorageService) {
 
+
+        function (advSRV, $scope, $location, $rootScope, $mdDialog, $mdToast, Upload, localStorageService,NgMap) {
+
+            $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU-CXgmB-8XZnXFwyq3gOdpKINaSRxW3k"
             $scope.category = "Todo";
             $scope.totaladv = [];
-	    $scope.boton = false;
+             $scope.boton = false;
             $scope.advs = [];
             $scope.currentNavItem = 'Anuncios';
             $scope.classes = [{"title": "Todo"}, {"title": "Deportes"}, {"title": "Hogar"}, {"title": "Ocio"}, {"title": "Salud"}];
-
+            $scope.location="41.273669, 1.990496"
 
             var dateFromObjectId = function (objectId) {
                 var date =new Date(parseInt(objectId.substring(0, 8), 16) * 1000);

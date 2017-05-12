@@ -8,6 +8,7 @@
     "cors": "^2.8.3",
     "express": "4.13.3",
     "express-session": "^1.15.2",
+    "google-maps": "^3.2.1",
     "jshashes": "^1.0.6",
     "localStorage": "^1.0.3",
     "mongoose": "^4.9.1",
