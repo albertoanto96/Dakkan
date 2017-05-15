@@ -19,7 +19,9 @@
     "angular-local-storage": "latest",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
-    "ngmap": "^1.18.4"
+    "ngmap": "^1.18.4",
+    "modal": "^1.1.9",
+    "ngAutocomplete": "^1.0.0"
   },
   "private": true,
   "ignore": [

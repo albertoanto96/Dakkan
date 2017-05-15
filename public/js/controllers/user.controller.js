@@ -3,7 +3,7 @@
     var app = angular.module('mainApp');
 
     app.controller('userCtrl', ['Upload','userSRV','$scope','$location','$rootScope','$mdDialog','$mdToast','localStorageService','$window',
-        function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,localStorageService,$window) {
+        function (Upload,userSRV,$scope,$location,$rootScope,$mdDialog,$mdToast,localStorageService,$window,NgMap) {
 
             $scope.profile=null;
             $scope.users = [];
@@ -11,6 +11,42 @@
             $scope.subjects=[];
             $scope.subjectsdb = [];
             $scope.currentNavItem = 'Perfil';
+            $scope.location=""
+            $scope.latlng="current-location"
+            var geocoder = new google.maps.Geocoder();
+
+
+            var getLocation =function(location) {
+
+                var address = location;
+                geocoder.geocode({ 'address': address }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var latitude = results[0].geometry.location.lat();
+                        var longitude = results[0].geometry.location.lng();
+                        $scope.latlng=latitude+","+longitude
+                    }
+                    else {
+
+                    }
+                });
+            };
+
+            var getStreet=function() {
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    var latlng={lat:parseFloat(pos.coords.latitude),lng:parseFloat(pos.coords.longitude)}
+                    geocoder.geocode({'location': latlng}, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            localStorageService.set('userLocation',results[0].formatted_address)
+                        }else
+                        {
+
+                        }
+
+                    });
+
+                })
+            }
+
 
             angular.element(document).ready(function () {
 
@@ -33,6 +69,22 @@
                         userSRV.getProfile(data, function (profile) {
                             console.log(profile)
                             localStorageService.set('userID',profile.userid)
+                            if(profile.location!=undefined){
+                                $scope.location=profile.location
+                                localStorageService.set('userLocation',profile.location)
+                                getLocation()
+                            }
+                            else
+                            {
+                                getStreet()
+                                $scope.location=localStorageService.get('userLocation')
+                                if($scope.location=="") {
+                                    $scope.location = "Establece tu localizacion o habilita la geolocalizacion en tu buscador!"
+                                }
+                                else{
+                                    localStorageService.set('userLocation',$scope.location)
+                                }
+                            }
                             $scope.profile = localStorageService.get('userName');
                             if (profile.image != false) {
                                 $scope.image = "../imagesprof//" + profile.userid + ".png";
@@ -61,6 +113,18 @@
                     }
                 })
             });
+            $scope.updateLocation=function () {
+
+                var data= { name: localStorageService.get('userName'),
+                    location:localStorageService.get('userLocation')}
+
+                userSRV.updateLocation(data,function (response) {
+                    console.log(response)
+
+               })
+
+
+            }
 
             $scope.logoutWeb=function () {
                 userSRV.logoutWeb(function () {

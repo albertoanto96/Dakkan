@@ -46,6 +46,18 @@
 
 
         };
+        this.updateLocation=function (data,callback) {
+
+            var req={
+                method:'PUT',
+                url:'/updateLocation',
+                headers:{'Content-Type':'application/json'},
+                data:data
+            }
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+        }
 
         this.getProfile=function (data,callback) {
 

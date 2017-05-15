@@ -78,14 +78,6 @@ var imgr = new IMGR({debug:true});
     .urlRewrite('/:path/:size/:file.:ext')
     .whitelist([ '','200x300', '100x100','150x','389x400'])
     .using(app);
-
-app.get('/', function (req, res,next) {
-    res.render('index', {title: 'OAuth example: facebook'});
-    res.sendFile(__dirname + "/adv.html");
-});
-app.get('/FProfile',isAuth,function (req,res,next) {
-    res.render('profile', {title:'Your profile page', user: req.user});
-});
 app.get('/logout', function (req, res, next) {
     req.logout();
     res.redirect('/');
@@ -486,6 +478,7 @@ app.post('/profile', function (req, res) {
         User.find({name: req.body.name, active: true}).then(function (adv) {
                 Adv.populate(adv, {path: "favorites"}, function (err,result) {
                     usr=adv[0]._id;
+                    location=adv[0].location
                     name=adv[0].name;
                     User.populate(adv[0].favorites, {path: "owner"},function (err,result) {
                         for(var i = 0;i<adv[0].favorites.length;i++){
@@ -514,7 +507,7 @@ app.post('/profile', function (req, res) {
 
                             }
                         }
-                        data={name:name,userid:usr,advs:advs,image:adv[0].image};
+                        data={name:name,userid:usr,location:location,advs:advs,image:adv[0].image};
                         res.send(data);
                     })
 

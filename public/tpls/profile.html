@@ -7,9 +7,21 @@
 <div ng-controller="userCtrl" ng-cloak>
     <div>
         <img ng-src="{{image}}" alt="Gif" width="200" height="200" style="padding-top: 20px">
+
+        <input type="text"  ng-autocomplete ng-model="autocomplete" options="options" details="details"/>
+
+        <p>{{location}}</p>
+        <div map-lazy-load="https://maps.google.com/maps/api/js" style="width:300px;height:300px;"
+             map-lazy-load-params="{{googleMapsUrl}}">
+            <ng-map id="map" zoom="16" center="{{latlng}}">
+                <marker position="{{latlng}}" />
+                <control name="overviewMap" opened="true" />
+            </ng-map>
+        </div>
     </div>
     <div>
         <br>
+        <button  type="button" class="btn btn-outline-primary" ng-click="updateLocation()">Actualizar localizacion</button>
     <md-input-container  >
         <label >Nuevo nombre</label>
         <input ng-model="newName">

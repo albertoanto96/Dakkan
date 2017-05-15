@@ -6,14 +6,29 @@
 
         function (advSRV, $scope, $location, $rootScope, $mdDialog, $mdToast, Upload, localStorageService,NgMap) {
 
-            $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU-CXgmB-8XZnXFwyq3gOdpKINaSRxW3k"
+            $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU-CXgmB-8XZnXFwyq3gOdpKINaSRxW3k?libraries=places"
             $scope.category = "Todo";
             $scope.totaladv = [];
              $scope.boton = false;
             $scope.advs = [];
             $scope.currentNavItem = 'Anuncios';
             $scope.classes = [{"title": "Todo"}, {"title": "Deportes"}, {"title": "Hogar"}, {"title": "Ocio"}, {"title": "Salud"}];
-            $scope.location="41.273669, 1.990496"
+
+            var getLocation =function(location) {
+                var geocoder = new google.maps.Geocoder();
+                var address = location;
+                geocoder.geocode({ 'address': address }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var latitude = results[0].geometry.location.lat();
+                        var longitude = results[0].geometry.location.lng();
+                        $scope.location=latitude+","+longitude
+
+                    }
+                    else {
+
+                    }
+                });
+            };
 
             var dateFromObjectId = function (objectId) {
                 var date =new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
@@ -24,7 +39,6 @@
                 var minutes=Math.floor(d.asMinutes())
                 var hours = Math.floor(d.asHours())
                 var days= Math.floor(d.asDays())
-                var response=""
                 if(minutes<=1){
                     return "Justo ahora"
                 }
@@ -41,8 +55,10 @@
             };
 
             if(localStorageService.get('adv')!= null){
+
             $scope.dateuser=dateFromObjectId(localStorageService.get('adv').owner)
             $scope.dateadv=dateFromObjectId(localStorageService.get('adv').id)
+            getLocation(localStorageService.get('adv').location)
             }
 
 
