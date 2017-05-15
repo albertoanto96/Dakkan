@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "angular-node-fs": "0.0.3",
+    "angular-ui-bootstrap": "^2.5.0",
     "async": "^2.3.0",
     "body-parser": "^1.17.1",
     "cors": "^2.8.3",
