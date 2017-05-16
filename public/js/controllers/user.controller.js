@@ -123,22 +123,36 @@
                 $scope.location = $scope.searched
 
             }
-            $scope.updateLocation = function () {
+            $scope.updateLocation = function (ev) {
 
                 localStorageService.set('userLocation', $scope.location)
 
-                var data = {
-                    name: localStorageService.get('userName'),
-                    location: localStorageService.get('userLocation')
-                }
+                var confirm = $mdDialog.confirm()
+                    .title('Estás seguro que quieres establecer tu ubicación en:')
+                    .textContent($scope.location + '?')
+                    .targetEvent(ev)
+                    .ok('Estoy seguro!')
+                    .cancel('Mejor en otro momento');
 
-                userSRV.updateLocation(data, function (response) {
-                    console.log(response)
+                $mdDialog.show(confirm).then(function () {
+                    var data = {
+                        name: localStorageService.get('userName'),
+                        location: localStorageService.get('userLocation')
+                    };
+
+                    userSRV.updateLocation(data, function (response) {
+                        console.log(response)
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title('Ubicación cambiada correctamente!')
+                                .ok('Entendido!')
+                        );
+
+                    })
 
                 })
-
-
-            }
+            };
 
             $scope.logoutWeb = function () {
                 userSRV.logoutWeb(function () {

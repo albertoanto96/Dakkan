@@ -2,79 +2,96 @@
 <head>
     <meta charset="UTF-8">
     <title>Perfil</title>
+    <link rel="stylesheet" href="../css/profile.css">
+
 </head>
 <body>
 <div ng-cloak>
-    <div>
-        <img ng-src="{{image}}" alt="Gif" width="200" height="200" style="padding-top: 20px">
+    <div layout="row">
+        <div>
 
+            <div align="center"><img align="middle" ng-src="{{image}}" alt="Gif" width="250" height="250"
+                                     style="padding-top: 20px">
+            </div>
+            <br>
+            <div>
+                <button type="button" class="btn btn-outline-danger" ng-click="showPrompt($event)">Eliminar cuenta
+                </button>
+                <button class="btn btn-outline-primary" ngf-select="upload($file)">Upload photo file</button>
+            </div>
+        </div>
+        &nbsp&nbsp&nbsp&nbsp
+        <div>
+            <div>
+                <br>
+                <h5>Modificar nombre de usuario</h5>
+                <div>
+                    <md-input-container align="center">
+                        <label>Nuevo nombre</label>
+                        <input ng-model="newName">
+                    </md-input-container>
+                    <button type="button" class="btn btn-outline-primary bt" ng-click="updateName($event)">Actualizar
+                        nombre
+                    </button>
+                </div>
+            </div>
+            <div>
+                <br>
+                <h5>Modificar contraseña</h5>
+                <md-input-container align="center" style="width:150px">
+                    <label>Contraseña actual</label>
+                    <input ng-model="userPass" type="password">
+                </md-input-container>
+                <md-input-container align="center" style="width:150px">
+                    <label>Nueva contraseña</label>
+                    <input ng-model="newPass" type="password">
+                </md-input-container>
+                <md-input-container align="center" style="width:200px">
+                    <label>Repetir nueva contraseña</label>
+                    <input ng-model="newPass2" type="password">
+                </md-input-container>
+                <button type="button" class="btn btn-outline-primary bt" ng-click="updatePass($event)">Actualizar
+                    contraseña
+                </button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <h3>Mi ubicación</h3>
+    <div>
         <input ng-model="searched" places-auto-complete size=80
                component-restrictions="{country:'es'}"/>
-
         <button type="button" class="btn btn-outline-primary" ng-click="searchLocation()">Ir a la localizacion</button>
-
+        <button type="button" class="btn btn-outline-primary" ng-click="updateLocation($event)">Actualizar localizacion
+        </button>
         <p>{{location}}</p>
-
-    <div ng-class="reload">
+        <div ng-class="reload">
             <ng-map id="map" zoom="16" center="{{latlng}}">
-                <marker position="{{latlng}}" />
-                <control name="overviewMap" opened="true" />
+                <marker position="{{latlng}}"/>
+                <control name="overviewMap" opened="true"/>
             </ng-map>
+        </div>
     </div>
-
-    </div>
-    <div>
-        <br>
-        <button  type="button" class="btn btn-outline-primary" ng-click="updateLocation()">Actualizar localizacion</button>
-    <md-input-container  >
-        <label >Nuevo nombre</label>
-        <input ng-model="newName">
-    </md-input-container>
-        <button  type="button" class="btn btn-outline-primary" ng-click="updateName()">Actualizar nombre</button>
-    </div>
-    <div>
-    <md-input-container>
-        <label>Contraseña</label>
-        <input ng-model="userPass">
-    </md-input-container>
-    <md-input-container>
-        <label>Nueva contraseña</label>
-        <input ng-model="newPass" type="password">
-    </md-input-container>
-    <md-input-container>
-        <label>Nueva contraseña</label>
-        <input ng-model="newPass2" type="password">
-    </md-input-container>
-        <button type="button" class="btn btn-outline-primary" ng-click="updatePass()">Actualizar contraseña</button>
-
-    </div>
-
-<div>
-    <button type="button" class="btn btn-outline-danger" ng-click="showPrompt($event)">Eliminar esta cuenta</button>
-</div>
-    <div class="btn btn-outline-primary" ngf-select="upload($file)">Upload on file select</div>
-
-
+    <br><br>
+    <h3>Anuncios guardados a favoritos</h3>
     <div ng-repeat="adv in advs" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
 
-
         <div class="txthover">
-            <img src="../images/389x400/{{adv.owner}}-{{adv.title}}.png" height="389" width="400">
-            <div class="txtcontent" >
+            <img src="../images//{{adv.owner}}-{{adv.title}}.png" height="389" width="400">
+            <div class="txtcontent">
                 <div class="simpletxt">
                     <h3 class="name">{{adv.title}}</h3>
                     <p ng-if="adv.description.length<=360">{{adv.description}}</p>
                     <p ng-if="adv.description.length > 360">{{adv.description|limitTo:365}}...</p>
                     <h4 class="price">{{adv.exchange}}</h4>
                     <p>{{adv.category}} </p>
-                    <button ng-click="getAdv(adv)">READ MORE</button><br>
+                    <button ng-click="getAdv(adv)">READ MORE</button>
+                    <br>
                 </div>
             </div>
         </div>
         <br>
         <br>
     </div>
-
-
 </div>
 </body>
