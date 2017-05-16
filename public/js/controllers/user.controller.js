@@ -12,7 +12,7 @@
             $scope.subjectsdb = [];
             $scope.currentNavItem = 'Perfil';
             $scope.location=""
-            $scope.latlng="current-location"
+            $scope.latlng=""
             var geocoder = new google.maps.Geocoder();
 
 
@@ -70,7 +70,9 @@
                         userSRV.getProfile(data, function (profile) {
                             console.log(profile)
                             localStorageService.set('userID',profile.userid)
+
                             if(profile.location!=undefined){
+
                                 $scope.location=profile.location
                                 localStorageService.set('userLocation',profile.location)
                                 getLocation(profile.location)
@@ -79,6 +81,7 @@
                             }
                             else
                             {
+                                $scope.latlng="current-location"
                                 getStreet()
                                 $scope.location=localStorageService.get('userLocation')
                                 if($scope.location=="") {
@@ -116,6 +119,15 @@
                     }
                 })
             });
+
+            $scope.searchLocation=function () {
+
+
+                getLocation($scope.searched)
+                $scope.latlng= localStorageService.get('userLatLng')
+                $scope.location=$scope.searched
+
+            }
             $scope.updateLocation=function () {
 
                 var data= { name: localStorageService.get('userName'),

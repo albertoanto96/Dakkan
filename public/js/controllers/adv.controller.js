@@ -61,7 +61,6 @@
             getLocation(localStorageService.get('adv').location)
             }
 
-
             angular.element(document).ready(function () {
 
 
