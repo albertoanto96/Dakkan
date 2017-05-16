@@ -23,7 +23,8 @@
                     if (status == google.maps.GeocoderStatus.OK) {
                         var latitude = results[0].geometry.location.lat();
                         var longitude = results[0].geometry.location.lng();
-                        $scope.latlng=latitude+","+longitude
+                        var latlng =latitude+","+longitude
+                        localStorageService.set('userLatLng',latlng)
                     }
                     else {
 
@@ -73,6 +74,8 @@
                                 $scope.location=profile.location
                                 localStorageService.set('userLocation',profile.location)
                                 getLocation()
+                                $scope.latlng= localStorageService.get('userLatLng')
+                                console.log($scope.latlng)
                             }
                             else
                             {
