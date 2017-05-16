@@ -2,9 +2,8 @@
     'use strict';
     var app = angular.module('mainApp');
     app.controller('advCtrl', ['advSRV', '$scope', '$location', '$rootScope', '$mdDialog', '$mdToast', 'Upload', 'localStorageService',
-
-
         function (advSRV, $scope, $location, $rootScope, $mdDialog, $mdToast, Upload, localStorageService,NgMap) {
+
 
             $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU-CXgmB-8XZnXFwyq3gOdpKINaSRxW3k?libraries=places"
             $scope.category = "Todo";
@@ -13,6 +12,7 @@
             $scope.advs = [];
             $scope.currentNavItem = 'Anuncios';
             $scope.classes = [{"title": "Todo"}, {"title": "Deportes"}, {"title": "Hogar"}, {"title": "Ocio"}, {"title": "Salud"}];
+            console.log("se carga")
 
             var getLocation =function(location) {
                 var geocoder = new google.maps.Geocoder();
@@ -79,10 +79,12 @@
                     $rootScope.adv = localStorageService.get('adv');
                 }
 
-                if(localStorageService.get('adv').ownername!=null) {
-                    var data = {
-                        name: localStorageService.get('adv').ownername
-                    };
+                if(localStorageService.get('adv')) {
+                    if (localStorageService.get('adv').ownername !== null) {
+                        var data = {
+                            name: localStorageService.get('adv').ownername
+                        };
+                    }
                 }
                 if(data.name!=null) {
                     advSRV.getownerimage(data, function (ownerimage) {
@@ -157,13 +159,16 @@
                 })
             };
             $scope.doOffer=function (ev) {
-
                 var data = {
                     advid: localStorageService.get('adv').id,
                     userid: localStorageService.get('userID'),
-                    sellername: localStorageService.get('adv').ownername,
+                    sellerid: localStorageService.get('adv').owner,
+                    sellername:localStorageService.get('adv').ownername,
+                    username:localStorageService.get('userName'),
+                    advname:localStorageService.get('adv').title,
                     offer: $scope.offer
-                }
+                };
+
 
                 if (localStorageService.get('userName') == data.sellername) {
                     $mdDialog.show(

@@ -11,6 +11,8 @@ var multer = require('multer');
 var Hash = require('jshashes');
 var cors = require('cors');
 var session = require('express-session')
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 module.exports=app;
 require('../config/passport')(passport);
 var localStorage = require('localStorage')
@@ -48,6 +50,7 @@ var User =require('../models/users');
 var Adv = require('../models/advs')
 var Offer = require('../models/offers')
 var Review = require('../models/reviews')
+var Chat=require('../models/chats')
 
 var u;
 app.use(express.static('public'));
@@ -78,6 +81,28 @@ var imgr = new IMGR({debug:true});
     .urlRewrite('/:path/:size/:file.:ext')
     .whitelist([ '','200x300', '100x100','150x','389x400'])
     .using(app);
+
+var messages=[]
+io.on('connection', function (socket) {
+    socket.on('room', function(room) {
+        socket.join(room);
+        socket.on('newmsg',function (data) {
+            messages.push(data);
+            io.sockets.in(room).emit('messages', data);
+        })
+    });
+
+
+});
+server.listen(3000);
+
+app.get('/', function (req, res,next) {
+    res.render('index', {title: 'OAuth example: facebook'});
+    res.sendFile(__dirname + "/adv.html");
+});
+app.get('/FProfile',isAuth,function (req,res,next) {
+    res.render('profile', {title:'Your profile page', user: req.user});
+});
 app.get('/logout', function (req, res, next) {
     req.logout();
     res.redirect('/');
@@ -629,29 +654,20 @@ app.post('/addAdv', function (req, res) {
 });
 
 app.post('/sendOffer', function (req, res) {
-
-    Offer.find({idInterested: req.body.userid, idAdv: req.body.advid}).then(function (response) {
-        if (response[0] != undefined) {
-            res.send("500");
-        } else {
-            var a = new Offer({
-                idAdv: req.body.advid,
-                state: "Abierto",
-                idInterested: req.body.userid,
-                chat: [
-                    {
-                        owner: false,
-                        message: req.body.offer
-                    }
-                ]
-            });
-            a.save().then(function () {
-            });
-            res.sendStatus(200);
-        }
-    });
+    var room=req.body.advid+"-"+req.body.userid;
+    var msg={author:req.body.username,text:req.body.offer};
+    var u=Chat({name:room,user1:req.body.userid,user2:req.body.sellerid,sellername:req.body.sellername,chats:msg,advname:req.body.advname});
+    u.save().then(function () {
+        console.log("nuevo chat")
+    })
 });
+app.post('/rooms',function (req, res) {
+    console.log(req.body.userid)
+    Chat.find({$or: [ { user1: req.body.userid }, { user2: req.body.userid }]}).then(function (response) {
+        res.send(response);
 
+    })
+})
 
 app.listen(3500, function () {
     console.log('App listening on port 3500!!')

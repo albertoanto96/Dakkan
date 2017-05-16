@@ -1,28 +1,36 @@
-var app = angular.module('mainApp', ['ngRoute', 'ngMaterial', 'ngFileUpload','ngMap', 'LocalStorageModule']);
+var app = angular.module('mainApp',
+    ['ngRoute', 'ngMaterial', 'ngFileUpload', 'LocalStorageModule','btford.socket-io','luegg.directives','ngMap']);
 
 app.config(['$routeProvider', function ($routeProvider) {
 
-    $routeProvider.when('/Anuncios', {
+    $routeProvider.
+    when('/', {
         templateUrl: 'tpls/advs.html',
         controller: 'advCtrl'
-    });
-    $routeProvider.when('/Perfil', {
+    }).when('/Anuncios', {
+        templateUrl: 'tpls/advs.html',
+        controller: 'advCtrl'
+    }).when('/Perfil', {
         templateUrl: 'tpls/profile.html',
         controller: 'userCtrl'
-    });
-    $routeProvider.when('/Adv', {
+    }).when('/Adv', {
         templateUrl: 'tpls/adv.html',
         controller: 'advCtrl'
-    });
-    $routeProvider.when('/oProfile', {
+    }).when('/oProfile', {
         templateUrl: 'tpls/oProfile.html',
         controller: 'sellerCtrl'
-    });
-    $routeProvider.when('/NewAdv', {
+    }).when('/NewAdv', {
         templateUrl: 'tpls/newAdv.html',
         controller: 'advCtrl'
-    });
-    $routeProvider.otherwise({redirectTo: '/Anuncios'})
+    }).when('/chat',{
+        templateUrl:'tpls/chat.html',
+        controller:'AppCtrl'
+    }).when('/chats',{
+        templateUrl:'tpls/chats.html',
+        controller:'chatsCtrl'
+    })
+
+        .otherwise({redirectTo: '/Anuncios'})
 
 
 }]);
