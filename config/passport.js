@@ -2,7 +2,6 @@
  * Created by Lazarus of Bethany on 04/05/2017.
  */
 var FacebookStrategy = require('passport-facebook').Strategy;
-var LocalStrategy = require('passport-local').Strategy;
 var configAuth = require('./auth');
 var User = require('../models/users');
 var localStorage = require('localStorage')
@@ -92,30 +91,6 @@ module.exports = function(passport) {
 
         }));
 
-    passport.use('local',new LocalStrategy({
-        usernameField : 'name',
-        passwordField : 'password',
-        passReqToCallback : true
-        },
-    function(req, name, password, done) {
-
-
-        process.nextTick(function()
-        {
-            User.findOne({ 'name'  :  name }, function(err, user) {
-                // if there are any errors,  return the error
-                if (err)
-                    return done(err);
-
-                // if no user is found,  return the message
-                if (!user)
-                    return done(null, false);
-                // all is well, return user
-                else
-                    return done(null, user);
-            });
-        });
-    }));
 
 };
 

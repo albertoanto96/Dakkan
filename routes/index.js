@@ -85,10 +85,51 @@ app.get('/logout', function (req, res, next) {
 app.get('/auth/facebook', passport.authenticate('facebook', {
     scope: ['public_profile', 'email'] }));
 
-app.post('/auth/local', passport.authenticate('local',function (err,user,info) {
-    console.log(user)
+app.post('/auth/facebookionic',function (req,res) {
+    // check if the user is already  logged in
+    if (req.body.facebookName != undefined) {
 
-}));
+        User.findOne({ 'facebookId'  : req.body.facebookId }, function(err, user) {
+            if (err)
+                return done(err);
+
+            if (user!=null) {
+
+                // if there is a user  id already but no token (user was linked at one point and then removed)
+                if  (!user.facebookToken) {
+                    user.facebookToken = req.body.facebookToken;
+                    user.facebookName  =  req.body.facebookName;
+                    user.save(function(err) {
+                        if (err)
+                            throw  err;
+                        res.send(user);
+                    });
+                }
+                res.send(user);
+                 // user found, return that user
+            } else {
+                // if there is no  user, create them
+                var newUser            = new User();
+                newUser.facebookId    =  req.body.facebookId;
+                newUser.facebookToken =  req.body.facebookToken;
+                newUser.facebookName  =  req.body.facebookName;
+                newUser.active=true;
+                newUser.image=false;
+                newUser.name=req.body.facebookName;
+                newUser.save(function(err) {
+                    if (err)
+                        throw err;
+                    res.send(user);
+                });
+            }
+        });
+
+    } else {
+            res.send("");
+    }
+
+});
+
 app.get('/localprofile', isAuth, function(req, res)  {
     res.render('profile.html', {
         user : req.user
