@@ -119,7 +119,7 @@ app.post('/auth/facebookionic',function (req,res) {
                 newUser.save(function(err) {
                     if (err)
                         throw err;
-                    res.send(user);
+                    res.send(newUser);
                 });
             }
         });
