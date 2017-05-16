@@ -193,6 +193,7 @@
                     file: file
                 };
                 userSRV.upload(data, function () {
+                    console.log("IMAGEN CAMBIADA");
                     $window.location.reload();
                 });
             };
