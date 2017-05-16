@@ -18,7 +18,7 @@
 
             var getLocation =function(location) {
 
-                var address = location;
+                var address = location
                 geocoder.geocode({ 'address': address }, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         var latitude = results[0].geometry.location.lat();
@@ -73,7 +73,7 @@
                             if(profile.location!=undefined){
                                 $scope.location=profile.location
                                 localStorageService.set('userLocation',profile.location)
-                                getLocation()
+                                getLocation(profile.location)
                                 $scope.latlng= localStorageService.get('userLatLng')
                                 console.log($scope.latlng)
                             }

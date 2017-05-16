@@ -473,12 +473,13 @@ app.post('/profile', function (req, res) {
     var name;
     var i=0;
     var data;
-    var id, title, description, exchange, category, imageurl, location;
+    var id, title, description, exchange, category, imageurl, userLocation,location;
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (adv) {
+
                 Adv.populate(adv, {path: "favorites"}, function (err,result) {
+                    userLocation=adv[0].location
                     usr=adv[0]._id;
-                    location=adv[0].location
                     name=adv[0].name;
                     User.populate(adv[0].favorites, {path: "owner"},function (err,result) {
                         for(var i = 0;i<adv[0].favorites.length;i++){
@@ -507,7 +508,8 @@ app.post('/profile', function (req, res) {
 
                             }
                         }
-                        data={name:name,userid:usr,location:location,advs:advs,image:adv[0].image};
+                        data={name:name,userid:usr,location:userLocation,advs:advs,image:adv[0].image};
+                        console.log(data)
                         res.send(data);
                     })
 
