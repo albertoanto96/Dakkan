@@ -65,7 +65,7 @@ next();
 });
 var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
-var imgr = new IMGR({debug:true});
+var imgr = new IMGR({debug:false});
 
 //Se ha de instalar graphicsmagick si se quiere probar desde un ordenador que no sea producción
 //Para instalarlo: http://www.graphicsmagick.org/README.html
@@ -208,6 +208,7 @@ app.post('/upload', function (req, res){
                 });
             }
             User.findOneAndUpdate({name: username}, {$set:{image: true}}).then(function (response) {
+                console.log("Usuario actualizado");
 		        console.log(response[0]);
                 res.send("File is uploaded");
             });
