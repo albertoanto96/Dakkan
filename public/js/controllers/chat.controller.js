@@ -15,11 +15,9 @@ app.controller('AppCtrl', function ($scope,$location,localStorageService) {
     }
     $scope.messages=mensajes;
 
-
     socket.on('connect', function () {
         // Connected, let's sign-up for to receive messages for this room
         socket.emit('room', room);
-
     });
 
     socket.on('messages', function (data) {

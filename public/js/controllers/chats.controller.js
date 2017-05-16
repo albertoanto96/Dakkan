@@ -14,7 +14,6 @@
 
                 chatsSRV.getChats(data,function (chats) {
                     $scope.chats = chats;
-                    console.log(chats)
                 })
 
             });

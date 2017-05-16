@@ -82,17 +82,18 @@ var imgr = new IMGR({debug:true});
     .whitelist([ '','200x300', '100x100','150x','389x400'])
     .using(app);
 
-var messages=[]
+var messages=[];
 io.on('connection', function (socket) {
     socket.on('room', function(room) {
         socket.join(room);
         socket.on('newmsg',function (data) {
             messages.push(data);
+            Chat.update({name: room}, {$push: {chats: data}}, function (err, upd) {
+                console.log(upd);
+            });
             io.sockets.in(room).emit('messages', data);
         })
     });
-
-
 });
 server.listen(3000);
 

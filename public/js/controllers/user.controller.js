@@ -68,7 +68,6 @@
                     else {
                         var advs = [];
                         userSRV.getProfile(data, function (profile) {
-                            console.log(profile)
                             localStorageService.set('userID',profile.userid)
 
                             if(profile.location!=undefined){
