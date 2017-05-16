@@ -207,9 +207,9 @@ app.post('/upload', function (req, res){
                 });
             }
             User.findOneAndUpdate({name: username}, {$set:{image: true}}).then(function (response) {
-		console.log(response[0]);
+		        console.log(response[0]);
+                res.send("File is uploaded");
             });
-	res.send("File is uploaded");
         }
 
     });
