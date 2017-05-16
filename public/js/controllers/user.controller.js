@@ -37,7 +37,7 @@
                     var latlng={lat:parseFloat(pos.coords.latitude),lng:parseFloat(pos.coords.longitude)}
                     geocoder.geocode({'location': latlng}, function (results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
-                            localStorageService.set('userLocation',results[0].formatted_address)
+                            localStorageService.set('userLocationVolatile',results[0].formatted_address)
                         }else
                         {
 
@@ -77,18 +77,16 @@
                                 localStorageService.set('userLocation',profile.location)
                                 getLocation(profile.location)
                                 $scope.latlng= localStorageService.get('userLatLng')
-                                console.log($scope.latlng)
                             }
                             else
                             {
                                 $scope.latlng="current-location"
                                 getStreet()
-                                $scope.location=localStorageService.get('userLocation')
+                                $scope.location=localStorageService.get('userLocationVolatile')
                                 if($scope.location=="") {
                                     $scope.location = "Establece tu localizacion o habilita la geolocalizacion en tu buscador!"
                                 }
                                 else{
-                                    localStorageService.set('userLocation',$scope.location)
                                 }
                             }
                             $scope.profile = localStorageService.get('userName');
@@ -129,6 +127,8 @@
 
             }
             $scope.updateLocation=function () {
+
+                localStorageService.set('userLocation',$scope.location)
 
                 var data= { name: localStorageService.get('userName'),
                     location:localStorageService.get('userLocation')}

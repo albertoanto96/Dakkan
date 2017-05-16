@@ -262,6 +262,7 @@
                     description: $scope.productDesc,
                     exchange: $scope.productInterest,
                     category: $scope.category,
+                    location:localStorageService.get("userLocation"),
                     owner: localStorageService.get('userID')
                 };
                 if (localStorageService.get('userID') == null) {
@@ -282,7 +283,18 @@
                                 .title('Hay que rellenar todos los campos!')
                                 .ok('Entendido!')
                         );
-                    } else {
+                    }
+                    console.log(localStorageService.get("userLocation"))
+                    if(localStorageService.get("userLocation")==null){
+
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .title('Establece la localizacion en tu perfil!')
+                                .ok('Entendido!')
+                        );
+                    }
+                    else {
                         var confirm = $mdDialog.confirm()
                             .title('Estás seguro que quieres publicar este anuncio?')
                             .targetEvent(ev)
