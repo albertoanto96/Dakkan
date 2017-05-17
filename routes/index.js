@@ -65,7 +65,7 @@ next();
 });
 var upload = multer({storage: storage}).single('file');
 var uploadadv = multer({storage: storageadv}).single('file');
-var imgr = new IMGR({debug:true});
+var imgr = new IMGR({debug:false});
 
 //Se ha de instalar graphicsmagick si se quiere probar desde un ordenador que no sea producción
 //Para instalarlo: http://www.graphicsmagick.org/README.html
@@ -82,17 +82,18 @@ var imgr = new IMGR({debug:true});
     .whitelist([ '','200x300', '100x100','150x','389x400'])
     .using(app);
 
-var messages=[]
+var messages=[];
 io.on('connection', function (socket) {
     socket.on('room', function(room) {
         socket.join(room);
         socket.on('newmsg',function (data) {
             messages.push(data);
+            Chat.update({name: room}, {$push: {chats: data}}, function (err, upd) {
+                console.log(upd);
+            });
             io.sockets.in(room).emit('messages', data);
         })
     });
-
-
 });
 server.listen(3000);
 
@@ -207,9 +208,10 @@ app.post('/upload', function (req, res){
                 });
             }
             User.findOneAndUpdate({name: username}, {$set:{image: true}}).then(function (response) {
-		console.log(response[0]);
+                console.log("Usuario actualizado");
+		        console.log(response[0]);
+                res.send("File is uploaded");
             });
-	res.send("File is uploaded");
         }
 
     });

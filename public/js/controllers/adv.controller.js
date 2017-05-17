@@ -73,6 +73,7 @@
                     });
                 }
                 else {
+                    $scope.boton = true;
                     $scope.totaladv=localStorageService.get('advs')
                     $scope.advs = localStorageService.get('advs');
                     $rootScope.adv = localStorageService.get('adv');
