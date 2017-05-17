@@ -183,5 +183,17 @@
                 callback(result)
             });
         }
+        this.getreviews=function (data, callback) {
+            var req = {
+                method: 'POST',
+                url: '/reviewscount',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+            $http(req).then(function (response) {
+                var result = response.data;
+                callback(result)
+            });
+        }
     }]);
 })();

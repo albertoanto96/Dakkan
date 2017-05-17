@@ -14,7 +14,12 @@
             $scope.location = ""
             $scope.latlng = ""
             var geocoder = new google.maps.Geocoder();
+            var originatorEv;
 
+            $scope.openMenu = function($mdMenu, ev) {
+                originatorEv = ev;
+                $mdMenu.open(ev);
+            };
 
             var getLocation = function (location) {
 
@@ -112,12 +117,22 @@
                         });
 
                     }
-                })
+                });
+                if(localStorageService.get('userName')) {
+                    var nme = {
+                        name: localStorageService.get('userName')
+                    };
+                    userSRV.getreviews(nme, function (rev) {
+                        $scope.reviews = rev;
+                    });
+                }
             });
 
+            $scope.doReview=function (usr) {
+                $location.path("/review").search({user:usr});
+            };
+
             $scope.actualLocation=function () {
-
-
                 $scope.latlng="current-location"
                 getStreet()
                 $scope.location=localStorageService.get('userLocationVolatile')

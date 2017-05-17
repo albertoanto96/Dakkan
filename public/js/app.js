@@ -28,8 +28,10 @@ app.config(['$routeProvider', function ($routeProvider) {
     }).when('/chats',{
         templateUrl:'tpls/chats.html',
         controller:'chatsCtrl'
+    }).when('/review',{
+        templateUrl:'tpls/review.html',
+        controller:'revCtrl'
     })
-
         .otherwise({redirectTo: '/Anuncios'})
 
 

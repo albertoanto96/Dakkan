@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Chat</title>
 </head>
 <body>
 
@@ -17,8 +17,13 @@
 
     <form class="fixBottom">
         <input type="text" ng-model="msgText">
-        <button class="btn-success" ng-click="addMessage()" >Enviar</button>
+        <button class="btn-success" ng-click="addMessage()">Enviar</button>
     </form>
+<div class="fixBottom2" ng-if="sellert===true">
+    <button ng-click="treatdone()">Marcar este trato como realizado</button>
 </div>
+</div>
+
+
 </body>
 </html>

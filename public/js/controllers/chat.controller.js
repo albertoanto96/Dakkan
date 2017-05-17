@@ -1,15 +1,16 @@
 var app = angular.module('mainApp');
 
-app.controller('AppCtrl', function ($scope,$location,localStorageService) {
+app.controller('AppCtrl', function ($scope,$location,localStorageService,chatSRV) {
     $scope.glued = true;
     var mensajes=[];
+    var user=localStorageService.get('userName');
     var params = $location.search();
+    $scope.sellert=angular.equals(user,params.chat.sellername);
 // set-up a connection between the client and the server
-    var socket = io.connect('http://147.83.7.156:3000');
+    var socket = io.connect('http://localhost:3000');
 
 // let's assume that the client page, once rendered, knows what room it wants to join
     var room = params.chat.name;
-    var user=localStorageService.get('userName');
     for(i=0;i<params.chat.chats.length;i++){
         mensajes.push(params.chat.chats[i]);
     }
@@ -34,6 +35,16 @@ app.controller('AppCtrl', function ($scope,$location,localStorageService) {
 
         $scope.msgText = "";
         socket.emit('newmsg', payload);
+    }
+
+    $scope.treatdone=function () {
+        var data=({
+            buyer:params.chat.buyer,
+            seller:params.chat.sellername
+        });
+        chatSRV.treatdone(data,function () {
+
+        })
     }
 
 });

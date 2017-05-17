@@ -21,6 +21,11 @@
     bottom: 100px;
     margin-left: 40px;
 }
+.fixBottom2{
+    position: fixed;
+    bottom: 100px;
+    margin-left: 400px;
+}
 
 .bubble{
     background-color: #F2F2F2;

@@ -164,7 +164,7 @@
                     userid: localStorageService.get('userID'),
                     sellerid: localStorageService.get('adv').owner,
                     sellername:localStorageService.get('adv').ownername,
-                    username:localStorageService.get('userName'),
+                    buyer:localStorageService.get('userName'),
                     advname:localStorageService.get('adv').title,
                     offer: $scope.offer
                 };
