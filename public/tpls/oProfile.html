@@ -9,6 +9,12 @@
         <h1>{{name}}</h1>
         <img ng-src="{{image}}" width="200" height="200" style="padding-top: 20px">
 
+        <ng-map zoom="16" center="{{location}}">
+            <marker position="{{location}}"/>
+            <!--<shape name="circle" radius="400" center="[40.74,-74.18]" radius="4000" />-->
+            <control name="overviewMap" opened="true" />
+        </ng-map>
+
         <div class="grid" >
             <div class="row">
                 <div ng-repeat="adv in advs" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -31,6 +37,5 @@
             </div>
         </div>
 </div>
-
 </div>
 </body>

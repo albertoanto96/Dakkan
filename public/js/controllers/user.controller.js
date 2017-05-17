@@ -118,6 +118,15 @@
                 })
             });
 
+            $scope.actualLocation=function () {
+
+
+                $scope.latlng="current-location"
+                getStreet()
+                $scope.location=localStorageService.get('userLocationVolatile')
+
+            }
+
             $scope.searchLocation=function () {
 
 
@@ -187,12 +196,14 @@
 
             };
 
+
             $scope.upload = function (file) {
                 var data= {
                     name:localStorageService.get('userName'),
                     id:localStorageService.get('userID'),
                     file : file
                 };
+                console.log(data)
                 userSRV.upload(data,function () {
                     $window.location.reload();
                 });

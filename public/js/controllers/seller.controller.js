@@ -7,6 +7,25 @@
             $scope.profile=""
             $scope.name
             $scope.advs=[]
+            $scope.location=""
+
+            var geocoder = new google.maps.Geocoder();
+
+            var getLocation =function(location) {
+
+                var address = location
+                geocoder.geocode({ 'address': address }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var latitude = results[0].geometry.location.lat();
+                        var longitude = results[0].geometry.location.lng();
+                        var latlng =latitude+","+longitude
+                        localStorageService.set('userLatLngVolatile',latlng)
+                    }
+                    else {
+
+                    }
+                });
+            };
 
             angular.element(document).ready(function () {
 
@@ -18,6 +37,9 @@
 
                 sellerSRV.getoProfile(data,function (profile) {
                     $scope.profile = profile
+                    getLocation(profile.location)
+                    $scope.location=localStorageService.get('userLatLngVolatile')
+                    console.log($scope.location)
 
                     if (profile.image == false) {
                         $scope.image = "../imagesprof//undefined.png";
@@ -32,6 +54,7 @@
                 sellerSRV.getoAdv(data,function (profile) {
 
                     $scope.profile=profile
+
                     for(var i=0;i<profile.length;i++){
                         advs.push({
                             id: profile[i].id,
