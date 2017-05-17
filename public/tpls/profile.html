@@ -62,6 +62,7 @@
         <input ng-model="searched" places-auto-complete size=80
                component-restrictions="{country:'es'}"/>
         <button type="button" class="btn btn-outline-primary" ng-click="searchLocation()">Ir a la localizacion</button>
+        <button type="button" class="btn btn-outline-primary" ng-click="actualLocation()">Localizacion actual</button>
         <button type="button" class="btn btn-outline-primary" ng-click="updateLocation($event)">Actualizar localizacion
         </button>
         <p>{{location}}</p>
