@@ -262,6 +262,7 @@
                     title: $scope.tittle,
                     description: $scope.productDesc,
                     exchange: $scope.productInterest,
+                    active:true,
                     category: $scope.category,
                     location:localStorageService.get("userLocation"),
                     owner: localStorageService.get('userID')

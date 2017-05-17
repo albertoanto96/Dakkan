@@ -9,6 +9,7 @@ var advs = mongoose.Schema({
     description: String,
     exchange: String,
     category: String,
+    active:Boolean,
     owner: {type: Schema.ObjectId, ref: 'users'},
     imageurl: String,
     location: String
