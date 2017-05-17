@@ -71,6 +71,7 @@
 
                             if (profile.location != undefined) {
 
+
                                 $scope.location = profile.location
                                 localStorageService.set('userLocation', profile.location)
                                 getLocation(profile.location)
@@ -117,7 +118,6 @@
 
             $scope.actualLocation=function () {
 
-
                 $scope.latlng="current-location"
                 getStreet()
                 $scope.location=localStorageService.get('userLocationVolatile')
@@ -126,10 +126,12 @@
 
             $scope.searchLocation=function () {
 
+                if(($scope.searched!=undefined)) {
+                    getLocation($scope.searched)
+                    $scope.latlng = localStorageService.get('userLatLng')
+                    $scope.location = $scope.searched
+                }
 
-                getLocation($scope.searched)
-                $scope.latlng = localStorageService.get('userLatLng')
-                $scope.location = $scope.searched
 
             }
             $scope.updateLocation = function (ev) {
