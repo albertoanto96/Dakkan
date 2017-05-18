@@ -195,5 +195,16 @@
                 callback(result)
             });
         }
+        this.getReviews=function (data, callback) {
+            var req={
+                method:'POST',
+                url:'/getreviews',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+        }
     }]);
 })();

@@ -116,6 +116,14 @@
                             $scope.advs = advs
 
                         });
+                        var data2={
+                            id:localStorageService.get("userID")
+                        };
+
+                        userSRV.getReviews(data2,function (data) {
+                            $scope.reviews=data;
+                            $scope.image2="../imagesprof//" + data[0].reviewerid + ".png";
+                        })
 
                     }
                 });
