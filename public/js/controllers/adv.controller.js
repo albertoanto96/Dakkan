@@ -7,15 +7,17 @@
 
             $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU-CXgmB-8XZnXFwyq3gOdpKINaSRxW3k?libraries=places"
             $scope.category = "Todo";
+            $scope.dist="Toda España!";
             $scope.totaladv = [];
-             $scope.boton = false;
+            $scope.reladv=[];
+            $scope.boton = false;
             $scope.advs = [];
             $scope.currentNavItem = 'Anuncios';
             $scope.classes = [{"title": "Todo"}, {"title": "Deportes"}, {"title": "Hogar"}, {"title": "Ocio"}, {"title": "Salud"}];
-            console.log("se carga")
+            $scope.distances = [{"distance": "1km"}, {"distance": "5km"}, {"distance": "15km"}, {"distance": "25km"},{"distance":"Toda España!"}];
+            var geocoder = new google.maps.Geocoder();
 
             var getLocation =function(location) {
-                var geocoder = new google.maps.Geocoder();
                 var address = location;
                 geocoder.geocode({ 'address': address }, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
@@ -29,6 +31,30 @@
                     }
                 });
             };
+            var getLoc =function(location) {
+                var address = location;
+                var latlng=[];
+                var i=0;
+                for(i;i<address.length;i++) {
+                    geocoder.geocode({'address': address[i].location}, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            var latitude = results[0].geometry.location.lat();
+                            var longitude = results[0].geometry.location.lng();
+                            latlng.push({lat: latitude, lng: longitude});
+                            localStorageService.set('advLatLngVolatile', latlng)
+                        }
+                        else {
+
+                        }
+                    });
+                }
+            };
+            var getLatLng = function () {
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    var latlng = {lat: parseFloat(pos.coords.latitude), lng: parseFloat(pos.coords.longitude)}
+                    localStorageService.set('userLatLngVolatile',latlng)
+                })
+            }
 
             var dateFromObjectId = function (objectId) {
                 var date =new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
@@ -63,6 +89,7 @@
 
             angular.element(document).ready(function () {
 
+                getLatLng()
 
                 if (localStorageService.get('advs')==null) {
                     advSRV.getAdvs(function (listadv) {
@@ -96,6 +123,7 @@
                         }
                     });
                 }
+
             });
 
             $scope.favorite = function () {
@@ -216,26 +244,80 @@
 
                 }
             }
+            var rad = function(x) {
+                return x * Math.PI / 180;
+            };
+
+            var getDistance = function(p1, p2) {
+                var R = 6378137; // Earth’s mean radius in meter
+                var dLat = rad(p2.lat - p1.lat);
+                var dLong = rad(p2.lng - p1.lng);
+                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) *
+                    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var d = R * c;
+                return d; // returns the distance in meter
+            };
+
+            $scope.distanceAdv = function () {
+
+                $scope.categoryAdv();
+                return $scope.dist
+
+            };
 
             $scope.categoryAdv = function () {
 
-                $scope.advs = $scope.totaladv;
-
-                if ($scope.category != "Todo") {
+                if ($scope.totaladv.length!=0) {
+                    $scope.advs = $scope.totaladv
                     var catadv = [];
+                    var advlatlng
+                    var userlatlng = localStorageService.get('userLatLngVolatile')
+                    var dist = 0
                     var i = 0;
+                    getLoc($scope.advs)
+                    advlatlng = localStorageService.get('advLatLngVolatile')
+                    for (i; i < advlatlng.length; i++) {
+
+                        dist = getDistance(userlatlng, advlatlng[i])
+
+                        if (($scope.dist == "1km") && (dist < 1000)) {
+                            catadv.push($scope.advs[i])
+                        }
+                        if (($scope.dist == "5km") && (dist < 5000)) {
+                            catadv.push($scope.advs[i])
+                        }
+                        if (($scope.dist == "15km") && (dist < 15000)) {
+                            catadv.push($scope.advs[i])
+                        }
+                        if (($scope.dist == "25km") && (dist < 25000)) {
+                            catadv.push($scope.advs[i])
+                        }
+                        if ($scope.dist == "Toda España!") {
+                            catadv.push($scope.advs[i])
+                        }
+                    }
+                    $scope.advs = catadv
+                    catadv = []
+                    i = 0
+
                     for (i; i < $scope.advs.length; i++) {
-                        if ($scope.advs[i].category == $scope.category) {
+
+                        if (($scope.category == "Todo")) {
+
+                            catadv.push($scope.advs[i])
+                        }
+                        else if (($scope.advs[i].category == $scope.category)||($scope.advs[i].category=="Todo")) {
                             catadv.push($scope.advs[i])
                         }
                     }
                     $scope.advs = catadv;
 
+                    return $scope.category
+
                 }
-
-                return $scope.category
-
-            };
+            }
 
             $scope.getAdv = function (adv) {
                 localStorageService.add('adv', adv);
@@ -286,7 +368,6 @@
                                 .ok('Entendido!')
                         );
                     }
-                    console.log(localStorageService.get("userLocation"))
                     if(localStorageService.get("userLocation")==null){
 
                         $mdDialog.show(

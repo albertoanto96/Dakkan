@@ -4,7 +4,7 @@
     <title>Anuncios</title>
 </head>
 <body>
-<div ng-init="init()">
+<div>
     <div layout="row">
         <md-optgroup>
             <md-input-container>
@@ -14,6 +14,15 @@
                     </md-optgroup>
                 </md-select>
                 <button class="btn btn-outline-primary" ng-if="boton" ng-click="resetAdv()">Mostrar todos los anuncios</button>
+            </md-input-container>
+        </md-optgroup>
+        <md-optgroup>
+            <md-input-container>
+                <md-select ng-model="dist" placeholder="Elige la distancia" md-selected-text="distanceAdv()" >
+                    <md-optgroup label="Distance">
+                        <md-option ng-value="d.distance" ng-repeat="d in distances">{{d.distance}}</md-option>
+                    </md-optgroup>
+                </md-select>
             </md-input-container>
         </md-optgroup>
     </div>
