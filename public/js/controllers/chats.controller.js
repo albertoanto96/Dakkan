@@ -21,6 +21,7 @@
             $scope.chatdetail=function (chat) {
                 $location.path("/chat").search({chat:chat});
 
+
             }
         }]);
 })();

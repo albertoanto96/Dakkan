@@ -209,7 +209,6 @@ app.post('/upload', function (req, res){
             }
             User.findOneAndUpdate({name: username}, {$set:{image: true}}).then(function (response) {
                 console.log("Usuario actualizado");
-		        console.log(response[0]);
                 res.send("File is uploaded");
             });
         }
@@ -265,10 +264,13 @@ app.post('/postreview', function(req, res) {
 
     // create a review, information comes from request from Ionic
     var r=new Review({title:req.body.title,description:req.body.description,rating:req.body.rating,reviewername:req.body.reviewername,
-        reviewerid:req.body.reviewerid})
+        reviewerid:req.body.reviewerid});
     r.save(function (err, rev) {
         User.update({name: req.body.usrname},{$push: {reviews: rev.id}},function (err, result) {
 
+        });
+        User.update({_id:req.body.reviewerid},{$pull:{revpending:req.body.usrname}},function (err,resu) {
+            res.send("ok");
         })
     });
 });
@@ -280,7 +282,7 @@ app.post('/deletereview', function(req, res) {
     Review.remove({
         _id : req.body.review_id
     }, function(err, review) {
-	console.log(req.body.name+" "+req.body.review_id)
+
         User.update({name: req.body.name}, {$pull: {reviews: req.body.review_id}}, function (err, upd) {
 console.log(upd);           
  res.send("ok");
@@ -481,8 +483,8 @@ app.post('/userAdvs', function (req, res) { //todos los anuncios
 
 app.get('/allAdvs', function (req, res) { //todos los anuncios
     var advs = [];
-
     var id, title, description, exchange, category, imageurl, location;
+
     Adv.find({active:true},function (err, adv) {
         User.populate(adv, {path: "owner"}, function (err, result) {
             for (var i = 0; i < adv.length; i++) {
@@ -506,10 +508,10 @@ app.get('/allAdvs', function (req, res) { //todos los anuncios
                         ownername:result[i].owner.name,
                         imageurl: imageurl,
                         location:location
-
                     });
                 }
             }
+
             res.send(advs);
         });
 
@@ -561,7 +563,6 @@ app.post('/profile', function (req, res) {
                             }
                         }
                         data={name:name,userid:usr,location:userLocation,advs:advs,image:adv[0].image};
-                        console.log(data)
                         res.send(data);
                     })
 
@@ -641,10 +642,9 @@ app.post('/addAdv', function (req, res) {
 });
 
 app.post('/sendOffer', function (req, res) {
-    console.log(req.body)
     var room=req.body.advid+"-"+req.body.userid;
     var msg={author:req.body.buyer,text:req.body.offer};
-    var u=Chat({name:room,user1:req.body.userid,user2:req.body.sellerid,sellername:req.body.sellername,chats:msg,advurl:req.body.advurl,advname:req.body.advname,buyer:req.body.buyer});
+    var u=Chat({name:room,user1:req.body.userid,user2:req.body.sellerid,sellername:req.body.sellername,chats:msg,advname:req.body.advname,buyer:req.body.buyer});
     u.save().then(function () {
         console.log("nuevo chat")
     })
@@ -657,6 +657,9 @@ app.post('/rooms',function (req, res) {
 });
 app.post('/treatdone',function (req, res) {
     User.update({name: req.body.buyer}, {$push: {revpending: req.body.seller}}, function (err, upd) {
+        res.send("ok")
+    });
+    Chat.findOneAndUpdate({name: req.body.chat}, {$set:{closed: req.body.closed}}).then(function (response) {
     });
 });
 

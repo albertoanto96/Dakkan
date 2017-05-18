@@ -1,6 +1,6 @@
 var app = angular.module('mainApp');
 
-app.controller('revCtrl', function ($scope,$location,localStorageService,$http) {
+app.controller('revCtrl', function ($scope,$location,localStorageService,$http,$mdDialog) {
 
     var user=localStorageService.get('userName');
     var params = $location.search();
@@ -28,8 +28,17 @@ app.controller('revCtrl', function ($scope,$location,localStorageService,$http) 
             data: data
         };
 
-        $http(req).then(function () {
-            $location.path('/Anuncios')
+        $http(req).then(function (data) {
+            if(angular.equals(data.data,"ok")===true){
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .clickOutsideToClose(true)
+                        .title('Has opinado sobre este usuario')
+                        .ok('Excelente')
+                );
+                $location.path('/Anuncios')
+            }
+
         });
     }
 

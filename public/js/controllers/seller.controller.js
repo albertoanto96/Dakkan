@@ -8,17 +8,18 @@
             $scope.name
             $scope.advs=[]
             $scope.location=""
+            $scope.reviews="";
 
             var geocoder = new google.maps.Geocoder();
 
             var getLocation =function(location) {
 
-                var address = location
+                var address = location;
                 geocoder.geocode({ 'address': address }, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
+                    if (status === google.maps.GeocoderStatus.OK) {
                         var latitude = results[0].geometry.location.lat();
                         var longitude = results[0].geometry.location.lng();
-                        var latlng =latitude+","+longitude
+                        var latlng =latitude+","+longitude;
                         localStorageService.set('userLatLngVolatile',latlng)
                     }
                     else {
@@ -29,17 +30,17 @@
 
             angular.element(document).ready(function () {
 
-                $scope.name=localStorageService.get('seller')
+                $scope.name=localStorageService.get('seller');
                 var data={
                     name:localStorageService.get('seller'),
                     id:localStorageService.get("adv").owner
                 };
 
                 sellerSRV.getoProfile(data,function (profile) {
-                    $scope.profile = profile
-                    getLocation(profile.location)
-                    $scope.location=localStorageService.get('userLatLngVolatile')
-                    console.log($scope.location)
+                    $scope.profile = profile;
+                    getLocation(profile.location);
+                    $scope.location=localStorageService.get('userLatLngVolatile');
+                    console.log($scope.location);
 
                     if (profile.image == false) {
                         $scope.image = "../imagesprof//undefined.png";
@@ -76,6 +77,10 @@
                     $rootScope.adv = localStorageService.get('adv');
                     $location.path("/Adv");
                 };
+
+                sellerSRV.getReviews(function (data) {
+
+                })
 
             });
         }]);

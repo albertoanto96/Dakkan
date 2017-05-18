@@ -9,7 +9,8 @@ var chats = mongoose.Schema({
     sellername:String,
     advurl:String,
     advname:String,
-    buyer:String
+    buyer:String,
+    closed:Boolean
 });
 
 var Chat = mongoose.model('chats', chats);
