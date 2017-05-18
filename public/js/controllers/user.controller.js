@@ -32,7 +32,7 @@
                         localStorageService.set('userLatLng', latlng)
                     }
                     else {
-
+                        localStorageService.set('userLatLng', "ERROR")
                     }
                 });
             };
@@ -144,41 +144,48 @@
 
                 if(($scope.searched!=undefined)) {
                     getLocation($scope.searched)
-                    $scope.latlng = localStorageService.get('userLatLng')
-                    $scope.location = $scope.searched
+                    if(localStorageService.get('userLatLng')!="ERROR") {
+                        $scope.latlng = localStorageService.get('userLatLng')
+                        $scope.location = $scope.searched
+                    }
                 }
 
 
             }
             $scope.updateLocation = function (ev) {
 
-                localStorageService.set('userLocation', $scope.location)
+                getLocation($scope.searched)
+                if(localStorageService.get('userLatLng')!="ERROR") {
 
-                var confirm = $mdDialog.confirm()
-                    .title('Estás seguro que quieres establecer tu ubicación en:')
-                    .textContent($scope.location + '?')
-                    .targetEvent(ev)
-                    .ok('Estoy seguro!')
-                    .cancel('Mejor en otro momento');
 
-                $mdDialog.show(confirm).then(function () {
-                    var data = {
-                        name: localStorageService.get('userName'),
-                        location: localStorageService.get('userLocation')
-                    };
+                    var confirm = $mdDialog.confirm()
+                        .title('Estás seguro que quieres establecer tu ubicación en:')
+                        .textContent($scope.location + '?')
+                        .targetEvent(ev)
+                        .ok('Estoy seguro!')
+                        .cancel('Mejor en otro momento');
 
-                    userSRV.updateLocation(data, function (response) {
-                        console.log(response)
-                        $mdDialog.show(
-                            $mdDialog.alert()
-                                .clickOutsideToClose(true)
-                                .title('Ubicación cambiada correctamente!')
-                                .ok('Entendido!')
-                        );
+                    $mdDialog.show(confirm).then(function () {
+
+                        localStorageService.set('userLocation', $scope.location)
+                        var data = {
+                            name: localStorageService.get('userName'),
+                            location: localStorageService.get('userLocation')
+                        };
+
+                        userSRV.updateLocation(data, function (response) {
+                            console.log(response)
+                            $mdDialog.show(
+                                $mdDialog.alert()
+                                    .clickOutsideToClose(true)
+                                    .title('Ubicación cambiada correctamente!')
+                                    .ok('Entendido!')
+                            );
+
+                        })
 
                     })
-
-                })
+                }
             };
 
             $scope.logoutWeb = function () {
