@@ -313,26 +313,7 @@ app.post('/push', function (req, res) {
     });
 
 });
-/*app.post('/userssubj', function (req, res) {
- var subjList=[];
- var name=req.body.name;
- Adv.find({name: name},function(err, subject){
- User.populate(subject,{path :"users"},function (err, result) {
- for (var i = 0; i < result[0].users.length; i++) {
- subjList.push({name: result[0].users[i].name, password: result[0].users[i].password});
- }
- subjList.sort(function (a,b){
- var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase();
- if (nameA < nameB) //sort string ascending
- return -1;
- if (nameA > nameB)
- return 1;
- return 0 ;//default return value (no sorting)
- });
- res.send(subjList);
- });
- });
- });*/
+
 app.post('/login', function (req, res) {
     var pass = req.body.password;
     var passhash = new Hash.SHA256(pass).hex(pass);
@@ -660,18 +641,28 @@ app.post('/addAdv', function (req, res) {
 });
 
 app.post('/sendOffer', function (req, res) {
+    console.log(req.body)
     var room=req.body.advid+"-"+req.body.userid;
-    var msg={author:req.body.username,text:req.body.offer};
-    var u=Chat({name:room,user1:req.body.userid,user2:req.body.sellerid,sellername:req.body.sellername,chats:msg,advname:req.body.advname});
+    var msg={author:req.body.buyer,text:req.body.offer};
+    var u=Chat({name:room,user1:req.body.userid,user2:req.body.sellerid,sellername:req.body.sellername,chats:msg,advurl:req.body.advurl,advname:req.body.advname,buyer:req.body.buyer});
     u.save().then(function () {
         console.log("nuevo chat")
     })
 });
 app.post('/rooms',function (req, res) {
-    console.log(req.body.userid)
     Chat.find({$or: [ { user1: req.body.userid }, { user2: req.body.userid }]}).then(function (response) {
         res.send(response);
 
+    })
+});
+app.post('/treatdone',function (req, res) {
+    User.update({name: req.body.buyer}, {$push: {revpending: req.body.seller}}, function (err, upd) {
+    });
+});
+
+app.post('/reviewscount',function (req, res) {
+    User.find({name:req.body.name},function (err, user) {
+        res.send(user[0].revpending)
     })
 })
 

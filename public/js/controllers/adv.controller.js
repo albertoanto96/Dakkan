@@ -191,8 +191,9 @@
                     advid: localStorageService.get('adv').id,
                     userid: localStorageService.get('userID'),
                     sellerid: localStorageService.get('adv').owner,
+                    advurl:localStorageService.get('adv').imageurl,
                     sellername:localStorageService.get('adv').ownername,
-                    username:localStorageService.get('userName'),
+                    buyer:localStorageService.get('userName'),
                     advname:localStorageService.get('adv').title,
                     offer: $scope.offer
                 };
