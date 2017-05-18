@@ -163,6 +163,7 @@
                     advid: localStorageService.get('adv').id,
                     userid: localStorageService.get('userID'),
                     sellerid: localStorageService.get('adv').owner,
+                    advurl:localStorageService.get('adv').imageurl,
                     sellername:localStorageService.get('adv').ownername,
                     buyer:localStorageService.get('userName'),
                     advname:localStorageService.get('adv').title,

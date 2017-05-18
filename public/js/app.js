@@ -60,6 +60,7 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
     }
     $scope.doLogin = function () {
         localStorageService.add('userName', $scope.userName);
+
         var newUser = {
             name: $scope.userName,
             password: $scope.userPass
