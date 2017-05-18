@@ -77,9 +77,13 @@
                     $rootScope.adv = localStorageService.get('adv');
                     $location.path("/Adv");
                 };
+                var data2={
+                    id:localStorageService.get("adv").owner
+                };
 
-                sellerSRV.getReviews(function (data) {
-
+                sellerSRV.getReviews(data2,function (data) {
+                    $scope.reviews=data;
+                    $scope.image2="../imagesprof//" + data.reviewerid + ".png";
                 })
 
             });
