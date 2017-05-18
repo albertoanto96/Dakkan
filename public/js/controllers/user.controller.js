@@ -11,8 +11,9 @@
             $scope.subjects = [];
             $scope.subjectsdb = [];
             $scope.currentNavItem = 'Perfil';
-            $scope.location = ""
-            $scope.latlng = ""
+            $scope.location = "";
+            $scope.latlng = "";
+            $scope.reviews=[];
             var geocoder = new google.maps.Geocoder();
             var originatorEv;
 
@@ -123,7 +124,7 @@
                         name: localStorageService.get('userName')
                     };
                     userSRV.getreviews(nme, function (rev) {
-                        $scope.reviews = rev;
+                        $scope.reviews.push(rev);
                     });
                 }
             });

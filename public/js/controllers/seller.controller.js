@@ -83,7 +83,7 @@
 
                 sellerSRV.getReviews(data2,function (data) {
                     $scope.reviews=data;
-                    $scope.image2="../imagesprof//" + data.reviewerid + ".png";
+                    $scope.image2="../imagesprof//" + data[0].reviewerid + ".png";
                 })
 
             });
