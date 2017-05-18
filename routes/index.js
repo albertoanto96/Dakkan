@@ -643,7 +643,7 @@ app.post('/addAdv', function (req, res) {
 app.post('/sendOffer', function (req, res) {
     console.log(req.body)
     var room=req.body.advid+"-"+req.body.userid;
-    var msg={author:req.body.username,text:req.body.offer};
+    var msg={author:req.body.buyer,text:req.body.offer};
     var u=Chat({name:room,user1:req.body.userid,user2:req.body.sellerid,sellername:req.body.sellername,chats:msg,advurl:req.body.advurl,advname:req.body.advname,buyer:req.body.buyer});
     u.save().then(function () {
         console.log("nuevo chat")
