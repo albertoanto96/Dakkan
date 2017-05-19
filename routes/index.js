@@ -652,14 +652,13 @@ app.post('/sendOffer', function (req, res) {
 app.post('/rooms',function (req, res) {
     Chat.find({$or: [ { user1: req.body.userid }, { user2: req.body.userid }]}).then(function (response) {
         res.send(response);
-
     })
 });
 app.post('/treatdone',function (req, res) {
     User.update({name: req.body.buyer}, {$push: {revpending: req.body.seller}}, function (err, upd) {
-        res.send("ok")
-    });
-    Chat.findOneAndUpdate({name: req.body.chat}, {$set:{closed: req.body.closed}}).then(function (response) {
+        Chat.findOneAndUpdate({name: req.body.chat}, {$set:{closed: req.body.closed}}).then(function (response) {
+            res.send("ok")
+        });
     });
 });
 
