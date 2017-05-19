@@ -649,6 +649,8 @@ app.post('/sendOffer', function (req, res) {
     var u=Chat({name:room,user1:req.body.userid,user2:req.body.sellerid,sellername:req.body.sellername,chats:msg,advurl:req.body.advurl,advname:req.body.advname,buyer:req.body.buyer});
     u.save().then(function () {
         console.log("nuevo chat")
+        res.send("200")
+
     })
 });
 app.post('/rooms',function (req, res) {
