@@ -657,7 +657,9 @@ app.post('/rooms',function (req, res) {
     })
 });
 app.post('/treatdone',function (req, res) {
-    User.update({name: req.body.buyer}, {$push: {revpending: req.body.seller}}, function (err, upd) {
+    console.log("CERRANDO TRATO")
+    console.log(req.body);
+    User.findOneAndUpdate({name: req.body.buyer}, {$push: {revpending: req.body.seller}}, function (err, upd) {
         Chat.findOneAndUpdate({name: req.body.chat}, {$set:{closed: req.body.closed}}).then(function (response) {
             res.send("ok")
         });
