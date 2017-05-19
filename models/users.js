@@ -14,7 +14,7 @@ var users = mongoose.Schema({
     active: Boolean,
     reviews: [{type: Schema.ObjectId, ref: 'reviews'}],
     location: String,
-    revpending:String
+    revpending:[]
 });
 var User = mongoose.model('users', users);
 module.exports = User;
