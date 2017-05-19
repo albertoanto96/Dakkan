@@ -94,5 +94,13 @@
         <br>
         <br>
     </div>
+    <md-list-item class="md-3-line" ng-repeat="rev in reviews" ng-click="null">
+        <img ng-src="{{image2}}" class="md-avatar"/>
+        <div class="md-list-item-text" layout="column">
+            <h3>{{ rev.reviewername }}</h3>
+            <h4>{{ rev.title }}</h4>
+            <p>{{ rev.description }}</p>
+        </div>
+    </md-list-item>
 </div>
 </body>

@@ -1,8 +1,7 @@
-(function () {
-    'use strict';
+
     var app = angular.module('mainApp');
 
-    app.controller('userCtrl', ['Upload', 'userSRV', '$scope', '$location', '$rootScope', '$mdDialog', '$mdToast', 'localStorageService', '$window',
+    app.controller('userCtrl',
         function (Upload, userSRV, $scope, $location, $rootScope, $mdDialog, $mdToast, localStorageService, $window, NgMap) {
 
             $scope.profile = null;
@@ -13,11 +12,16 @@
             $scope.currentNavItem = 'Perfil';
             $scope.location = "";
             $scope.latlng = "";
-            $scope.reviews=[];
+            $scope.reviews2=[];
+            $scope.chats=[];
             var geocoder = new google.maps.Geocoder();
             var originatorEv;
 
             $scope.openMenu = function($mdMenu, ev) {
+                originatorEv = ev;
+                $mdMenu.open(ev);
+            };
+            $scope.openChats = function($mdMenu, ev) {
                 originatorEv = ev;
                 $mdMenu.open(ev);
             };
@@ -132,11 +136,25 @@
                         name: localStorageService.get('userName')
                     };
                     userSRV.getreviews(nme, function (rev) {
-                        $scope.reviews.push(rev);
+                        if (rev!=="") {
+                            $scope.reviews2.push(rev);
+                        }
                     });
                 }
-            });
+                if(localStorageService.get('userID')) {
+                    var data={
+                        userid: localStorageService.get('userID')
+                    };
 
+                    userSRV.getChats(data,function (chats) {
+                        $scope.chats = chats;
+                    })
+
+                }
+            });
+            $scope.chatdetail=function (chat) {
+                $location.path("/chat").search({chat:chat});
+            }
             $scope.doReview=function (usr) {
                 $location.path("/review").search({user:usr});
             };
@@ -202,6 +220,8 @@
                     localStorageService.clearAll();
                     $scope.profile = null;
                     $location.path("/");
+                    location.reload();
+
                 })
 
             };
@@ -424,5 +444,4 @@
                     $scope.users = users;
                 });
             };
-        }]);
-})();
+        });

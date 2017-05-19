@@ -24,18 +24,29 @@
         </form>
         <md-menu>
             <md-button ng-click="openMenu($mdMenu, $event)">
-                Reviews<span class="badge badge-primary">{{reviews.length}}</span>
+                Reviews<span class="badge badge-primary">{{reviews2.length}}</span>
             </md-button>
             <md-menu-content width="4">
-                <md-menu-item ng-repeat="rev in reviews">
+                <md-menu-item ng-repeat="rev in reviews2">
                     <md-button ng-click="doReview(rev)">
                         <md-icon md-svg-icon="../img/like.svg" md-menu-align-target></md-icon>
                         {{rev}}
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
-
         </md-menu>
+        <md-menu>
+            <md-button ng-click="openChats($mdMenu, $event)">
+                Chats<span class="badge badge-primary">{{chats.length}}</span>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item ng-repeat="chat in chats">
+                    <md-button ng-click="chatdetail(chat)">
+                        <md-icon md-svg-icon="../img/email.svg" md-menu-align-target></md-icon>
+                        {{chat.advname}}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
         <span flex> </span>
         <p ng-if="profile == null">Registrate o inicia sesión</p>
         <p ng-if="profile != null">Bienvenido {{profile}}</p>

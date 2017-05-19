@@ -182,7 +182,19 @@
                 var result = response.data;
                 callback(result)
             });
-        }
+        };
+        this.getChats=function(data,callback){ //cambiar
+            var req = {
+                method: 'POST',
+                url: '/rooms',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+        };
         this.getreviews=function (data, callback) {
             var req = {
                 method: 'POST',

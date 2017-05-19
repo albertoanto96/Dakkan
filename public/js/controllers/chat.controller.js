@@ -8,9 +8,9 @@ app.controller('AppCtrl', function ($scope,$location,localStorageService,chatSRV
     $scope.sellert=angular.equals(user,params.chat.sellername);
     if(angular.equals(params.chat.closed,true)===true){
         $scope.sellert=false;
-    }
+    };
 // set-up a connection between the client and the server
-    var socket = io.connect('http://147.83.7.156:3000');
+    var socket=io.connect('http://localhost:3000');
 
 // let's assume that the client page, once rendered, knows what room it wants to join
     var room = params.chat.name;

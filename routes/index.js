@@ -83,10 +83,12 @@ var imgr = new IMGR({debug:false});
     .using(app);
 
 var messages=[];
+
 io.on('connection', function (socket) {
     socket.on('room', function(room) {
         socket.join(room);
         socket.on('newmsg',function (data) {
+            console.log(data);
             messages.push(data);
             Chat.update({name: room}, {$push: {chats: data}}, function (err, upd) {
                 console.log(upd);
