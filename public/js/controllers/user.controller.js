@@ -137,6 +137,8 @@
                     };
                     userSRV.getreviews(nme, function (rev) {
                         if (rev!=="") {
+                            console.log("REVIEWS");
+                            console.log(rev);
                             $scope.reviews2.push(rev);
                         }
                     });
