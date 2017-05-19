@@ -659,8 +659,6 @@ app.post('/rooms',function (req, res) {
     })
 });
 app.post('/treatdone',function (req, res) {
-    console.log("CERRANDO TRATO")
-    console.log(req.body);
     User.findOneAndUpdate({name: req.body.buyer}, {$push: {revpending: req.body.seller}}, function (err, upd) {
         Chat.findOneAndUpdate({name: req.body.chat}, {$set:{closed: req.body.closed}}).then(function (response) {
             res.send("ok")
@@ -670,6 +668,7 @@ app.post('/treatdone',function (req, res) {
 
 app.post('/reviewscount',function (req, res) {
     User.find({name:req.body.name},function (err, user) {
+        console.log(user[0].revpending);
         res.send(user[0].revpending)
     })
 })
