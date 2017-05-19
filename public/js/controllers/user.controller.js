@@ -139,7 +139,7 @@
                         if (rev!=="") {
                             console.log("REVIEWS");
                             console.log(rev[0]);
-                            $scope.reviews2.push(rev[0]);
+                            $scope.reviews2.push(rev);
                         }
                     });
                 }
