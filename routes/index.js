@@ -266,7 +266,9 @@ app.post('/postreview', function(req, res) {
             var user={
                 name:req.body.username
             };
-            User.update({_id:req.body.reviewerid},{$pull:{revpending:user}},function (err) {
+            User.update({_id:req.body.reviewerid},{$pull:{revpending:user}},function (err,result) {
+                console.log("RESULTADO")
+                console.log(result);
                 res.send("ok");
             })
         });
