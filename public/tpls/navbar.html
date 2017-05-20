@@ -24,7 +24,7 @@
         </form>
         <md-menu>
             <md-button ng-click="openMenu($mdMenu, $event)">
-                Reviews<span class="badge badge-primary">{{reviews2.length}}</span>
+                Reviews pendientes<span class="badge badge-primary">{{reviews2.length}}</span>
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item ng-repeat="rev in reviews2">
@@ -37,7 +37,7 @@
         </md-menu>
         <md-menu>
             <md-button ng-click="openChats($mdMenu, $event)">
-                Chats<span class="badge badge-primary">{{chats.length}}</span>
+                Chats abiertos<span class="badge badge-primary">{{chats.length}}</span>
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item ng-repeat="chat in chats">
