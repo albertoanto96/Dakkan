@@ -263,7 +263,10 @@ app.post('/postreview', function(req, res) {
         reviewerid:req.body.reviewerid});
     r.save(function (err, rev) {
         User.update({name: req.body.usrname},{$push: {reviews: rev.id}},function (err, result) {
-            User.update({_id:req.body.reviewerid},{$pull:{revpending:req.body.usrname}},function (err) {
+            var user={
+                name:req.body.username
+            };
+            User.update({_id:req.body.reviewerid},{$pull:{revpending:user}},function (err) {
                 res.send("ok");
             })
         });
@@ -274,13 +277,10 @@ app.post('/postreview', function(req, res) {
 // delete a review
 app.post('/deletereview', function(req, res) {
 
-    Review.remove({
-        _id : req.body.review_id
-    }, function(err, review) {
-
+    Review.remove({_id : req.body.review_id}, function(err, review) {
         User.update({name: req.body.name}, {$pull: {reviews: req.body.review_id}}, function (err, upd) {
- res.send("ok");
-        })
+             res.send("ok");
+        });
     });
 });
 app.post('/push', function (req, res) {
