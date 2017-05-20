@@ -1,7 +1,5 @@
 <div ng-controller="userCtrl">
-    <md-nav-bar
-            md-selected-nav-item="currentNavItem"
-            nav-bar-aria-label="navigation links">
+    <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
         <md-nav-item md-nav-href="/#!/Perfil" name="Profile">
             Perfil
         </md-nav-item>
@@ -47,6 +45,7 @@
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
+        </md-menu>
         <span flex> </span>
         <p ng-if="profile == null">Registrate o inicia sesión</p>
         <p ng-if="profile != null">Bienvenido {{profile}}</p>
