@@ -269,11 +269,10 @@ app.post('/postreview', function(req, res) {
         reviewerid:req.body.reviewerid});
     r.save(function (err, rev) {
         User.update({name: req.body.usrname},{$push: {reviews: rev.id}},function (err, result) {
-
+            User.update({_id:req.body.reviewerid},{$pull:{revpending:req.body.usrname}},function (err) {
+                res.send("ok");
+            })
         });
-        User.update({_id:req.body.reviewerid},{$pull:{revpending:req.body.usrname}},function (err,resu) {
-            res.send("ok");
-        })
     });
 });
 
