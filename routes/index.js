@@ -262,11 +262,11 @@ app.post('/postreview', function(req, res) {
     var r=new Review({title:req.body.title,description:req.body.description,rating:req.body.rating,reviewername:req.body.reviewername,
         reviewerid:req.body.reviewerid});
     r.save(function (err, rev) {
-        User.update({name: req.body.usrname},{$push: {reviews: rev.id}},function (err, result) {
+        User.findOneAndUpdate({name: req.body.usrname},{$push: {reviews: rev.id}},function (err, result) {
             var user={
                 name:req.body.username
             };
-            User.update({_id:req.body.reviewerid},{$pull:{revpending:user}},function (err,result) {
+            User.findOneAndUpdate({_id:req.body.reviewerid},{$pull:{revpending:user}},function (err,result) {
                 console.log("RESULTADO")
                 console.log(result);
                 res.send("ok");
