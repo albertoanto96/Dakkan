@@ -263,10 +263,10 @@ app.post('/postreview', function(req, res) {
         reviewerid:req.body.reviewerid});
     r.save(function (err, rev) {
         User.findOneAndUpdate({name: req.body.usrname},{$push: {reviews: rev.id}},function (err, result) {
-            var user={
+            var user=[{
                 name:"Adri"
-            };
-            User.findOneAndUpdate({_id:req.body.reviewerid},{$push:{revpending:user}},function (err,result) {
+            }];
+            User.findOneAndUpdate({_id:req.body.reviewerid},{$set:{revpending:user}},function (err,result) {
                 res.send("ok");
             })
         });
