@@ -263,12 +263,20 @@ app.post('/postreview', function(req, res) {
         reviewerid:req.body.reviewerid});
     r.save(function (err, rev) {
         User.findOneAndUpdate({name: req.body.usrname},{$push: {reviews: rev.id}},function (err, result) {
-            var user=[{
-                name:req.body.usrname
-            }];
-            User.findOneAndUpdate({_id:req.body.reviewerid},{$pull:{revpending:user}},function (err,result) {
-                res.send("ok");
-            })
+            User.find({_id:req.body.reviewerid},function(err,result){
+                var rev = [];
+                for(var i=0;i<result[0].revpending.length;i++) {
+                    if(result[0].revpending[i].name == req.body.usrname){
+
+                    }
+                    else{
+                        rev.push(result[0].revpending[i])
+                    }
+                }
+                User.findOneAndUpdate({_id:req.body.reviewerid},{$set:{revpending:rev}},function (err,result) {
+                    res.send("ok");
+                });
+            });
         });
     });
 });
