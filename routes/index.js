@@ -480,7 +480,6 @@ app.post('/treatsdone', function(req,res){
         Chat.find({buyer: req.body.name, closed: true}).then(function (chats) {
             Adv.populate(chats, {path: "advid"}, function (err) {
                     for (var i = 0; i < chats.length; i++) {
-                        console.log(chats);
                         id = chats[i].advid._id;
                         title = chats[i].advid.title;
                         description = chats[i].advid.description;
