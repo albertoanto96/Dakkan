@@ -422,7 +422,7 @@ app.post('/deleteadv', function (req, res) {
 
     Adv.findOne({_id: req.body.advid},function (err,result) {
 
-        fs.unlink("./public/img/advs/"+req.body.userid+"-"+result.title+".png",function (err) {})
+        fs.unlink("./public/img/advs/"+req.body.imageurl+".png",function (err) {})
 
     })
 
@@ -470,6 +470,23 @@ app.post('/getfavorite', function(req,res){
         res.send("undefined");
     }
 });
+
+app.post('/treatsdone', function(req,res){
+    if (req.body.name != null) {
+        Chat.find({buyer: req.body.name, closed: true}).then(function (adv) {
+            Adv.populate(adv, {path: "advid"}, function (err,advs) {
+                console.log("ANUNCIOS");
+                console.log(advs);
+            });
+        });
+
+    }
+    else {
+        res.send("undefined");
+    }
+});
+
+
 
 app.post('/userAdvs', function (req, res) { //todos los anuncios
     var advs = [];
