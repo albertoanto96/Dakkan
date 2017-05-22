@@ -79,8 +79,16 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
                 $scope.currentNavItem = 'Advs';
                 $mdDialog.hide();
                 $location.path("/Anuncios");
+                location.reload();
+            } else {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .clickOutsideToClose(true)
+                        .title('Nombre de usuario y/o contraseña incorrectos.')
+                        .ok('Entendido!')
+                );
+                localStorageService.clearAll();
             }
-            location.reload();
         });
     };
     $scope.doRegister = function () {

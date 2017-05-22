@@ -131,6 +131,7 @@
 
                         userSRV.getReviews(data2,function (data) {
                             $scope.reviews=data;
+                            if (data.length !=0)
                             $scope.image2="../imagesprof//" + data[0].reviewerid + ".png";
                         })
 
