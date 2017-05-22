@@ -658,7 +658,9 @@ app.post('/rooms',function (req, res) {
 app.post('/treatdone',function (req, res) {
     User.findOneAndUpdate({name: req.body.buyer}, {$push: {revpending: {name:req.body.seller}}}, function (err, upd) {
         Chat.findOneAndUpdate({name: req.body.chat}, {$set:{closed: req.body.closed}}).then(function (response) {
-            res.send("ok")
+            Adv.findOneAndUpdate({_id:req.body.advid},{$set:{active:false}}).then(function(response){
+                res.send("ok")
+            });
         });
     });
 });
