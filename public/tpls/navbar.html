@@ -49,11 +49,11 @@
         <span flex> </span>
         <p ng-if="profile == null">Registrate o inicia sesión</p>
         <p ng-if="profile != null">Bienvenido {{profile}}</p>
-        <md-button ng-click="showAdvanced($event)" class="md-fab md-primary">
+        <md-button ng-if="profile == null" ng-click="showAdvanced($event)" class="md-fab md-primary">
             <md-icon md-svg-src="../img/login.svg" class="fa"></md-icon>
         </md-button>
 
-        <md-button class="md-fab md-mini" ng-click="logoutWeb()">
+        <md-button ng-if="profile != null" class="md-fab md-mini" ng-click="logoutWeb()">
             <md-icon md-font-icon="fa fa-sign-out"></md-icon>
         </md-button>
 
