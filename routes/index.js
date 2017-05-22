@@ -476,7 +476,7 @@ app.post('/treatsdone', function(req,res){
         Chat.find({buyer: req.body.name, closed: true}).then(function (adv) {
             Adv.populate(adv, {path: "advid"}, function (err,advs) {
                 console.log("ANUNCIOS");
-                console.log(advs);
+                console.log(adv);
             });
         });
 
