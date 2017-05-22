@@ -9,6 +9,7 @@ var chats = mongoose.Schema({
     sellername:String,
     advurl:String,
     advname:String,
+    advid:String,
     buyer:String,
     closed:Boolean
 });
