@@ -480,13 +480,14 @@ app.post('/treatsdone', function(req,res){
         Chat.find({buyer: req.body.name, closed: true}).then(function (chats) {
             Adv.populate(chats, {path: "advid"}, function (err) {
                     for (var i = 0; i < chats.length; i++) {
-                        id = chats[i].advid[0]._id;
-                        title = chats[i].advid[0].title;
-                        description = chats[i].advid[0].description;
-                        exchange = chats[i].advid[0].exchange;
-                        category = chats[i].advid[0].category;
-                        imageurl = chats[i].advid[0].imageurl;
-                        location = chats[i].advid[0].location;
+                        console.log(chats);
+                        id = chats[i].advid._id;
+                        title = chats[i].advid.title;
+                        description = chats[i].advid.description;
+                        exchange = chats[i].advid.exchange;
+                        category = chats[i].advid.category;
+                        imageurl = chats[i].advid.imageurl;
+                        location = chats[i].advid.location;
                         owner = chats[i].user2;
                         ownername= chats[i].sellername;
                         advs.push({
