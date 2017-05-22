@@ -113,7 +113,7 @@
                         };
                     }
                 }
-                if(data.name!=null) {
+                if(data.name!=undefined) {
                     advSRV.getownerimage(data, function (ownerimage) {
                         if (ownerimage == false) {
                             $scope.image = "../imagesprof//undefined.png";
