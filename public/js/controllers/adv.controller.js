@@ -51,8 +51,10 @@
             };
             var getLatLng = function () {
                 navigator.geolocation.getCurrentPosition(function (pos) {
+                    console.log("HE PREGUNTADO");
                     var latlng = {lat: parseFloat(pos.coords.latitude), lng: parseFloat(pos.coords.longitude)}
                     localStorageService.set('userLatLngVolatile',latlng)
+                    console.log(latlng);
                 })
             }
 
