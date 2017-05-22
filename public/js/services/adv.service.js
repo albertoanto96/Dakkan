@@ -61,11 +61,11 @@
 
         };
 
-        this.deletefavorite = function (data, callback) {
+        this.deleteadv = function (data, callback) {
 
             var req = {
                 method: 'POST',
-                url: '/deletefavorite',
+                url: '/deleteadv',
                 headers: {'Content-Type': 'application/json'},
                 data: data
             };

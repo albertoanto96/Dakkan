@@ -7,6 +7,7 @@
             $scope.profile = null;
             $scope.users = [];
             $scope.advs = [];
+            $scope.useradvs = [];
             $scope.subjects = [];
             $scope.subjectsdb = [];
             $scope.currentNavItem = 'Perfil';
@@ -77,6 +78,9 @@
                     else {
                         var advs = [];
                         userSRV.getProfile(data, function (profile) {
+
+                            console.log(profile)
+
                             localStorageService.set('userID', profile.userid)
 
                             if (profile.location != undefined) {
@@ -113,6 +117,7 @@
                                         exchange: profile.advs[i].exchange,
                                         owner: profile.advs[i].owner,
                                         ownername: profile.advs[i].ownername,
+                                        location:profile.advs[i].location,
                                         category: profile.advs[i].category
                                     })
                                 }
@@ -151,6 +156,31 @@
                     })
 
                 }
+                var data3={
+                    name:localStorageService.get('userName'),
+                    id:localStorageService.get("userID")
+                };
+
+                var advs=[];
+
+                userSRV.userAdv(data3,function (profile) {
+
+
+                    for(var i=0;i<profile.length;i++){
+                        advs.push({
+                            id: profile[i].id,
+                            title: profile[i].title,
+                            description: profile[i].description,
+                            exchange: profile[i].exchange,
+                            owner:profile[i].owner,
+                            ownername:profile[i].ownername,
+                            location:profile[i].location,
+                            category: profile[i].category})
+                    }
+
+                    $scope.useradvs=advs
+
+                });
             });
             $scope.chatdetail=function (chat) {
                 $location.path("/chat").search({chat:chat});

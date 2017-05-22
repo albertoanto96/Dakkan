@@ -418,6 +418,21 @@ app.post('/deletefavorite', function (req, res) {
 
 });
 
+app.post('/deleteadv', function (req, res) {
+
+    Adv.remove({_id: req.body.advid,owner:req.body.userid}, function (err, upd) {
+        User.update({favorites: req.body.advid}, {$pull: {favorites: req.body.advid}}, function (err, upd) {
+
+        })
+        Chat.remove({advid: req.body.advid}, function (err, upd) {
+            res.send("Deleted")
+        })
+
+    })
+
+
+});
+
 app.post('/getfavorite', function(req,res){
     if (req.body.name != null) {
         User.find({name: req.body.name, active: true}).then(function (adv) {

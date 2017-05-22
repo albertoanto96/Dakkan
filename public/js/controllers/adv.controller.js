@@ -12,6 +12,7 @@
             $scope.reladv=[];
             $scope.boton = false;
             $scope.advs = [];
+            $scope.user=localStorageService.get('userID');
             $scope.currentNavItem = 'Anuncios';
             $scope.classes = [{"title": "Todo"}, {"title": "Deportes"}, {"title": "Hogar"}, {"title": "Ocio"}, {"title": "Salud"}];
             $scope.distances = [{"distance": "1km"}, {"distance": "5km"}, {"distance": "15km"}, {"distance": "25km"},{"distance":"Toda España!"}];
@@ -139,16 +140,6 @@
                 localStorageService.add('advs',null);
                 location.reload()
             };
-            $scope.unfavorite = function () {
-                var data = {
-                    name: localStorageService.get('userName'),
-                    advid: $rootScope.adv.id
-                };
-                advSRV.deletefavorite(data, function (response) {
-
-                });
-                $location.path("/Profile");
-            };
 
             $scope.unfavorite = function (ev) {
 
@@ -168,6 +159,28 @@
 
                     })
                     $location.path("/Perfil")
+                });
+
+            };
+
+            $scope.delete = function (ev) {
+
+                var confirm = $mdDialog.confirm()
+                    .title('Estás seguro que quieres borrar este anuncio?')
+                    .targetEvent(ev)
+                    .ok('Estoy seguro!')
+                    .cancel('No, dejalo');
+
+                $mdDialog.show(confirm).then(function () {
+
+                    var data = {
+                        userid:localStorageService.get('userID'),
+                        advid: $rootScope.adv.id
+                    };
+                    advSRV.deleteadv(data, function (response) {
+
+                    });
+                    $location.path("/Profile");
                 });
 
             };

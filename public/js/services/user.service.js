@@ -107,6 +107,17 @@
             });
 
         };
+        this.userAdv=function(data,callback){
+            var req = {
+                method: 'POST',
+                url: '/userAdvs',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+        };
 
         this.getSubjects=function(callback){ //////////cambiar
             $http.get('/subjects').then(function (response) {

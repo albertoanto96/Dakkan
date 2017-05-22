@@ -94,6 +94,26 @@
         <br>
         <br>
     </div>
+    <h3>Anuncios creados</h3>
+    <p ng-if="!useradvs.length>0">&nbsp&nbsp&nbsp&nbsp No tienes ningun anuncio creado</p>
+    <div ng-repeat="adv in useradvs" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="txthover">
+            <img src="../images//{{adv.owner}}-{{adv.title}}.png" height="389" width="400">
+            <div class="txtcontent">
+                <div class="simpletxt">
+                    <h3 class="name">{{adv.title}}</h3>
+                    <p ng-if="adv.description.length<=360">{{adv.description}}</p>
+                    <p ng-if="adv.description.length > 360">{{adv.description|limitTo:365}}...</p>
+                    <h4 class="price">{{adv.exchange}}</h4>
+                    <p>{{adv.category}} </p>
+                    <button ng-click="getAdv(adv)">READ MORE</button>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+    </div>
     <md-list-item class="md-3-line" ng-repeat="rev in reviews" ng-click="null">
         <img ng-src="{{image2}}" class="md-avatar"/>
         <div class="md-list-item-text" layout="column">
