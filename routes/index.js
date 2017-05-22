@@ -644,7 +644,15 @@ app.post('/addAdv', function (req, res) {
 app.post('/sendOffer', function (req, res) {
     var room=req.body.advid+"-"+req.body.userid;
     var msg={author:req.body.buyer,text:req.body.offer};
-    var u=Chat({name:room,user1:req.body.userid,user2:req.body.sellerid,sellername:req.body.sellername,chats:msg,advurl:req.body.advurl,advname:req.body.advname,advid:req.body.advid,buyer:req.body.buyer});
+    var u=Chat({name:room,
+                user1:req.body.userid,
+                user2:req.body.sellerid,
+                sellername:req.body.sellername,
+                chats:msg,advurl:req.body.advurl,
+                advname:req.body.advname,
+                advid:req.body.advid,
+                closed:false,
+                buyer:req.body.buyer});
     u.save().then(function () {
         res.send("200")
 
