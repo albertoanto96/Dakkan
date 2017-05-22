@@ -420,6 +420,12 @@ app.post('/deletefavorite', function (req, res) {
 
 app.post('/deleteadv', function (req, res) {
 
+    Adv.findOne({_id: req.body.advid},function (err,result) {
+
+        fs.unlink("./public/img/advs/"+req.body.userid+"-"+result.title+".png",function (err) {})
+
+    })
+
     Adv.remove({_id: req.body.advid,owner:req.body.userid}, function (err, upd) {
         User.update({favorites: req.body.advid}, {$pull: {favorites: req.body.advid}}, function (err, upd) {
 
@@ -427,6 +433,8 @@ app.post('/deleteadv', function (req, res) {
         Chat.remove({advid: req.body.advid}, function (err, upd) {
             res.send("Deleted")
         })
+
+
 
     })
 
