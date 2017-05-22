@@ -9,7 +9,7 @@ var chats = mongoose.Schema({
     sellername:String,
     advurl:String,
     advname:String,
-    advid:String,
+    advid:{type: Schema.ObjectId, ref: 'advs'},
     buyer:String,
     closed:Boolean
 });
