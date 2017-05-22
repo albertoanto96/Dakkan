@@ -323,6 +323,8 @@ app.post('/login', function (req, res) {
     var passhash = new Hash.SHA256(pass).hex(pass);
     User.find({name: req.body.name, password: passhash, active: true}).then(function (response) {
         username = req.body.name;
+        if (response.length===0)
+            response = "no login";
         res.send(response);
     });
 });
