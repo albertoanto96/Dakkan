@@ -6,8 +6,11 @@
 <body id="back">
 <div ng-cloak>
     <div>
-        <h1>{{name}}</h1>
+        <h1>Perfil de {{name}}</h1>
         <img ng-src="{{image}}" width="200" height="200" style="padding-top: 20px">
+
+        <br><br>
+        <h3>Ubicación</h3>
 
         <ng-map zoom="16" center="{{location}}">
             <marker position="{{location}}"/>
@@ -15,11 +18,14 @@
             <control name="overviewMap" opened="true" />
         </ng-map>
 
+        <br><br>
+        <h3>Anuncios publicados</h3>
+
         <div class="grid" >
             <div class="row">
                 <div ng-repeat="adv in advs" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="txthover">
-                        <img src="../images/389x400/{{adv.owner}}-{{adv.title}}.png" height="389" width="400">
+                        <img src="../images//{{adv.owner}}-{{adv.title}}.png" height="389" width="400">
                         <div class="txtcontent" >
                             <div class="simpletxt">
                                 <h3 class="name">{{adv.title}}</h3>
@@ -36,6 +42,11 @@
                 </div>
             </div>
         </div>
+
+        <br><br>
+        <h3>Reviews</h3>
+        <p ng-if="!reviews.length>0">&nbsp&nbsp&nbsp&nbsp No hay ninguna review publicada</p>
+
         <md-list-item class="md-3-line" ng-repeat="rev in reviews" ng-click="null">
             <img ng-src="{{image2}}" class="md-avatar"/>
             <div class="md-list-item-text" layout="column">
@@ -44,6 +55,7 @@
                 <p>{{ rev.description }}</p>
             </div>
         </md-list-item>
+        <br>
 </div>
 </div>
 </body>
