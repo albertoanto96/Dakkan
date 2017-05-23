@@ -42,15 +42,15 @@
                             <span class="md-subhead">Interesado en: {{adv.exchange}}</span>
                         </md-card-content>
                         <md-card-actions layout="row" layout-align="start center">
-                            <md-button class="md-icon-button md-primary" aria-label="Like" ng-click="favorite()">
+                            <md-button ng-if="user!=adv.owner"  class="md-icon-button md-primary" aria-label="Like" ng-click="favorite()">
                                 <md-icon md-svg-src="../img/like.svg"></md-icon>
                             </md-button>
 
-                            <md-button class="md-icon-button md-primary" aria-label="Mail" ng-click="emailuser($event)" >
+                            <md-button ng-if="user!=adv.owner"  class="md-icon-button md-primary" aria-label="Mail" ng-click="emailuser($event)" >
                                 <md-icon md-svg-src="../img/email.svg"></md-icon>
                             </md-button>
 
-                            <md-button class="md-icon-button md-primary" aria-label="Dislike" ng-click="unfavorite($event)">
+                            <md-button ng-if="user!=adv.owner"  class="md-icon-button md-primary" aria-label="Dislike" ng-click="unfavorite($event)">
                                 <md-icon md-svg-src="../img/error.svg"></md-icon>
                             </md-button>
 
