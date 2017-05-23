@@ -468,10 +468,7 @@ app.post('/deleteadv', function (req, res) {
             res.send("Deleted")
         })
 
-
-
     })
-
 
 });
 
@@ -817,6 +814,10 @@ app.post('/getChat',function (req, res) {
     Chat.findOne({name:req.body.name},function (err, chat) {
         res.send(chat.chats);
     })
+});
+
+app.get('*', function(req, res){
+    res.sendFile(path.join(__dirname, '../public/tpls', 'error.html'));
 });
 
 app.listen(3500, function () {
