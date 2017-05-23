@@ -1,8 +1,8 @@
-
-    var app = angular.module('mainApp');
-
-    app.controller('userCtrl',
-        function (Upload, userSRV, $scope, $location, $rootScope, $mdDialog, $mdToast, localStorageService, $window, NgMap) {
+(function() {
+'use strict';
+var app = angular.module('mainApp');
+    app.controller('userCtrl',['userSRV', 'mySocket','$scope', '$location', '$rootScope', '$mdDialog', '$mdToast', 'localStorageService','$window','NgMap',
+        function (userSRV, mySocket,$scope, $location, $rootScope, $mdDialog, $mdToast, localStorageService, $window, NgMap) {
 
             $scope.profile = null;
             $scope.users = [];
@@ -17,7 +17,57 @@
             $scope.chats=[];
             var geocoder = new google.maps.Geocoder();
             var originatorEv;
+            var socket=mySocket;
+            var estoyenchat=false;
 
+
+            socket.on('connect', function () {
+                 //Connected, let's sign-up for to receive messages for this room
+                socket.emit('user',localStorageService.get('userName'));
+
+            });
+            socket.on("notification",function (data) {
+                    var last = {
+                        bottom: false,
+                        top: true,
+                        left: false,
+                        right: true
+                    };
+
+                    $scope.toastPosition = angular.extend({}, last);
+
+                    $scope.getToastPosition = function () {
+                        sanitizePosition();
+
+                        return Object.keys($scope.toastPosition)
+                            .filter(function (pos) {
+                                return $scope.toastPosition[pos];
+                            })
+                            .join(' ');
+                    };
+
+                    function sanitizePosition() {
+                        var current = $scope.toastPosition;
+
+                        if (current.bottom && last.top) current.top = false;
+                        if (current.top && last.bottom) current.bottom = false;
+                        if (current.right && last.left) current.left = false;
+                        if (current.left && last.right) current.right = false;
+
+                        last = angular.extend({}, current);
+                    }
+
+                    var pinTo = $scope.getToastPosition();
+                if (estoyenchat===false) {
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Nuevo mensaje de ' + data)
+                            .position(pinTo)
+                            .hideDelay(3000)
+                    );
+                }
+
+            });
             $scope.openMenu = function($mdMenu, ev) {
                 originatorEv = ev;
                 $mdMenu.open(ev);
@@ -56,7 +106,7 @@
                     });
 
                 })
-            }
+            };
 
 
             angular.element(document).ready(function () {
@@ -79,7 +129,7 @@
                         var advs = [];
                         userSRV.getProfile(data, function (profile) {
 
-                            console.log(profile)
+
 
                             localStorageService.set('userID', profile.userid)
 
@@ -184,19 +234,20 @@
                 });
             });
             $scope.chatdetail=function (chat) {
+                estoyenchat=true;
                 $location.path("/chat").search({chat:chat});
-            }
+            };
             $scope.doReview=function (usr) {
                 $location.path("/review").search({user:usr});
             };
 
             $scope.actualLocation=function () {
 
-                $scope.latlng="current-location"
-                getStreet()
+                $scope.latlng="current-location";
+                getStreet();
                 $scope.location=localStorageService.get('userLocationVolatile')
 
-            }
+            };
 
             $scope.searchLocation=function () {
 
@@ -250,6 +301,7 @@
                 userSRV.logoutWeb(function () {
                     localStorageService.clearAll();
                     $scope.profile = null;
+                    socket.disconnect();
                     $location.path("/");
                     location.reload();
 
@@ -475,4 +527,8 @@
                     $scope.users = users;
                 });
             };
-        });
+            $scope.x=function () {
+                estoyenchat=false;
+            }
+        }]);
+})();

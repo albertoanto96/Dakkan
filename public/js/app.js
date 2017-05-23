@@ -1,5 +1,16 @@
+'use strict';
 var app = angular.module('mainApp',
     ['ngRoute', 'ngMaterial', 'ngFileUpload', 'LocalStorageModule','btford.socket-io','luegg.directives','ngMap'])
+    .
+    factory('mySocket',['socketFactory', function (socketFactory) {
+
+        return socketFactory({
+            prefix: '',
+            ioSocket: io.connect('http://localhost:3000')
+        });
+
+    }]);
+
 app.config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider.

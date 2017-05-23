@@ -217,7 +217,7 @@
                 var result = response.data;
                 callback(result)
             });
-        }
+        };
         this.getReviews=function (data, callback) {
             var req={
                 method:'POST',

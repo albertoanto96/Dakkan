@@ -83,20 +83,52 @@ var imgr = new IMGR({debug:false});
     .using(app);
 
 var messages=[];
-
+var users=[];
 io.on('connection', function (socket) {
     socket.on('room', function(room) {
         socket.join(room);
-        socket.on('newmsg',function (data) {
-            console.log(data);
-            messages.push(data);
-            Chat.update({name: room}, {$push: {chats: data}}, function (err, upd) {
-                console.log(upd);
-            });
-            io.sockets.in(room).emit('messages', data);
-        })
+        console.log("gente en la room");
+        var clients = io.sockets.adapter.rooms[room].sockets;
+        //to get the number of clients
+        var numClients = (typeof clients !== 'undefined') ? Object.keys(clients).length : 0;
+       console.log(numClients);
+
+        console.log("usuarios conectados");
+        console.log(io.engine.clientsCount)
     });
+    socket.on('newmsg',function (data) {
+        console.log("newmsg");
+
+        Chat.findOne({name:data.room},function (err, chat) {
+            if(data.author===chat.sellername){
+                for(i=0;i<users.length;i++){
+                    if(users[i].user===chat.buyer){
+                        io.to(users[i].socket).emit('notification',data.author);
+                    }
+
+                }
+            }
+            if(data.author===chat.buyer){
+                for(i=0;i<users.length;i++){
+                    if(users[i].user===chat.sellername){
+                        io.to(users[i].socket).emit('notification',data.author)
+                    }
+                }
+            }
+        });
+        messages.push(data);
+        Chat.update({name: data.room}, {$push: {chats: data}}, function (err, upd) {
+        });
+        io.sockets.in(data.room).emit('messages', data);
+    });
+    socket.on('user',function (user) {
+        console.log("se une un nuevo usuario");
+        var usr={user:user,socket:socket.id};
+        users.push(usr);
+    });
+
 });
+
 server.listen(3000);
 
 app.get('/', function (req, res,next) {
@@ -780,7 +812,12 @@ app.post('/reviewscount',function (req, res) {
     User.find({name:req.body.name},function (err, user) {
         res.send(user[0].revpending)
     })
-})
+});
+app.post('/getChat',function (req, res) {
+    Chat.findOne({name:req.body.name},function (err, chat) {
+        res.send(chat.chats);
+    })
+});
 
 app.listen(3500, function () {
     console.log('App listening on port 3500!!')
