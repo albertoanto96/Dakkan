@@ -512,6 +512,45 @@ app.post('/treatsdone', function(req,res){
 });
 
 
+app.post('/objectsdone', function(req,res){
+    var advs = [];
+    var id, title, description, exchange, category, imageurl, location,owner,ownername;
+    if (req.body.name != null) {
+        Chat.find({sellername: req.body.name, closed: true}).then(function (chats) {
+            Adv.populate(chats, {path: "advid"}, function (err) {
+                for (var i = 0; i < chats.length; i++) {
+                    id = chats[i].advid._id;
+                    title = chats[i].advid.title;
+                    description = chats[i].advid.description;
+                    exchange = chats[i].advid.exchange;
+                    category = chats[i].advid.category;
+                    imageurl = chats[i].advid.imageurl;
+                    location = chats[i].advid.location;
+                    owner = chats[i].user2;
+                    ownername= chats[i].sellername;
+                    advs.push({
+                        id: id,
+                        title: title,
+                        description: description,
+                        exchange: exchange,
+                        category: category,
+                        owner: owner,
+                        ownername: ownername,
+                        imageurl: imageurl,
+                        location: location
+                    });
+                }
+                res.send(advs);
+            });
+        });
+
+    }
+    else {
+        res.send("undefined");
+    }
+});
+
+
 
 app.post('/userAdvs', function (req, res) { //todos los anuncios
     var advs = [];
