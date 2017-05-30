@@ -6,25 +6,20 @@
 <body>
 <div>
     <div layout="row">
-        <md-optgroup>
+
+        <md-input-container>
+            <md-select ng-model="category" placeholder="Elige la categoria">
+                <md-option ng-value="c.title" ng-click="categoryAdv(c)" ng-repeat="c in classes">{{c.title}}</md-option>
+            </md-select>
+
+            <button class="btn btn-outline-primary" ng-if="boton" ng-click="resetAdv()">Mostrar todos los anuncios</button>
+        </md-input-container>
+
             <md-input-container>
-                <md-select ng-model="category" placeholder="Elige la categoria" md-selected-text="categoryAdv()" >
-                    <md-optgroup label="Categorias">
-                        <md-option ng-value="t.title" ng-repeat="t in classes">{{t.title}}</md-option>
-                    </md-optgroup>
-                </md-select>
-                <button class="btn btn-outline-primary" ng-if="boton" ng-click="resetAdv()">Mostrar todos los anuncios</button>
-            </md-input-container>
-        </md-optgroup>
-        <md-optgroup>
-            <md-input-container>
-                <md-select ng-model="dist" placeholder="Elige la distancia" md-selected-text="distanceAdv()" >
-                    <md-optgroup label="Distance">
-                        <md-option ng-value="d.distance" ng-repeat="d in distances">{{d.distance}}</md-option>
-                    </md-optgroup>
+                <md-select ng-model="dist" placeholder="Elige la distancia">
+                        <md-option ng-value="d.distance"ng-click="distanceAdv(d)" ng-repeat="d in distances">{{d.distance}}</md-option>
                 </md-select>
             </md-input-container>
-        </md-optgroup>
     </div>
 
     <div class="grid" >

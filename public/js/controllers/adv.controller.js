@@ -43,6 +43,7 @@
                             var longitude = results[0].geometry.location.lng();
                             latlng.push({lat: latitude, lng: longitude});
                             localStorageService.set('advLatLngVolatile', latlng)
+
                         }
                         else {
 
@@ -89,6 +90,13 @@
 
             angular.element(document).ready(function () {
 
+
+                setTimeout(function () {
+                    if($scope.totaladv){
+                        getLoc($scope.totaladv)
+                    }
+                },2000)
+
                 getLatLng()
 
                 if (localStorageService.get('advs') == null) {
@@ -125,7 +133,6 @@
                         });
                     }
                 }
-
             });
 
             $scope.favorite = function () {
@@ -275,44 +282,53 @@
                 return d; // returns the distance in meter
             };
 
-            $scope.distanceAdv = function () {
+            $scope.distanceAdv = function (d) {
 
+                if(d!=undefined){
+                    $scope.dist=d.distance
+                }
                 $scope.categoryAdv();
                 return $scope.dist
 
             };
 
-            $scope.categoryAdv = function () {
+            $scope.categoryAdv = function (c) {
+                if(c!=undefined) {
+                    $scope.category = c.title
+                }
+                $scope.advs = $scope.totaladv
+                var catadv = [];
+                var advlatlng
+                var userlatlng = localStorageService.get('userLatLngVolatile')
+                var dist = 0
+                var i = 0;
+                advlatlng = localStorageService.get('advLatLngVolatile')
+                if ($scope.totaladv.length == 0) {
+                    return $scope.category
+                }
 
-                if ($scope.totaladv.length != 0) {
-                    $scope.advs = $scope.totaladv
-                    var catadv = [];
-                    var advlatlng
-                    var userlatlng = localStorageService.get('userLatLngVolatile')
-                    var dist = 0
-                    var i = 0;
-                    getLoc($scope.advs)
-                    advlatlng = localStorageService.get('advLatLngVolatile')
-                    for (i; i < advlatlng.length; i++) {
+                for (i; i < advlatlng.length; i++) {
 
-                        dist = getDistance(userlatlng, advlatlng[i])
+                    dist = getDistance(userlatlng, advlatlng[i])
 
-                        if (($scope.dist == "1km") && (dist < 1000)) {
-                            catadv.push($scope.advs[i])
-                        }
-                        if (($scope.dist == "5km") && (dist < 5000)) {
-                            catadv.push($scope.advs[i])
-                        }
-                        if (($scope.dist == "15km") && (dist < 15000)) {
-                            catadv.push($scope.advs[i])
-                        }
-                        if (($scope.dist == "25km") && (dist < 25000)) {
-                            catadv.push($scope.advs[i])
-                        }
-                        if ($scope.dist == "Toda España!") {
-                            catadv.push($scope.advs[i])
-                        }
+
+
+                    if (($scope.dist == "1km") && (dist < 1000)) {
+                        catadv.push($scope.advs[i])
                     }
+                    if (($scope.dist == "5km") && (dist < 5000)) {
+                        catadv.push($scope.advs[i])
+                    }
+                    if (($scope.dist == "15km") && (dist < 15000)) {
+                        catadv.push($scope.advs[i])
+                    }
+                    if (($scope.dist == "25km") && (dist < 25000)) {
+                        catadv.push($scope.advs[i])
+                    }
+                    if ($scope.dist == "Toda España!") {
+                        catadv.push($scope.advs[i])
+                    }
+                }
                     $scope.advs = catadv
                     catadv = []
                     i = 0
@@ -328,11 +344,9 @@
                         }
                     }
                     $scope.advs = catadv;
-
                     return $scope.category
-
-                }
             }
+
 
             $scope.getAdv = function (adv) {
                 localStorageService.add('adv', adv);
