@@ -319,7 +319,7 @@
 
                     for (i; i < $scope.advs.length; i++) {
 
-                        if (($scope.category == "Todo")) {
+                        if ($scope.category == "Todo") {
 
                             catadv.push($scope.advs[i])
                         }

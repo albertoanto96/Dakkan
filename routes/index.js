@@ -736,7 +736,9 @@ app.get('/search/:word', function (req, res) {
                         category: adv[i].category,
                         owner: result[i].owner._id,
                         ownername: result[i].owner.name,
+                        imageurl: adv[i].imageurl,
                         location: adv[i].location
+
                     });
                 }
                 console.log("Buscando: "+word);
