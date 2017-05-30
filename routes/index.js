@@ -431,6 +431,14 @@ app.post('/getOwnerImage', function (req,res) {
     });
 });
 
+app.post('/isfavorite', function (req, res) {
+    var advid =mongoose.Types.ObjectId(req.body.advid);
+    User.find({name: req.body.name, favorites: advid}, function (err, usuario) {
+        console.log("usuario:", usuario);
+        res.send(usuario);
+    })
+});
+
 app.post('/addfavorite', function (req, res) {
 
 

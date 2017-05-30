@@ -32,6 +32,18 @@
                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             });
         };
+
+        this.isfavorite = function (data, callback) {
+            var req = {
+                method: 'POST',
+                url: '/isfavorite',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+        };
         this.addfavorite = function (data, callback) {
 
             var req = {

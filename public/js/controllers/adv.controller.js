@@ -135,15 +135,46 @@
                 }
             });
 
-            $scope.favorite = function () {
-                var data = {
-                    name: localStorageService.get('userName'),
-                    advid: $rootScope.adv.id
-                };
-                advSRV.addfavorite(data, function (response) {
-
-                })
+            $scope.isFavorite = function () {
+                $scope.fav = false;
+                if (localStorageService.get('adv')) {
+                    var data = {
+                        name: localStorageService.get('userName'),
+                        advid: localStorageService.get('adv').id
+                    };
+                    advSRV.isfavorite(data, function (response) {
+                        if (response.length != 0) {
+                            $scope.fav = true;
+                        } else
+                            $scope.fav = false;
+                        console.log("$scope.fav:", $scope.fav);
+                    })
+                }
             };
+
+            $scope.isFavorite();
+
+            $scope.favorite = function (ev) {
+
+                var confirm = $mdDialog.confirm()
+                    .title('Estás seguro que quieres añadir de favoritos este anuncio?')
+                    .targetEvent(ev)
+                    .ok('Estoy seguro!')
+                    .cancel('No, dejalo');
+
+                $mdDialog.show(confirm).then(function () {
+
+                    var data = {
+                        name: localStorageService.get('userName'),
+                        advid: $rootScope.adv.id
+                    };
+                    advSRV.addfavorite(data, function (response) {
+
+                    })
+                    $location.path("/Perfil")
+                });
+            };
+
             $scope.resetAdv = function () {
                 localStorageService.add('advs', null);
                 location.reload()

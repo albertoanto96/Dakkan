@@ -7,6 +7,7 @@ app.controller('AppCtrl',['$scope','$location','localStorageService','chatSRV','
     $scope.glued = true;
     var mensajes=[];
     var user=localStorageService.get('userName');
+    $scope.user = localStorageService.get('userName');
     var params = $location.search();
     $scope.sellert=angular.equals(user,params.chat.sellername);
     if(angular.equals(params.chat.closed,true)===true){

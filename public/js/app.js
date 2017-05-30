@@ -7,6 +7,7 @@ var app = angular.module('mainApp',
         return socketFactory({
             prefix: '',
             ioSocket: io.connect('http://147.83.7.156:3000')
+            //ioSocket: io.connect('http://localhost:3000')
         });
 
     }]);

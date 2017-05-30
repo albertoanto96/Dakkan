@@ -7,10 +7,16 @@
 <body>
 
 <div class="container" scroll-glue-bottom="glued">
-    <div ng-repeat="msg in messages">
-        <div class="row">
-            <div class="pull-left">{{msg.author}}</div>
-            <div class="bubble me">{{msg.text}} </div>
+    <div class="row" ng-repeat="msg in messages">
+
+        <div class="col-md-12" ng-show="msg.author != user">
+            <div class="pull-left ">{{msg.author}}</div>
+            <div class="bubble me">{{msg.text}}</div>
+        </div>
+        <div class="col-md-12 pull-right" ng-show="msg.author == user">
+            <div class="pull-right">{{msg.author}}</div>
+            <div class="bubble you">{{msg.text}}</div>
+
         </div>
         <br>
     </div>
@@ -19,9 +25,9 @@
         <input type="text" ng-model="msgText">
         <button class="btn-success" ng-click="addMessage()">Enviar</button>
     </form>
-<div class="fixBottom2" ng-if="sellert===true">
-    <button ng-click="treatdone()">Marcar este trato como realizado</button>
-</div>
+    <div class="fixBottom2" ng-if="sellert===true">
+        <button ng-click="treatdone()">Marcar este trato como realizado</button>
+    </div>
 </div>
 
 
