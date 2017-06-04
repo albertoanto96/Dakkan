@@ -280,8 +280,10 @@ app.post('/getreviews', function(req, res) {
         if (err)
             res.send(err);
         Review.populate(user,{path:"reviews"},function (err, rev) {
-
-            res.json(user[0].reviews);
+           try {
+               res.json(user[0].reviews);
+           }
+catch (Exception){}
         })
         // return all reviews in JSON format
     });
