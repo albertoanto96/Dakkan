@@ -820,6 +820,7 @@ app.post('/treatdone',function (req, res) {
 
 app.post('/reviewscount',function (req, res) {
     User.find({name:req.body.name},function (err, user) {
+        if(user)
         res.send(user[0].revpending)
     })
 });
