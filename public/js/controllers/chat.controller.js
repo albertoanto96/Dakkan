@@ -17,8 +17,6 @@
             var a = {
                 name: user
             };
-            console.log("localStorageService.get('adv').owner", localStorageService.get('userID'));
-
             if (user != undefined) {
                 chatSRV.getownerimage(a, function (ownerimage) {
                     if (ownerimage == false) {
@@ -57,7 +55,9 @@
                             });
                         }
 
-                    }
+                    } else
+                        $scope.otro = params.sellername;
+
                 }
                 $scope.messages = mensajes;
             });

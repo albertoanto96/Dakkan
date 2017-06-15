@@ -65,9 +65,11 @@
 .you {
     float: right;
     margin: 5px 20px 5px 45px;
+    background-color: #b3e6ff;
 }
 
 .you::before {
     box-shadow: 2px -2px 2px 0 rgba( 178, 178, 178, .4 );
     right: -9px;
+    background-color: #b3e6ff;
 }
