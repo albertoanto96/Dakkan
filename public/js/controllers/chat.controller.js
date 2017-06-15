@@ -55,7 +55,7 @@
                             });
                         }
 
-                    } else
+                    } else if (otro == undefined)
                         $scope.otro = params.sellername;
 
                 }
@@ -93,7 +93,7 @@
                     buyer: params.buyer,
                     seller: params.sellername,
                     closed: true,
-                    advid: localStorageService.get('adv').id
+                    advid: params.advid
                 });
                 console.log("dataTreatdone:", data);
                 chatSRV.treatdone(data, function (response) {
