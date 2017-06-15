@@ -428,6 +428,7 @@ app.post('/getOwnerImage', function (req,res) {
 
     var users = [];
     User.find({name:req.body.name},function (err, usuarios) {
+        if(usuarios.length>0)
      res.send(usuarios[0].image);
 
     });

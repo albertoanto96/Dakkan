@@ -235,7 +235,9 @@ var app = angular.module('mainApp');
             });
             $scope.chatdetail=function (chat) {
                 estoyenchat=true;
-                $location.path("/chat").search({chat:chat});
+                localStorageService.set('chat', chat);
+                console.log("chat.name:", chat.name);
+                $location.path("/chat");
             };
             $scope.doReview=function (usr) {
                 $location.path("/review").search({user:usr});

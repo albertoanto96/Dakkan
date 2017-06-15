@@ -26,6 +26,17 @@
                 callback(response.data)
             });
         }
+        this.getownerimage = function (data,callback) {
+            var req = {
+                method: 'POST',
+                url: '/getOwnerImage',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
 
+        };
     }]);
 })();

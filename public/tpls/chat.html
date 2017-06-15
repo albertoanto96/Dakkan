@@ -5,16 +5,22 @@
     <title>Chat</title>
 </head>
 <body>
-
+<div style="margin-top: 10px;">
+    <h5 style="margin-left: 5%;">Conversación con: {{otro}}</h5><br>
+</div>
 <div class="container" scroll-glue-bottom="glued">
     <div class="row" ng-repeat="msg in messages">
 
         <div class="col-md-12" ng-show="msg.author != user">
-            <div class="pull-left ">{{msg.author}}</div>
+            <div class="pull-left">
+                <img ng-src={{imageOtro}} style="width: 40px; height: 40px; margin-top: 5px;" class="rounded-circle">
+            </div>
             <div class="bubble me">{{msg.text}}</div>
         </div>
         <div class="col-md-12 pull-right" ng-show="msg.author == user">
-            <div class="pull-right">{{msg.author}}</div>
+            <div class="pull-right">
+                <img ng-src={{imageMe}} style="width: 40px; height: 40px; margin-top: 5px;" class="rounded-circle">
+            </div>
             <div class="bubble you">{{msg.text}}</div>
 
         </div>
