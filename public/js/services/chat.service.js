@@ -38,5 +38,16 @@
             });
 
         };
+        this.getUserId = function (data, callback) {
+            var req = {
+                method: 'POST',
+                url: '/getUserID',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            };
+            $http(req).then(function (response) {
+                callback(response.data)
+            });
+        }
     }]);
 })();

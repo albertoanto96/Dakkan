@@ -50,7 +50,9 @@
                                     $scope.imageOtro = "../imagesprof//undefined.png";
                                 }
                                 else {
-                                    $scope.imageOtro = "../imagesprof//" + localStorageService.get('userID') + ".png";
+                                    chatSRV.getUserId(b, function (userid) {
+                                        $scope.imageOtro = "../imagesprof//" + userid + ".png";
+                                    })
                                 }
                             });
                         }

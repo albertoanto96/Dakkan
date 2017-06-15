@@ -828,6 +828,13 @@ app.post('/getChat',function (req, res) {
         res.send(chat.chats);
     })
 });
+app.post('/getUserID', function (req, res) {
+    User.findOne({name:req.body.name}, function (err, user) {
+        if(user){
+        res.send(user._id);
+        }
+    })
+});
 
 app.get('*', function(req, res){
     res.sendFile(path.join(__dirname, '../public/tpls', 'error.html'));
