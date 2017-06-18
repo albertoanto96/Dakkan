@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.service('userSRV', ['$http','Upload',function ($http,Upload) {
+    app.service('userSRV', ['$http','Upload','localStorageService',function ($http,Upload,localStorageService) {
 
 
         this.usersFromSubj=function(subject,callback){ //cambiar
@@ -72,17 +72,18 @@
             });
 
         };
-        this.facebook=function (callback) {
+        this.facebook=function (data,callback) {
             var req = {
                 method: 'POST',
                 url: '/facebook',
                 headers: {'Content-Type': 'application/json'},
+                data:data
             };
             $http(req).then(function (response) {
                 if(response.data!=""){
                 callback(response.data)
                 }
-                else callback("noAuth")
+                else  callback("noAuth")
             });
         }
 
