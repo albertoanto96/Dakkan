@@ -21,7 +21,7 @@
 
         this.logoutWeb=function (callback) {
             var req = {
-                method: 'GET',
+                method: 'POST',
                 url: '/logout',
                 headers: {'Content-Type': 'application/json'},
 
