@@ -72,16 +72,16 @@
             });
 
         };
-        this.facebook=function (callback) {
+        this.facebook=function (data,callback) {
             var req = {
                 method: 'POST',
                 url: '/facebook',
                 headers: {'Content-Type': 'application/json'},
+                data:data
             };
             $http(req).then(function (response) {
                 localStorageService.set("Facebook",false)
                 if(response.data!=""){
-
                 localStorageService.set("Facebook",true)
                 callback(response.data)
                 }

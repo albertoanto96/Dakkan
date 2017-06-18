@@ -202,7 +202,10 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook',{
     failureRedirect: '/#!/Anuncios'
 }));
 app.post('/facebook',function (req,res) {
-    res.send(localStorage.getItem('facebookAuth'))
+    if(req.body==localStorage.getItem('facebookAuth')) {
+        res.send(localStorage.getItem('facebookAuth'))
+    }
+    else res.send("NoFacebook")
 })
 
 app.post('/logout',function (req,res) {
