@@ -116,6 +116,7 @@ var app = angular.module('mainApp');
                     name: localStorageService.get('userName')
                 };
 
+                console.log(data)
                 userSRV.facebook(data,function (profile) {
 
 
