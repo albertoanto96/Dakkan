@@ -92,7 +92,8 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
                 $mdDialog.hide();
                 $location.path("/Anuncios");
                 location.reload();
-            } else {
+            }
+             else {
                 $mdDialog.show(
                     $mdDialog.alert()
                         .clickOutsideToClose(true)
@@ -115,21 +116,22 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
             data: newUser
         };
         $http(req).then(function (response) {
-            if (response.statusCode = 200) {
-                localStorageService.set('userID', response.data._id);
-                localStorageService.set('userName', $scope.userName);
-                $scope.currentNavItem = 'Advs';
-                $mdDialog.hide();
-                $location.path("/Anuncios");
-                location.reload();
+
+            if (response === "500") {
+                $mdDialog.alert()
+                .clickOutsideToClose(true)
+                .title('Imposible registrarse.')
+                .ok('Entendido!')
+                localStorageService.clearAll();
+
             }
             else{
-                location.reload();
-                $mdDialog.alert()
-                    .clickOutsideToClose(true)
-                    .title('Imposible registrarse.')
-                    .ok('Entendido!')
+                localStorageService.set('userID', response.data._id);
+                localStorageService.set('userName', $scope.userName);
+                $scope.doLogin()
+                $mdDialog.hide();
             }
+
         });
     };
 }]);

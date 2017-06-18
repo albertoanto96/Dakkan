@@ -327,14 +327,14 @@ app.post('/deletereview', function(req, res) {
 });
 app.post('/push', function (req, res) {
     User.find({name: req.body.name}).then(function (response) {
-        if (response[0] !== undefined) {
-            if (response[0].active !== true) {
+        if (response[0] != undefined) {
+            if (response[0].active != true) {
                 User.findOneAndUpdate({name: req.body.name}, {active: true}).then(function (response) {
                     res.send(response);
                 });
             }
             else {
-                res.sendStatus(500);
+                res.send("500");
             }
         }
         else {
