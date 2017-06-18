@@ -205,7 +205,7 @@ app.post('/facebook',function (req,res) {
     if(req.body==localStorage.getItem('facebookAuth')) {
         res.send(localStorage.getItem('facebookAuth'))
     }
-    else res.send("NoFacebook")
+    else res.send("")
 })
 
 app.post('/logout',function (req,res) {
