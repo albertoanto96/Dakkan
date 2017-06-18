@@ -12,6 +12,7 @@
             var params = localStorageService.get('chat');
             $scope.sellert = angular.equals(user, params.sellername);
             if (angular.equals(params.closed, true) === true) {
+                console.log($scope.sellert);
                 $scope.sellert = false;
             }
             var a = {
