@@ -244,8 +244,7 @@ app.post('/upload', function (req, res){
                 });
 
             }
-            User.findOneAndUpdate({name: username}, {$set:{image: true}}).then(function (response) {
-                console.log(username)
+            User.findOneAndUpdate({name: req.body.name}, {$set:{image: true}}).then(function (response) {
                 res.send("File is uploaded");
             });
         }
