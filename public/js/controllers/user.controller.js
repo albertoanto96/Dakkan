@@ -114,6 +114,7 @@ var app = angular.module('mainApp');
                 userSRV.facebook(function (profile) {
 
 
+                    console.log(localStorageService.get("Facebook"))
                     if (profile != "noAuth") {
                         localStorageService.add('userName', profile)
                     }

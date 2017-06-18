@@ -79,10 +79,13 @@
                 headers: {'Content-Type': 'application/json'},
             };
             $http(req).then(function (response) {
+                localStorageService.set("Facebook",false)
                 if(response.data!=""){
+
+                localStorageService.set("Facebook",true)
                 callback(response.data)
                 }
-                else callback("noAuth")
+                else  callback("noAuth")
             });
         }
 
