@@ -121,14 +121,14 @@ app.controller('mainCtrl', ['$http', '$rootScope', '$scope', '$location', '$mdDi
                 $mdDialog.alert()
                 .clickOutsideToClose(true)
                 .title('Imposible registrarse.')
-                .ok('Entendido!')
+                .ok('Entendido!');
                 localStorageService.clearAll();
 
             }
             else{
                 localStorageService.set('userID', response.data._id);
                 localStorageService.set('userName', $scope.userName);
-                $scope.doLogin()
+                $scope.doLogin();
                 $mdDialog.hide();
             }
 
