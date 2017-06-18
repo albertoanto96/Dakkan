@@ -242,10 +242,12 @@ app.post('/upload', function (req, res){
                         }
                     });
                 });
-                User.findOneAndUpdate({name: username}, {$set:{image: true}}).then(function (response) {
-                    res.send("File is uploaded");
-                });
+
             }
+            User.findOneAndUpdate({name: username}, {$set:{image: true}}).then(function (response) {
+                console.log(username)
+                res.send("File is uploaded");
+            });
         }
 
     });
