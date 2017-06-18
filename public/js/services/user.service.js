@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     var app = angular.module('mainApp');
-    app.service('userSRV', ['$http','Upload',function ($http,Upload) {
+    app.service('userSRV', ['$http','Upload','localStorageService',function ($http,Upload,localStorageService) {
 
 
         this.usersFromSubj=function(subject,callback){ //cambiar
