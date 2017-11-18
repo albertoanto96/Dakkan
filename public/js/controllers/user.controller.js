@@ -111,7 +111,11 @@ var app = angular.module('mainApp');
 
             angular.element(document).ready(function () {
 
-                userSRV.facebook(function (profile) {
+
+                var data = {
+                    name: localStorageService.get('userName')
+                };
+                userSRV.facebook(data,function (profile) {
 
 
                     if (profile != "noAuth") {
@@ -236,7 +240,7 @@ var app = angular.module('mainApp');
             $scope.chatdetail=function (chat) {
                 estoyenchat=true;
                 localStorageService.set('chat', chat);
-                console.log("chat.name:", chat.name);
+                console.log("chat:", localStorageService.get('chat'));
                 $location.path("/chat");
             };
             $scope.doReview=function (usr) {
@@ -531,6 +535,20 @@ var app = angular.module('mainApp');
             };
             $scope.x=function () {
                 estoyenchat=false;
+                $scope.currentNavItem = 'Profile';
+            };
+            $scope.y=function () {
+                estoyenchat=false;
+                $scope.currentNavItem = 'Advs';
+                $location.path("/");
+                setTimeout(function () {
+                    location.reload();
+                },100)
+
+            };
+            $scope.z=function () {
+                estoyenchat=false;
+                $scope.currentNavItem = 'NewAdv';
             }
         }]);
 })();

@@ -202,7 +202,10 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook',{
     failureRedirect: '/#!/Anuncios'
 }));
 app.post('/facebook',function (req,res) {
-    res.send(localStorage.getItem('facebookAuth'))
+    if(req.body.name!="") {
+        res.send(localStorage.getItem('facebookAuth'))
+    }
+    else res.send("")
 })
 
 app.post('/logout',function (req,res) {
@@ -239,8 +242,9 @@ app.post('/upload', function (req, res){
                         }
                     });
                 });
+
             }
-            User.findOneAndUpdate({name: username}, {$set:{image: true}}).then(function (response) {
+            User.findOneAndUpdate({name: req.body.name}, {$set:{image: true}}).then(function (response) {
                 res.send("File is uploaded");
             });
         }
