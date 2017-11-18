@@ -16,3 +16,4 @@ var chats = mongoose.Schema({
 
 var Chat = mongoose.model('chats', chats);
 module.exports = Chat;
+
